@@ -5,7 +5,6 @@ const mutations = {
 		localStorage.setItem("user", data.uid)
 	},
 	[types.SET_EQUITYLIST](state, data) {
-		console.log(data)
 		state.equityList = data;
 	},
 	[types.SET_BABYINFO](state, data) {
@@ -22,14 +21,12 @@ const mutations = {
 		});
 	},
 	[types.SET_USERBABY](state, data) {
-		console.log("设置宝贝信息====", data)
 		state.userBaby = data;
 	},
 	[types.SET_SYSTEM](state, data) {
 		state.system = data;
 	},
 	[types.SET_MEMBERINFO](state, data) {
-		console.log("获取会员信息===", data)
 		state.memberInfoVip = data.vip
 		state.memberInfoTime = data.vipEndTime
 	},

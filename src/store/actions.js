@@ -15,6 +15,9 @@ export default {
 			})
 			.catch(err => {});
 	},
+	/*
+	 *获取课程id
+	 * */
 	getUserActivityInfo({
 		commit
 	}, data) {
@@ -76,11 +79,14 @@ export default {
 		$axios
 			.getBabyList(userData.id)
 			.then(res => {
-				console.log("获取宝宝类表=========")
+				console.log("获取宝宝=========")
 				commit(types.SET_BABYINFO, res.data.data);
 			})
 			.catch(err => {});
 	},
+	/*
+	*设置宝宝信息
+	*/
 	defaultBaby({
 		commit
 	}, data) {
@@ -94,18 +100,4 @@ export default {
 	}, data) {
 		commit(types.SET_SYSTEM, data)
 	},
-	/**
-	 * 发送给原生方法
-	 * */
-	setNativeInfo({
-		commit
-	}, data) {
-		console.log("0000")
-		try {
-			window.webkit.messageHandlers.course_play.postMessage(data);
-		} catch (e) {
-			//TODO handle the exception
-			console.log("请在app中打开11111")
-		}
-	}
 };

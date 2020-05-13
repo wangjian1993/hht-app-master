@@ -380,7 +380,6 @@ export default {
 	}
 };
 </script>
-
 <style lang="less" scoped>
-@import '../../assets/css/member.less';
+@import '../../assets/css/index.less';
 </style>

@@ -18,7 +18,6 @@ import {
 	NavBar,
 	Slider,
 	Toast,
-	DatetimePicker,
 	Popup,
 	Field,
 	Swipe,
@@ -32,8 +31,6 @@ import {
 	Picker,
 	Cell,
 	CellGroup,
-	CheckboxGroup,
-	Checkbox,
 	RadioGroup,
 	Radio,
 	CountDown,
@@ -42,8 +39,8 @@ import {
 	CollapseItem,
 	Skeleton
 } from 'vant';
-Vue.use(Tab).use(Tabs).use(Button).use(NavBar).use(Slider).use(Toast).use(DatetimePicker).use(Popup).use(Field).use(
-	Icon).use(Loading).use(NoticeBar).use(Dialog).use(Picker).use(Cell).use(CellGroup).use(CheckboxGroup).use(Checkbox).use(
+Vue.use(Tab).use(Tabs).use(Button).use(NavBar).use(Slider).use(Toast).use(Popup).use(Field).use(
+	Icon).use(Loading).use(NoticeBar).use(Dialog).use(Picker).use(Cell).use(CellGroup).use(
 	RadioGroup).use(Radio).use(CountDown).use(List).use(Collapse).use(CollapseItem).use(Skeleton);
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

@@ -96,7 +96,7 @@ export default new Router({
 		{ //专享内容
 			path: '/more',
 			name: 'more',
-			component: () => import( /* webpackChunkName: "member-equity" */ '@/views/Home/more.vue'),
+			component: () => import( /* webpackChunkName: "more" */ '@/views/Home/more.vue'),
 			meta: {
 				keepAlive: true,
 			}

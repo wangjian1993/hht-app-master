@@ -15,36 +15,20 @@ Vue.use(VueClipboard)
 Vue.use(vConsole)
 import {
 	Button,
-	NavBar,
-	Slider,
 	Toast,
-	DatetimePicker,
 	Popup,
-	Field,
-	Swipe,
-	SwipeItem,
-	Tab,
-	Tabs,
 	Icon,
 	Loading,
 	NoticeBar,
 	Dialog,
-	Picker,
 	Cell,
 	CellGroup,
-	CheckboxGroup,
-	Checkbox,
-	RadioGroup,
-	Radio,
-	CountDown,
 	List,
 	Collapse,
 	CollapseItem,
-	Skeleton
 } from 'vant';
-Vue.use(Tab).use(Tabs).use(Button).use(NavBar).use(Slider).use(Toast).use(DatetimePicker).use(Popup).use(Field).use(
-	Icon).use(Loading).use(NoticeBar).use(Dialog).use(Picker).use(Cell).use(CellGroup).use(CheckboxGroup).use(Checkbox).use(
-	RadioGroup).use(Radio).use(CountDown).use(List).use(Collapse).use(CollapseItem).use(Skeleton);
+Vue.use(Button).use(NavBar).use(Toast).use(Popup).use(Field).use(
+	Icon).use(Loading).use(NoticeBar).use(Dialog).use(Cell).use(CellGroup).use(List).use(Collapse).use(CollapseItem)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 new Vue({

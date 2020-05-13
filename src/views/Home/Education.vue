@@ -466,7 +466,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/css/home.less';
+@import '../../assets/css/education.less';
 .apply-img {
 	width: 100%;
 	height: 100%;
