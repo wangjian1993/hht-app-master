@@ -13,6 +13,22 @@ export default new Router({
 				keepAlive: true,
 			},
 		},
+		{ //详情
+			path: '/details',
+			name: 'details',
+			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/Details.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
+		{ //详情
+			path: '/add-course',
+			name: 'addCourse',
+			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/AddCourse.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
 		{
 			path: '*',
 			redirect: '/'

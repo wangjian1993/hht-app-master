@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><p @click="loca()">刷新测试服</p></div>
+			<div><a href="course.html">跳转新的页面</a></div>
 			<div class="member-user">
 				<!-- <div class="member-user-img"><img src="../../assets/image/logo@3x.png" alt="" /></div> -->
 				<div class="member-user-name">
@@ -276,7 +276,7 @@ export default {
 				});
 		},
 		activityRouter(url) {
-			location.href = url;
+			location.href = "./course.html";
 		},
 		setPhone(tel) {
 			try {
