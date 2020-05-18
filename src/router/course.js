@@ -29,6 +29,14 @@ export default new Router({
 				keepAlive: true,
 			}
 		},
+		{ //详情
+			path: '/apply',
+			name: 'apply',
+			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/Apply.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
 		{
 			path: '*',
 			redirect: '/'

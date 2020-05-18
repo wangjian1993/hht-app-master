@@ -81,7 +81,7 @@ export function fetch(options) {
 	});
 }
 const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
-const aliloUrl = "http://api.cloud.alilo.com.cn/api/v4/";
+const aliloUrl = "http://api.tcloud.alilo.com.cn/api/v4/";
 // const aliloUrl = "http://hhtv3.api.zhishangsoft.com/api/v4/"
 //banner轮播图
 export default {
@@ -93,7 +93,7 @@ export default {
 			url: aliloUrl + "course/study-report",
 			method: "post",
 			params: {
-				babyId:  localStorage.getItem("babyId"),
+				babyId: localStorage.getItem("babyId"),
 				courseId: CID,
 				month: month
 			}
@@ -252,7 +252,7 @@ export default {
 			params: {
 				babyId: localStorage.getItem("babyId"),
 				// userId: USER || localStorage.getItem("user"),
-				courseId:localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				currentDate: time
 			}
 		});
@@ -266,7 +266,7 @@ export default {
 			method: "POST",
 			params: {
 				babyId: localStorage.getItem("babyId"),
-				courseId:  localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				currentDate: time
 			}
 		});
@@ -279,7 +279,7 @@ export default {
 			url: aliloUrl + "course/get-critical-period",
 			method: "POST",
 			params: {
-				babyId:localStorage.getItem("babyId"),
+				babyId: localStorage.getItem("babyId"),
 			}
 		});
 	},
@@ -306,7 +306,7 @@ export default {
 			url: aliloUrl + "course/apply",
 			method: "POST",
 			params: {
-				courseId:  localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				userId: localStorage.getItem("user"),
 				babyId: id
 			}
@@ -370,6 +370,18 @@ export default {
 			method: "GET",
 			params: {
 				userId: localStorage.getItem("user")
+			}
+		});
+	},
+
+	/*课包----------------------------------------------*/
+	getCoursePack() {
+		return fetch({
+			url: aliloUrl + "course-group/get-all",
+			method: "POST",
+			params: {
+				channelId: CLId,
+				babyId: 40747
 			}
 		});
 	}

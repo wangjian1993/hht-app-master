@@ -5,8 +5,14 @@
 			<div class="course-header">
 				<div class="course-box-tab">
 					<div class="course-tab-item">
-						<div><p>智慧早教</p><span></span></div>
-						<div><p>我的课程</p><span></span></div>
+						<div>
+							<p>智慧早教</p>
+							<span></span>
+						</div>
+						<div>
+							<p>我的课程</p>
+							<span></span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -25,13 +31,23 @@ export default {
 			isLoading: true
 		};
 	},
-	created() {},
+	created() {
+		this.getCourseAll();
+	},
 	methods: {
 		onClickLeft() {
 			// Toast('返回');
 		},
 		onClickRight() {
 			// Toast('按钮');
+		},
+		getCourseAll() {
+			this.$axios
+				.getCoursePack()
+				.then(res => {
+					
+				})
+				.catch(err => {});
 		}
 	},
 	components: {

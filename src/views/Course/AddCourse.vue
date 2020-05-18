@@ -15,7 +15,7 @@
 				<v-title :title="title"></v-title>
 				<v-card-list></v-card-list>
 			</div>
-			<div class="details-btn" @click="addCourse">
+			<div class="details-btn" @click="addApply">
 				<p>确定</p>
 			</div>
 		</div>
@@ -33,7 +33,11 @@ export default {
 			title:"课程包内容"
 		};
 	},
-	methods: {},
+	methods: {
+		addApply(){
+			this.$router.push({ name: 'apply', query: { id: 1 } });
+		}
+	},
 	components: {
 		'v-title': Title,
 		'v-header': Header,

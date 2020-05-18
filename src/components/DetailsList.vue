@@ -3,7 +3,7 @@
 		<van-tabs>
 			<van-tab v-for="index in 8" :title="'标签 ' + index">
 				<div class="list-content">
-					<p class="list-content-title">艾宾浩斯曲线学习计划</p>
+					<p class="list-content-title" @click="EbbinghausClick">艾宾浩斯曲线学习计划</p>
 					<div class="list-box">
 						<ul>
 							<div class="list-item-title">
@@ -53,9 +53,18 @@ export default {
 	data() {
 		return {};
 	},
-	components: {
-		
-	}
+	methods: {
+		EbbinghausClick() {
+			this.$dialog.alert({
+				title: '什么是艾宾浩斯曲线',
+				message: '描述了人类大脑对新事物遗忘的规律。人体大脑对新事物遗忘的循序渐进的直观描述，人们可以从遗忘曲线中掌握遗忘规律并加以利用，从而提升自我记忆能力。课程根据大脑的遗忘曲线规律安排学习新课程和复习课程。',
+				confirmButtonText:"我知道了"
+			}).then(() => {
+				// on close
+			});
+		}
+	},
+	components: {}
 };
 </script>
 
@@ -71,7 +80,7 @@ export default {
 	}
 	.list-box {
 		width: 345px;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 		box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 		border-radius: 8px;
 		margin: 0 auto;
