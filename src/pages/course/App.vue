@@ -12,7 +12,7 @@ import Header from '@/components/Header.vue';
 export default {
 	data() {
 		return {
-			transitionName: ''
+			transitionName: 'slide-right', //初始过渡动画方向
 		};
 	},
 	created() {},
@@ -34,16 +34,16 @@ export default {
 		}
 	},
 	watch: {
-		// 使用watch 监听$router的变化
 		$route(to, from) {
-			// 如果to索引大于from索引,判断为前进状态,反之则为后退状态
-			if (to.meta.index > from.meta.index) {
-				// 设置动画名称
-				this.transitionName = 'slide-left';
-			} else {
-				this.transitionName = 'slide-right';
-			}
-		}
+		        // 切换动画
+		        let isBack = this.$router.isBack // 监听路由变化时的状态为前进还是后退
+		        if (isBack) {
+		          this.transitionName = 'slide-left'
+		        } else {
+		          this.transitionName = 'slide-right'
+		        }
+		        this.$router.isBack = false
+		      }
 	},
 	components: {}
 };

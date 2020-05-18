@@ -19,14 +19,12 @@
 			height: 100%;
 			margin: 0 auto;
 			display: flex;
-			align-items: center;
+			// align-items: center;
 			text-align: center;
 			div {
 				width: 50%;
-				line-height:1;
-				// display: flex;
-				// align-items: center;
-				// justify-content: center;
+				line-height: 1;
+				margin-top: 17px;
 				p {
 					width: 100%;
 					font-size: 16px;
@@ -51,4 +49,58 @@
 .course-card {
 	width: 100%;
 	background: transparent;
+}
+.course-user-top {
+	width: 100%;
+	p {
+		width: 375px;
+		height: 34px;
+		background-color: #fff2ef;
+		line-height: 34px;
+		font-size: 13px;
+		color: rgba(255, 138, 102, 0.7);
+		padding: 0 15px;
+	}
+}
+.course-user-day,
+.course-user-all {
+	width: 345px;
+	margin: 20px auto;
+	.course-day-title {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		p {
+			font-size: 18px;
+			color: rgba(0, 0, 0, 0.8);
+		}
+		span {
+			margin-left: auto;
+			font-size: 12px;
+			color: rgba(0, 0, 0, 0.5);
+		}
+	}
+}
+.course-user-tab {
+	width: 345px;
+	margin: 20px auto;
+	display: flex;
+	p {
+		display: inline-block;
+		padding-right: 38px;
+		font-size: 15px;
+		color: rgba(0, 0, 0, 0.3);
+		text-align: center;
+		span {
+			width: 30px;
+			height: 4px;
+			display: block;
+			background-color: #ff6666;
+			border-radius: 2px;
+			margin: 0 auto;
+		}
+	}
+}
+.course-user-tab p.tabActive{
+	color: rgba(0, 0, 0, 0.8);
 }
