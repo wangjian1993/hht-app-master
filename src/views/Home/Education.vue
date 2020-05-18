@@ -289,13 +289,7 @@ export default {
 				gapYear = 0;
 			}
 
-			var dateStr =
-				gapYear +
-				'岁' +
-				(gapMonth < 10 ? '0' + gapMonth : gapMonth) +
-				'月' +
-				(gapDay < 10 ? '0' + gapDay : gapDay) +
-				'天'
+			var dateStr = gapYear + '岁' + (gapMonth < 10 ? '0' + gapMonth : gapMonth) + '月' + (gapDay < 10 ? '0' + gapDay : gapDay) + '天';
 			console.log('dateStr....', dateStr);
 			return dateStr;
 		},
@@ -383,6 +377,8 @@ export default {
 						}
 					} else {
 						console.log('还没有报名====');
+						localStorage.removeItem('babyInfo');
+						localStorage.removeItem('babyId');
 						this.isLoading = true;
 						this.isApply = false;
 					}
@@ -423,7 +419,13 @@ export default {
 				.getDayCourse(this.currentTime)
 				.then(res => {
 					console.log('点击====');
-					let array = { title: '智慧早教第' + this.applyTime + '天',coursePackId:0, courseId: localStorage.getItem('cid'), babyId: localStorage.getItem('babyId'), course: [] };
+					let array = {
+						title: '智慧早教第' + this.applyTime + '天',
+						coursePackId: 0,
+						courseId: localStorage.getItem('cid'),
+						babyId: localStorage.getItem('babyId'),
+						course: []
+					};
 					// let array = [];
 					if (res.data.code == 1) {
 						let item = res.data.data;
