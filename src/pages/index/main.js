@@ -8,11 +8,11 @@ Es6Promise.polyfill()
 import '../../assets/css/app.css' //公共css
 import 'lib-flexible/flexible'
 import store from '../../store/index'
-import Vconsole from 'vconsole'
-const vConsole = new Vconsole()
+// import Vconsole from 'vconsole'
+// const vConsole = new Vconsole()
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
-Vue.use(vConsole)
+// Vue.use(vConsole)
 import {
 	Button,
 	NavBar,
