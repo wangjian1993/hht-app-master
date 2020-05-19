@@ -1,10 +1,14 @@
 <template>
 	<div class="app">
-		<div class="course-card" @click="detailsRouter()">
-			<div class="course-ok"><span>已添加</span></div>
+		<div class="course-card" @click="detailsRouter(item.id)" v-for="(item, index) in list" :key="item.id" :class="index == 0 ? 'course-bottom' : ''">
+			<div class="course-ok" v-if="item.learningState == 20"><span>已添加</span></div>
 			<div class="course-card-box">
-				<div class="card-name"><p>智慧早教课程</p></div>
-				<div class="card-name-subhead"><p>课程包副标题占位符号最长最长二字符个字符…</p></div>
+				<div class="card-name">
+					<p>{{ item.name }}</p>
+				</div>
+				<div class="card-name-subhead">
+					<p>{{ item.description }}</p>
+				</div>
 				<div class="card-lable">
 					<span>启蒙英语</span>
 					<span>启蒙英语</span>
@@ -12,11 +16,11 @@
 				<div class="card-time">
 					<p>
 						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
-						每天
+						{{ item.classHour }}
 					</p>
 					<p>
 						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
-						11参与
+						{{ item.particiPants }}参与
 					</p>
 				</div>
 			</div>
@@ -26,12 +30,15 @@
 
 <script>
 export default {
+	props: {
+		list: ''
+	},
 	data() {
 		return {};
 	},
-	methods:{
-		detailsRouter(){
-			this.$router.push({ name: 'details', query: { id: 1 } });
+	methods: {
+		detailsRouter(id) {
+			this.$router.push({ name: 'details', query: { id: id } });
 		}
 	},
 	components: {}
@@ -46,10 +53,12 @@ export default {
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
 	margin: 0 auto;
-	margin-top: -58px;
 	display: flex;
 	align-items: center;
 	position: relative;
+}
+.course-bottom {
+	margin-top: -58px;
 }
 .course-ok {
 	position: absolute;

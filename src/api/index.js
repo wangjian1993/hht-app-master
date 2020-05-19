@@ -384,5 +384,16 @@ export default {
 				babyId: 40747
 			}
 		});
+	},
+	getCourseDetails(id){
+		return fetch({
+			url: aliloUrl + "course-group/details",
+			method: "POST",
+			params: {
+				channelId: CLId,
+				courseGroupId:id,
+				babyId: 40747
+			}
+		});
 	}
 };

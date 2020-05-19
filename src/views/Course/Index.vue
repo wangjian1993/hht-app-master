@@ -18,7 +18,7 @@
 			</div>
 			<div class="course-card" v-if="courseTab == 1">
 				<div class="course-box-top"></div>
-				<v-card></v-card>
+				<v-card :list="lsit"></v-card>
 			</div>
 			<div v-if="courseTab == 2">
 				<div class="course-user-top"><p>绑定故事机开机后按课程键，即可播放今日课程哦！</p></div>
@@ -47,9 +47,7 @@
 							<span v-if="courseUserTab == 2"></span>
 						</p>
 					</div>
-					<div class="course-user-list">
-						<v-card-list></v-card-list>
-					</div>
+					<div class="course-user-list"><v-card-list></v-card-list></div>
 				</div>
 			</div>
 		</div>
@@ -66,8 +64,9 @@ export default {
 	data() {
 		return {
 			isLoading: true,
-			courseTab: 2,
-			courseUserTab: 1
+			courseTab: 1,
+			courseUserTab: 1,
+			lsit: []
 		};
 	},
 	created() {
@@ -83,7 +82,11 @@ export default {
 		getCourseAll() {
 			this.$axios
 				.getCoursePack()
-				.then(res => {})
+				.then(res => {
+					if (res.data.code == 1) {
+						this.lsit = res.data.data;
+					}
+				})
 				.catch(err => {});
 		},
 		courstTab(index) {
@@ -97,7 +100,7 @@ export default {
 		'v-header': Header,
 		'v-card': Card,
 		'v-course-list': CourseList,
-		'v-card-list': CradList,
+		'v-card-list': CradList
 	}
 };
 </script>

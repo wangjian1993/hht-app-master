@@ -7,8 +7,8 @@
 			<div class="course-card-details">
 				<div class="course-card">
 					<div class="course-card-box">
-						<div class="card-name"><p>智慧早教课程</p></div>
-						<div class="card-name-subhead"><p>课程包副标题占位符号最长最长二字符个字符…</p></div>
+						<div class="card-name"><p>{{detailsList.name}}</p></div>
+						<div class="card-name-subhead"><p>{{detailsList.description}}</p></div>
 						<div class="card-lable">
 							<span>启蒙英语</span>
 							<span>启蒙英语</span>
@@ -16,11 +16,11 @@
 						<div class="card-time">
 							<p>
 								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								每天
+								{{detailsList.classHour}}
 							</p>
 							<p>
 								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								11参与
+								{{detailsList.particiPants}}参与
 							</p>
 						</div>
 					</div>
@@ -32,13 +32,11 @@
 					<p @click="detalsTab(2)" :class="tabAction == 2 ? 'tabAction' : ''">计划</p>
 				</div>
 				<div class="tab-content">
-					<v-details-intro v-if="tabAction == 1"></v-details-intro>
+					<v-details-intro v-if="tabAction == 1" :list="detailsList"></v-details-intro>
 					<v-details-list v-if="tabAction == 2"></v-details-list>
 				</div>
 			</div>
-			<div class="details-btn" @click="addCourse">
-				<p>会员免费加入</p>
-			</div>
+			<div class="details-btn" @click="addCourse"><p>会员免费加入</p></div>
 		</div>
 	</div>
 </template>
@@ -52,15 +50,29 @@ export default {
 		return {
 			isLoading: true,
 			title: '课程详情',
-			tabAction: 1
+			tabAction: 1,
+			detailsList: []
 		};
+	},
+	created() {
+		this.getDetails();
 	},
 	methods: {
 		detalsTab(index) {
 			this.tabAction = index;
 		},
-		addCourse(){
+		addCourse() {
 			this.$router.push({ name: 'addCourse', query: { id: 1 } });
+		},
+		getDetails() {
+			this.$axios
+				.getCourseDetails(this.$route.query.id)
+				.then(res => {
+					if (res.data.code == 1) {
+						this.detailsList = res.data.data;
+					}
+				})
+				.catch(err => {});
 		}
 	},
 	components: {
