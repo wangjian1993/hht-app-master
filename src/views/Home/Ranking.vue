@@ -6,7 +6,7 @@
 		</div>
 		<div class="ranking-list ranking-box" v-if="topList.length != 0">
 			<ul>
-				<li v-for="(item, index) in topList" :key="index">
+				<li v-for="(item, index) in topList" :key="index" v-if="item.score > 0">
 					<div class="list-index">
 						<p v-if="index == 0"><img src="../../assets/image/home_rank_icon1st@3x.png" /></p>
 						<p v-else-if="index == 1"><img src="../../assets/image/home_rank_icon2nd@3x.png" /></p>
@@ -36,11 +36,13 @@
 			<p><img src="../../assets/image/img_servererror@3x.png" /></p>
 		</div>
 		<div class="user-list" v-if="userid != null && userid == userBaby.id && userList.length != 0">
+			<!-- <div class="user-list footer"> -->
 			<div class="ranking-list">
 				<ul>
 					<li>
 						<div class="list-index">
-							<p>{{ userScore }}</p>
+							<p v-if="userScore <= 100">{{ userScore }}</p>
+							<p v-else>>100</p>
 						</div>
 						<div class="list-img">
 							<img :src="userList.image" alt="" v-if="userList.image != ''" />
@@ -55,7 +57,8 @@
 							</p>
 						</div>
 						<div class="lsit-time">
-							<p>{{ userList.score }}</p>
+							<p v-if="userScore <= 100">{{ userList.score }}</p>
+							<p v-else>>100</p>
 						</div>
 					</li>
 				</ul>
@@ -112,6 +115,7 @@ export default {
 					this.userid = localStorage.getItem('babyId');
 					babyArray.forEach((value, index) => {
 						if (value.babyId == self.userid) {
+							console.log(value);
 							self.userList = value;
 							self.userScore = index + 1;
 						}
@@ -135,7 +139,7 @@ export default {
 <style lang="less" scoped>
 .ranking-bottom {
 	width: 100%;
-	height: 70px;
+	height: 90px;
 }
 .ranking-text {
 	width: 345px;
@@ -227,6 +231,11 @@ export default {
 	background: #fff;
 	text-align: center;
 	box-shadow: 0px -1px 16px 0px rgba(0, 0, 0, 0.12);
+}
+@supports (bottom: env(safe-area-inset-bottom)) {
+	.user-list {
+		padding-bottom: env(safe-area-inset-bottom);
+	}
 }
 .content-null {
 	width: 100px;
