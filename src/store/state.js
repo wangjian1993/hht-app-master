@@ -7,7 +7,8 @@ const state = {
 	memberInfoTime:0,
 	cid:null,
 	userBaby:[],
-	courseDetails:[]
+	courseDetails:[],
+	userCourseList:[]
 };
 
 export default state;

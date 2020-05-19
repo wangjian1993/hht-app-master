@@ -108,5 +108,14 @@ export default {
 	}, data) {
 		console.log(data)
 		commit(types.SET_COURSEDETAILS,data);
+	},
+	/*
+	 *设置用户课程
+	 */
+	setUserCourse({
+		commit
+	}, data) {
+		console.log(data)
+		commit(types.SET_USERCOURSE,data);
 	}
 };

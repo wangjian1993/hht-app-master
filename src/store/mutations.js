@@ -36,6 +36,10 @@ const mutations = {
 	},
 	[types.SET_COURSEDETAILS](state, data) {
 		state.courseDetails = data;
+	},
+	[types.SET_USERCOURSE](state, data) {
+		state.userCourseList = data;
+		console.log("state.userCourseList",state.userCourseList)
 	}
 }
 export default mutations

@@ -47,7 +47,9 @@
 							<span v-if="courseUserTab == 2"></span>
 						</p>
 					</div>
-					<div class="course-user-list"><v-card-list></v-card-list></div>
+					<div class="course-user-list" v-if="userList.length != 0"><v-card-list></v-card-list></div>
+					<div class="course-user-null" v-else><p>没有正在学习课程噢，快去添加吧～</p><span @click="addCourse">添加课程</span></div>
+					
 				</div>
 			</div>
 		</div>
@@ -82,6 +84,9 @@ export default {
 		onClickRight() {
 			// Toast('按钮');
 		},
+		addCourse(){
+			this.courseTab = 1;
+		},
 		getCourseAll() {
 			this.$axios
 				.getCoursePack()
@@ -95,6 +100,7 @@ export default {
 				.getUserCourse()
 				.then(res => {
 					if (res.data.code == 1) {
+						this.$store.dispatch('setUserCourse', res.data.data);
 						this.userList = res.data.data;
 					}
 				})
@@ -109,8 +115,8 @@ export default {
 		courseTabCLick(index) {
 			this.courseUserTab = index;
 		},
-		courseMore(){
-			this.$router.push({ name: 'courseMore'});
+		courseMore() {
+			this.$router.push({ name: 'courseMore' });
 		}
 	},
 	components: {
