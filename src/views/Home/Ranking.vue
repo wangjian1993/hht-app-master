@@ -35,7 +35,7 @@
 		<div v-else class="content-null">
 			<p><img src="../../assets/image/img_servererror@3x.png" /></p>
 		</div>
-		<div class="user-list" v-if="userid != null && userid == userBaby.id">
+		<div class="user-list" v-if="userid != null && userid == userBaby.id && userList.length != 0">
 			<div class="ranking-list">
 				<ul>
 					<li>
