@@ -24,7 +24,7 @@ export default {
 		$axios
 			.userActivityInfo()
 			.then(res => {
-				console.log("获取到cid====",res.data.data.id)
+				console.log("获取到cid====", res.data.data.id)
 				localStorage.setItem("cid", res.data.data.id);
 				commit(types.SET_USERCID, res.data.data.id);
 			})
@@ -85,8 +85,8 @@ export default {
 			.catch(err => {});
 	},
 	/*
-	*设置宝宝信息
-	*/
+	 *设置宝宝信息
+	 */
 	defaultBaby({
 		commit
 	}, data) {
@@ -100,4 +100,13 @@ export default {
 	}, data) {
 		commit(types.SET_SYSTEM, data)
 	},
+	/*
+	 *设置课程包详情
+	 */
+	setCourseDetails({
+		commit
+	}, data) {
+		console.log(data)
+		commit(types.SET_COURSEDETAILS,data);
+	}
 };

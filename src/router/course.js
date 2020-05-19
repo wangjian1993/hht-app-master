@@ -18,21 +18,29 @@ export default new Router({
 			name: 'details',
 			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/Details.vue'),
 			meta: {
-				keepAlive: true,
+				keepAlive: false,
 			}
 		},
-		{ //详情
+		{ //报名详情
 			path: '/add-course',
 			name: 'addCourse',
-			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/AddCourse.vue'),
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/AddCourse.vue'),
 			meta: {
 				keepAlive: true,
 			}
 		},
-		{ //详情
+		{ //报名详情
 			path: '/apply',
 			name: 'apply',
-			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/Apply.vue'),
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Apply.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
+		{ //今日课程更多
+			path: '/course-more',
+			name: 'courseMore',
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/CourseMore.vue'),
 			meta: {
 				keepAlive: true,
 			}

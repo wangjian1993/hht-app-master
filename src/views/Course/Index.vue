@@ -25,12 +25,12 @@
 				<div class="course-user-day">
 					<div class="course-day-title">
 						<p>今日学习</p>
-						<span>
+						<span @click="courseMore">
 							查看更多
 							<van-icon name="arrow" />
 						</span>
 					</div>
-					<div class="course-list"><v-course-list></v-course-list></div>
+					<div class="course-list"><v-course-list :courseData="userList"></v-course-list></div>
 				</div>
 				<div class="course-user-all">
 					<div class="course-day-title">
@@ -63,15 +63,18 @@ import Card from '@/components/Card.vue';
 export default {
 	data() {
 		return {
-			isLoading: true,
+			isLoading: false,
 			courseTab: 1,
 			courseUserTab: 1,
-			lsit: []
+			lsit: [],
+			userList: []
 		};
 	},
-	created() {
+	created() {},
+	activated() {
 		this.getCourseAll();
 	},
+	mounted() {},
 	methods: {
 		onClickLeft() {
 			// Toast('返回');
@@ -88,12 +91,26 @@ export default {
 					}
 				})
 				.catch(err => {});
+			this.$axios
+				.getUserCourse()
+				.then(res => {
+					if (res.data.code == 1) {
+						this.userList = res.data.data;
+					}
+				})
+				.catch(err => {});
+			setTimeout(() => {
+				this.isLoading = true;
+			}, 500);
 		},
 		courstTab(index) {
 			this.courseTab = index;
 		},
 		courseTabCLick(index) {
 			this.courseUserTab = index;
+		},
+		courseMore(){
+			this.$router.push({ name: 'courseMore'});
 		}
 	},
 	components: {

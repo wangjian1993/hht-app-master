@@ -7,20 +7,23 @@
 			<div class="course-card-details">
 				<div class="course-card">
 					<div class="course-card-box">
-						<div class="card-name"><p>{{detailsList.name}}</p></div>
-						<div class="card-name-subhead"><p>{{detailsList.description}}</p></div>
+						<div class="card-name">
+							<p>{{ detailsList.name }}</p>
+						</div>
+						<div class="card-name-subhead">
+							<p>{{ detailsList.description }}</p>
+						</div>
 						<div class="card-lable">
-							<span>启蒙英语</span>
-							<span>启蒙英语</span>
+							<span v-for="opt in detailsList.labels">{{ opt.name }}</span>
 						</div>
 						<div class="card-time">
 							<p>
 								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								{{detailsList.classHour}}
+								{{ detailsList.classHour }}
 							</p>
 							<p>
 								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								{{detailsList.particiPants}}参与
+								{{ detailsList.particiPants }}参与
 							</p>
 						</div>
 					</div>
@@ -33,10 +36,11 @@
 				</div>
 				<div class="tab-content">
 					<v-details-intro v-if="tabAction == 1" :list="detailsList"></v-details-intro>
-					<v-details-list v-if="tabAction == 2"></v-details-list>
+					<v-details-list v-if="tabAction == 2" :data="detailsList.courseList"></v-details-list>
 				</div>
 			</div>
-			<div class="details-btn" @click="addCourse"><p>会员免费加入</p></div>
+			<div class="details-btn" @click="addCourse" v-if="detailsList.learningState == 10"><p>会员免费加入</p></div>
+			<div class="details-btn1" @click="delCoures" v-if="detailsList.learningState == 20"><p>从我的课程中删除</p></div>
 		</div>
 	</div>
 </template>
@@ -48,7 +52,7 @@ import DetailsList from '@/components/DetailsList.vue';
 export default {
 	data() {
 		return {
-			isLoading: true,
+			isLoading: false,
 			title: '课程详情',
 			tabAction: 1,
 			detailsList: []
@@ -62,7 +66,7 @@ export default {
 			this.tabAction = index;
 		},
 		addCourse() {
-			this.$router.push({ name: 'addCourse', query: { id: 1 } });
+			this.$router.push({ name: 'addCourse', query: { id: this.$route.query.id } });
 		},
 		getDetails() {
 			this.$axios
@@ -70,6 +74,23 @@ export default {
 				.then(res => {
 					if (res.data.code == 1) {
 						this.detailsList = res.data.data;
+						this.isLoading = true;
+						this.$store.dispatch('setCourseDetails', res.data.data);
+					}
+				})
+				.catch(err => {});
+		},
+		delCoures() {
+			this.$toast.loading({
+				message: '删除中...',
+				forbidClick: true
+			});
+			this.$axios
+				.getCourseDel(this.$route.query.id)
+				.then(res => {
+					if (res.data.code == 1) {
+						this.$toast.success('删除成功');
+						this.$router.push({ name: 'index' });
 					}
 				})
 				.catch(err => {});

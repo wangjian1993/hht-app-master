@@ -2,11 +2,11 @@
 	<div class="app">
 		<div class="list">
 			<ul>
-				<li>
-					<div class="item-img"><img src="../assets/image/content1.jpg" /></div>
+				<li v-for="item,index in data" :key="item.id">
+					<div class="item-img"><img :src="item.coverImage" /></div>
 					<div class="item-name">
-						<p>火火兔</p>
-						<p>火火兔</p>
+						<p>{{item.name}}</p>
+						<p>共{{item.classHourCount}}首</p>
 					</div>
 				</li>
 			</ul>
@@ -16,6 +16,9 @@
 
 <script>
 export default {
+	props:{
+		data:""
+	},
 	data() {
 		return {};
 	},
@@ -29,10 +32,12 @@ export default {
 	margin: 0 auto;
 	ul {
 		display: flex;
+		flex-wrap: wrap;
 		li {
 			width: 100%;
 			display: flex;
 			align-items: center;
+			padding: 10px 0;
 			.item-img {
 				width: 69px;
 				height: 69px;

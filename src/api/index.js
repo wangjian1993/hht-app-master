@@ -138,7 +138,7 @@ export default {
 				courseId: CID || localStorage.getItem("cid"),
 				// currentDate: mouth,
 				pageNo: 1,
-				pageSize: 30
+				pageSize: 100
 			}
 		});
 	},
@@ -375,6 +375,9 @@ export default {
 	},
 
 	/*课包----------------------------------------------*/
+	/**
+	 * 获取全部课程包
+	 * */
 	getCoursePack() {
 		return fetch({
 			url: aliloUrl + "course-group/get-all",
@@ -385,15 +388,73 @@ export default {
 			}
 		});
 	},
-	getCourseDetails(id){
+	/**
+	 * 获取课程表详情
+	 * id:课程包id
+	 * */
+	getCourseDetails(id) {
 		return fetch({
 			url: aliloUrl + "course-group/details",
 			method: "POST",
 			params: {
 				channelId: CLId,
-				courseGroupId:id,
+				courseGroupId: id,
 				babyId: 40747
 			}
 		});
-	}
+	},
+	/**
+	 * 获取包报名
+	 * id:课程包id
+	 * */
+	courseApply(id) {
+		return fetch({
+			url: aliloUrl + "course-group/singup",
+			method: "POST",
+			params: {
+				userId: 5079819,
+				courseGroupId: id,
+				babyId: 40747
+			}
+		});
+	},
+	/*
+	 * 获取宝宝课程
+	 */
+	getUserCourse() {
+		return fetch({
+			url: aliloUrl + "course-group/my-courses",
+			method: "POST",
+			params: {
+				babyId: 40747
+			}
+		});
+	},
+	/*
+	 * 获取上课课程
+	 */
+	getCourseData(id, courseId) {
+		return fetch({
+			url: aliloUrl + "course-group/get-by-app",
+			method: "POST",
+			params: {
+				babyId: 40747,
+				courseGroupId: id,
+				courseId: courseId,
+			}
+		});
+	},
+	/*
+	 * 删除课程包
+	 */
+	getCourseDel(id) {
+		return fetch({
+			url: aliloUrl + "course-group/singout",
+			method: "POST",
+			params: {
+				babyId: 40747,
+				courseGroupId: id,
+			}
+		});
+	},
 };

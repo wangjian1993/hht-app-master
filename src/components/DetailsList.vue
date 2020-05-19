@@ -1,44 +1,20 @@
 <template>
 	<div class="app">
-		<van-tabs>
-			<van-tab v-for="index in 8" :title="'标签 ' + index">
+		<van-tabs @click="tabClick">
+			<van-tab v-for="(item, index) in data" :title="item.name">
 				<div class="list-content">
 					<p class="list-content-title" @click="EbbinghausClick">艾宾浩斯曲线学习计划</p>
 					<div class="list-box">
-						<ul>
+						<ul v-for="(titleItem, index) in tabData.classHours">
 							<div class="list-item-title">
-								<span>第一课时</span>
+								<span>第{{ titleItem.index }}课时</span>
 								<span>新学一首</span>
 							</div>
-							<li>
-								<p class="item-name">One Little Finger</p>
-								<div class="item-time"><p>One Little Finger</p></div>
-							</li>
-							<li>
-								<p class="item-name">One Little Finger</p>
-								<div class="item-time"><p>One Little Finger</p></div>
-							</li>
-							<li>
-								<p class="item-name">One Little Finger</p>
-								<div class="item-time"><p>One Little Finger</p></div>
-							</li>
-						</ul>
-						<ul>
-							<div class="list-item-title">
-								<span>第二课时</span>
-								<span>新学一首</span>
-							</div>
-							<li>
-								<p class="item-name">One Little Finger</p>
-								<div class="item-time"><p>One Little Finger</p></div>
-							</li>
-							<li>
-								<p class="item-name">One Little Finger</p>
-								<div class="item-time"><p>One Little Finger</p></div>
-							</li>
-							<li>
-								<p class="item-name">One Little Finger</p>
-								<div class="item-time"><p>One Little Finger</p></div>
+							<li v-for="listItem in titleItem.audios">
+								<p class="item-name">{{ listItem.name }}</p>
+								<div class="item-time">
+									<p>{{ listItem.timeLength }}</p>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -50,18 +26,37 @@
 
 <script>
 export default {
+	props: {
+		data: ''
+	},
 	data() {
-		return {};
+		return {
+			tabData: []
+		};
+	},
+	created() {
+		this.tabData = this.data[0];
 	},
 	methods: {
-		EbbinghausClick() {
-			this.$dialog.alert({
-				title: '什么是艾宾浩斯曲线',
-				message: '描述了人类大脑对新事物遗忘的规律。人体大脑对新事物遗忘的循序渐进的直观描述，人们可以从遗忘曲线中掌握遗忘规律并加以利用，从而提升自我记忆能力。课程根据大脑的遗忘曲线规律安排学习新课程和复习课程。',
-				confirmButtonText:"我知道了"
-			}).then(() => {
-				// on close
+		tabClick(index, title) {
+			this.$toast.loading({
+				message: '加载中...',
+				forbidClick: true
 			});
+			this.tabData = this.data[index];
+			console.log(this.tabData);
+		},
+		EbbinghausClick() {
+			this.$dialog
+				.alert({
+					title: '什么是艾宾浩斯曲线',
+					message:
+						'描述了人类大脑对新事物遗忘的规律。人体大脑对新事物遗忘的循序渐进的直观描述，人们可以从遗忘曲线中掌握遗忘规律并加以利用，从而提升自我记忆能力。课程根据大脑的遗忘曲线规律安排学习新课程和复习课程。',
+					confirmButtonText: '我知道了'
+				})
+				.then(() => {
+					// on close
+				});
 		}
 	},
 	components: {}

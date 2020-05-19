@@ -1,9 +1,9 @@
 <template>
 	<div id="app" class="hhtApp">
-		<transition :name="transitionName">
+		<!-- <transition :name="transitionName"> -->
 			<keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
 			<router-view v-if="!$route.meta.keepAlive"></router-view>
-		</transition>
+		<!-- </transition> -->
 	</div>
 </template>
 <script>

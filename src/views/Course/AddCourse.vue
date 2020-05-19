@@ -4,44 +4,64 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<div class="course-top">
-				<div class="course-top-img"><img src="../../assets/image/content1.jpg" alt="" /></div>
+				<div class="course-top-img"><img :src="courseDetails.coverImage" alt="" /></div>
 				<div class="course-top-name">
-					<p>唱唱跳跳，运动我的小身体</p>
-					<p>培养孩子的创造力和情绪表达能力</p>
-					<p>2999人已学习</p>
+					<p>{{ courseDetails.name }}</p>
+					<p>{{ courseDetails.description }}</p>
+					<p>{{ courseDetails.particiPants }}人已学习</p>
 				</div>
 			</div>
 			<div class="caurse-list">
 				<v-title :title="title"></v-title>
-				<v-card-list></v-card-list>
+				<v-card-list :data="courseDetails.courseList"></v-card-list>
 			</div>
-			<div class="details-btn" @click="addApply">
-				<p>确定</p>
-			</div>
+			<div class="details-btn" @click="addApply"><p>确定</p></div>
 		</div>
 	</div>
 </template>
 
 <script>
-import Header from '@/components/Header.vue';	
+import Header from '@/components/Header.vue';
 import CradList from '@/components/CardList.vue';
 import Title from '@/components/Title.vue';
+import { mapState } from 'vuex';
 export default {
 	data() {
 		return {
-			isLoading: true,
-			title:"课程包内容"
+			isLoading: false,
+			title: '课程包内容'
 		};
 	},
+	computed: {
+		...mapState(['courseDetails'])
+	},
+	created() {
+		console.log(this.courseDetails);
+		setTimeout(() => {
+			this.isLoading = true;
+		}, 300);
+	},
 	methods: {
-		addApply(){
-			this.$router.push({ name: 'apply', query: { id: 1 } });
+		addApply() {
+			this.$toast.loading({
+				message: '报名中...',
+				forbidClick: true
+			});
+			this.$axios
+				.courseApply(this.$route.query.id)
+				.then(res => {
+					if (res.data.code == 1) {
+						this.$toast('报名成功');
+						this.$router.push({ name: 'apply', query: { id: 1 } });
+					}
+				})
+				.catch(err => {});
 		}
 	},
 	components: {
 		'v-title': Title,
 		'v-header': Header,
-		'v-card-list': CradList,
+		'v-card-list': CradList
 	}
 };
 </script>
@@ -63,7 +83,7 @@ export default {
 	}
 	.course-top-name {
 		padding-left: 12px;
-		p{
+		p {
 			&:nth-of-type(1) {
 				font-size: 17px;
 				color: rgba(0, 0, 0, 0.8);

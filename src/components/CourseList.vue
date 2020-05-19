@@ -2,53 +2,21 @@
 	<div class="app">
 		<div class="list">
 			<ul>
-				<li>
+				<li v-for="(item, index) in courseData" :key="item.id">
 					<div class="list-name">
 						<p>
-							智慧早教课程
-							<span>已完成</span>
+							{{ item.name }}
+							<span v-if="item.status == 20">已完成</span>
 						</p>
 						<p>
-							第
-							<span>12/12</span>
+							共
+							<span>{{ item.classHourCount }}</span>
 							课时 |
-							<span>15</span>
+							<span>{{ item.avgDuration }}</span>
 							分钟
 						</p>
 					</div>
-					<div class="list-btn"><span>上课</span></div>
-				</li>
-				<li>
-					<div class="list-name">
-						<p>
-							智慧早教课程
-							<span>已完成</span>
-						</p>
-						<p>
-							第
-							<span>12/12</span>
-							课时 |
-							<span>15</span>
-							分钟
-						</p>
-					</div>
-					<div class="list-btn"><span>上课</span></div>
-				</li>
-				<li>
-					<div class="list-name">
-						<p>
-							智慧早教课程
-							<span>已完成</span>
-						</p>
-						<p>
-							第
-							<span>12/12</span>
-							课时 |
-							<span>15</span>
-							分钟
-						</p>
-					</div>
-					<div class="list-btn"><span>上课</span></div>
+					<div class="list-btn" @click=""><span>上课</span></div>
 				</li>
 			</ul>
 		</div>
@@ -57,8 +25,14 @@
 
 <script>
 export default {
+	props: {
+		courseData: ''
+	},
 	data() {
 		return {};
+	},
+	methods:{
+		
 	},
 	components: {}
 };

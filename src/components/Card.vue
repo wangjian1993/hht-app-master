@@ -10,8 +10,7 @@
 					<p>{{ item.description }}</p>
 				</div>
 				<div class="card-lable">
-					<span>启蒙英语</span>
-					<span>启蒙英语</span>
+					<span v-for="opt in item.labels">{{opt.name}}</span>
 				</div>
 				<div class="card-time">
 					<p>

@@ -33,6 +33,9 @@ const mutations = {
 	[types.SET_USERCID](state, data) {
 		localStorage.setItem("cid", data)
 		state.cid = data;
+	},
+	[types.SET_COURSEDETAILS](state, data) {
+		state.courseDetails = data;
 	}
 }
 export default mutations

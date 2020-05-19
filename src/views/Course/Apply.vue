@@ -15,7 +15,7 @@
 					<span>加入微信群</span>
 				</div>
 			</div>
-			<div class="details-btn" @click=""><p>确定</p></div>
+			<div class="details-btn" @click="routerHome"><p>确定</p></div>
 		</div>
 	</div>
 </template>
@@ -28,6 +28,11 @@ export default {
 			title: '报名成功',
 			isLoading: true
 		};
+	},
+	methods: {
+		routerHome() {
+			this.$router.push({ name: 'index' });
+		}
 	},
 	components: {
 		'v-header': Header

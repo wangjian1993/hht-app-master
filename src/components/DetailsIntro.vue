@@ -3,7 +3,7 @@
 		<div class="intro-img"><img :src="list.introduce" alt=""></div>
 		<div class="intro-list">
 			<v-title :title="title"></v-title>
-			<div class="intro-itme"><v-card-list></v-card-list></div>
+			<div class="intro-itme"><v-card-list :data="list.courseList"></v-card-list></div>
 		</div>
 	</div>
 </template>
@@ -13,7 +13,7 @@ import Title from '@/components/Title.vue';
 import CradList from '@/components/CardList.vue';
 export default {
 	props: {
-		list:[]
+		list:""
 	},
 	data() {
 		return {

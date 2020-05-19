@@ -289,13 +289,7 @@ export default {
 				gapYear = 0;
 			}
 
-			var dateStr =
-				gapYear +
-				'岁' +
-				(gapMonth < 10 ? '0' + gapMonth : gapMonth) +
-				'月' +
-				(gapDay < 10 ? '0' + gapDay : gapDay) +
-				'天'
+			var dateStr = gapYear + '岁' + (gapMonth < 10 ? '0' + gapMonth : gapMonth) + '月' + (gapDay < 10 ? '0' + gapDay : gapDay) + '天';
 			console.log('dateStr....', dateStr);
 			return dateStr;
 		},
@@ -383,6 +377,8 @@ export default {
 						}
 					} else {
 						console.log('还没有报名====');
+						localStorage.removeItem('babyInfo');
+						localStorage.removeItem('babyId');
 						this.isLoading = true;
 						this.isApply = false;
 					}
@@ -397,14 +393,21 @@ export default {
 			}
 			this.babyBox = true;
 		},
-		computedTime(old) {
+		computedTime(time) {
 			//传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
-			var returnText = '';
-			var nowDate = new Date().getTime(); //当前时间
-			var setDate = new Date(old.replace(/-/g, '/')).getTime();
-			var times = Math.floor((nowDate - setDate) / 1000);
-			returnText = Math.ceil(times / (60 * 60 * 24));
-			return returnText;
+			let t = time.split(' ');
+			console.log("t===",t)
+			let oldTimeFormat = new Date(t[0]);
+			let nowDate = new Date();
+			console.log("oldTimeFormat",oldTimeFormat)
+			console.log("nowDate",nowDate)
+			if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
+				console.log("111111111")
+				let times = nowDate.getTime() - oldTimeFormat.getTime();
+				let days = parseInt(times / (60 * 60 * 24 * 1000));
+				console.log("days",days)
+				return days + 1;
+			}
 		},
 		current() {
 			var dd = new Date();
@@ -423,7 +426,13 @@ export default {
 				.getDayCourse(this.currentTime)
 				.then(res => {
 					console.log('点击====');
-					let array = { title: '智慧早教第' + this.applyTime + '天',coursePackId:0, courseId: localStorage.getItem('cid'), babyId: localStorage.getItem('babyId'), course: [] };
+					let array = {
+						title: '智慧早教第' + this.applyTime + '天',
+						coursePackId: 0,
+						courseId: localStorage.getItem('cid'),
+						babyId: localStorage.getItem('babyId'),
+						course: []
+					};
 					// let array = [];
 					if (res.data.code == 1) {
 						let item = res.data.data;
