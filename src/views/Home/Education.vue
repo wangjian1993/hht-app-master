@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<!-- <div><p @click="loca()">刷新</p></div> -->
+			<div><p @click="loca()">刷新</p></div>
 			<div class="apply-content" v-if="isApply">
 				<div class="header">
 					<div class="header-title">
@@ -393,14 +393,21 @@ export default {
 			}
 			this.babyBox = true;
 		},
-		computedTime(old) {
+		computedTime(time) {
 			//传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
-			var returnText = '';
-			var nowDate = new Date().getTime(); //当前时间
-			var setDate = new Date(old.replace(/-/g, '/')).getTime();
-			var times = Math.floor((nowDate - setDate) / 1000);
-			returnText = Math.ceil(times / (60 * 60 * 24));
-			return returnText;
+			let t = time.split(' ');
+			console.log("t===",t)
+			let oldTimeFormat = new Date(t[0]);
+			let nowDate = new Date();
+			console.log("oldTimeFormat",oldTimeFormat)
+			console.log("nowDate",nowDate)
+			if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
+				console.log("111111111")
+				let times = nowDate.getTime() - oldTimeFormat.getTime();
+				let days = parseInt(times / (60 * 60 * 24 * 1000));
+				console.log("days",days)
+				return days + 1;
+			}
 		},
 		current() {
 			var dd = new Date();
