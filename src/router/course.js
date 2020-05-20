@@ -45,6 +45,14 @@ export default new Router({
 				keepAlive: true,
 			}
 		},
+		{ //学习中详情
+			path: '/learning',
+			name: 'learning',
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Learning.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
 		{
 			path: '*',
 			redirect: '/'

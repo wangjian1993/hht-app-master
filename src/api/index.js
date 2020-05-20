@@ -457,4 +457,18 @@ export default {
 			}
 		});
 	},
+	/*
+	 * 课程详情
+	 */
+	getCourseDeta(id) {
+		return fetch({
+			url: aliloUrl + "course-group/course-details",
+			method: "POST",
+			params: {
+				babyId: 40747,
+				channelId: CLId,
+				courseId:id
+			}
+		});
+	},
 };

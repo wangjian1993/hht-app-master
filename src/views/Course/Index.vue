@@ -47,7 +47,7 @@
 							<span v-if="courseUserTab == 2"></span>
 						</p>
 					</div>
-					<div class="course-user-list" v-if="userList.length != 0"><v-card-list></v-card-list></div>
+					<div class="course-user-list" v-if="userList.length != 0"><v-card-list :data="userList" :isLearning="learning"></v-card-list></div>
 					<div class="course-user-null" v-else><p>没有正在学习课程噢，快去添加吧～</p><span @click="addCourse">添加课程</span></div>
 					
 				</div>
@@ -69,7 +69,8 @@ export default {
 			courseTab: 1,
 			courseUserTab: 1,
 			lsit: [],
-			userList: []
+			userList: [],
+			learning:true
 		};
 	},
 	created() {},

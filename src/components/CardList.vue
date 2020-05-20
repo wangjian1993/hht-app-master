@@ -2,11 +2,11 @@
 	<div class="app">
 		<div class="list">
 			<ul>
-				<li v-for="item,index in data" :key="item.id">
+				<li v-for="(item, index) in data" :key="item.id" @click="goLearning(item.id)">
 					<div class="item-img"><img :src="item.coverImage" /></div>
 					<div class="item-name">
-						<p>{{item.name}}</p>
-						<p>共{{item.classHourCount}}首</p>
+						<p>{{ item.name }}</p>
+						<p>共{{ item.classHourCount }}首</p>
 					</div>
 				</li>
 			</ul>
@@ -16,11 +16,19 @@
 
 <script>
 export default {
-	props:{
-		data:""
+	props: {
+		data: '',
+		isLearning: ''
 	},
 	data() {
 		return {};
+	},
+	methods: {
+		goLearning(id) {
+			if (this.isLearning) {
+				this.$router.push({ name: 'learning', query: { id: id } });
+			}
+		}
 	},
 	components: {}
 };
