@@ -352,6 +352,7 @@ export default {
 					url: url
 				};
 				if (this.system == 'ios') {
+					window.webkit.messageHandlers.audioPause.postMessage(null);
 					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
 				} else {
 					window.android.playCourse('redirectToYZ', JSON.stringify(data));
