@@ -107,7 +107,7 @@ export default {
 		commit
 	}, data) {
 		console.log(data)
-		commit(types.SET_COURSEDETAILS,data);
+		commit(types.SET_COURSEDETAILS, data);
 	},
 	/*
 	 *设置用户课程
@@ -116,6 +116,11 @@ export default {
 		commit
 	}, data) {
 		console.log(data)
-		commit(types.SET_USERCOURSE,data);
+		commit(types.SET_USERCOURSE, data);
+	},
+	setEduFlag({
+		commit
+	}, data) {
+		commit(types.SET_ISEDU, data);
 	}
 };

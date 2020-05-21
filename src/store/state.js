@@ -8,7 +8,8 @@ const state = {
 	cid:null,
 	userBaby:[],
 	courseDetails:[],
-	userCourseList:[]
+	userCourseList:[],
+	isEdu:false
 };
 
 export default state;

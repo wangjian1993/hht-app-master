@@ -18,7 +18,7 @@
 			</div>
 			<div class="course-card" v-if="courseTab == 1">
 				<div class="course-box-top"></div>
-				<v-card :list="lsit"></v-card>
+				<v-card :list="lsit" :eduData="educationData"></v-card>
 			</div>
 			<div v-if="courseTab == 2">
 				<div class="course-user-top"><p>绑定故事机开机后按课程键，即可播放今日课程哦！</p></div>
@@ -30,13 +30,10 @@
 							<van-icon name="arrow" />
 						</span>
 					</div>
-					<div class="course-list"><v-course-list :courseData="userList"></v-course-list></div>
+					<div class="course-list"><v-course-list :courseData="userList" :eduData="educationData"></v-course-list></div>
 				</div>
 				<div class="course-user-all">
-					<div class="course-day-title">
-						<p>我的全部课程</p>
-						<!-- <span>查看更多<van-icon name="arrow" /></span> -->
-					</div>
+					<div class="course-day-title"><p>我的全部课程</p></div>
 					<div class="course-user-tab">
 						<p :class="courseUserTab == 1 ? 'tabActive' : ''" @click="courseTabCLick(1)">
 							学习中
@@ -48,8 +45,10 @@
 						</p>
 					</div>
 					<div class="course-user-list" v-if="userList.length != 0"><v-card-list :data="userList" :isLearning="learning"></v-card-list></div>
-					<div class="course-user-null" v-else><p>没有正在学习课程噢，快去添加吧～</p><span @click="addCourse">添加课程</span></div>
-					
+					<div class="course-user-null" v-else>
+						<p>没有正在学习课程噢，快去添加吧～</p>
+						<span @click="addCourse">添加课程</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -70,10 +69,13 @@ export default {
 			courseUserTab: 1,
 			lsit: [],
 			userList: [],
-			learning:true
+			learning: true,
+			educationData: false
 		};
 	},
-	created() {},
+	created() {
+		this.getUserApply();
+	},
 	activated() {
 		this.getCourseAll();
 	},
@@ -85,8 +87,22 @@ export default {
 		onClickRight() {
 			// Toast('按钮');
 		},
-		addCourse(){
+		addCourse() {
 			this.courseTab = 1;
+		},
+		getUserApply() {
+			this.$axios
+				.userApplyTime(localStorage.getItem('cid'))
+				.then(res => {
+					if (res.data.code == 1) {
+						this.educationData = true;
+						this.$store.dispatch('setEduFlag', true);
+					} else {
+						this.educationData = true;
+						this.$store.dispatch('setEduFlag', true);
+					}
+				})
+				.catch(err => {});
 		},
 		getCourseAll() {
 			this.$axios

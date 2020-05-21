@@ -2,6 +2,13 @@
 	<div class="app">
 		<div class="list">
 			<ul>
+				<li @click="goEducation()" v-if="isEdu">
+					<div class="item-img"><img src="" /></div>
+					<div class="item-name">
+						<p>智慧早教</p>
+						<p>共1首</p>
+					</div>
+				</li>
 				<li v-for="(item, index) in data" :key="item.id" @click="goLearning(item.id)">
 					<div class="item-img"><img :src="item.coverImage" /></div>
 					<div class="item-name">
@@ -15,10 +22,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
 	props: {
 		data: '',
 		isLearning: ''
+	},
+	computed: {
+		...mapState(['isEdu'])
 	},
 	data() {
 		return {};
@@ -28,6 +39,9 @@ export default {
 			if (this.isLearning) {
 				this.$router.push({ name: 'learning', query: { id: id } });
 			}
+		},
+		goEducation(){
+			window.location.href = '/index.html#/education'
 		}
 	},
 	components: {}

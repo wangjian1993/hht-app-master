@@ -40,10 +40,11 @@
 					</div>
 				</div>
 				<div class="member-pay-btn">
-					<div class="member-pay-btn-text" @click="cardPayBtn">
+					<div class="member-pay-btn-text" @click="cardPayBtn" v-if="buyOnePic == 360">
 						<p>360元立即开通年卡会员</p>
 						<p>赠送价值¥299火火兔G9S故事机</p>
 					</div>
+					<div class="member-pay-btn-text" @click="memberBtn" v-else><p>立即开通</p></div>
 				</div>
 			</div>
 			<div class="borderBottm" v-if="memberInfoVip == 0"></div>
@@ -169,6 +170,7 @@ export default {
 			cardList: [],
 			cardIndex: 0,
 			buyLink: null,
+			buyOnePic:null,
 			buyArray: [],
 			buyOneArray: [],
 			activeName: '0',
@@ -231,6 +233,7 @@ export default {
 			this.buyLink = url;
 			this.buyArray = data;
 			this.buyOneArray = data;
+			this.buyOnePic =data.price
 			this.$store.dispatch('setEquityAction', this.buyOneArray.id);
 		},
 		timestampToTime(cjsj) {
@@ -251,6 +254,21 @@ export default {
 					commit(types.SET_MEMBERINFO, res.data.data);
 				})
 				.catch(err => {});
+		},
+		memberBtn() {
+			try {
+				let data = {
+					url: this.buyLink
+				};
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
+				} else {
+					window.android.playCourse('redirectToYZ', JSON.stringify(data));
+				}
+			} catch (e) {
+				this.$toast('请更新新版火火兔APP');
+				//TODO handle the exception
+			}
 		},
 		//客服
 		serviceBox() {
@@ -333,6 +351,7 @@ export default {
 				.then(res => {
 					this.cardList = res.data.data.list;
 					this.buyLink = this.cardList[0].buyLink;
+					this.buyOnePic =this.cardList[0].price
 					this.buyOneArray = this.cardList[0];
 					this.$store.dispatch('setEquityAction', this.buyOneArray.id);
 				})
@@ -352,6 +371,7 @@ export default {
 					url: url
 				};
 				if (this.system == 'ios') {
+					window.webkit.messageHandlers.audioPause.postMessage(null);
 					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
 				} else {
 					window.android.playCourse('redirectToYZ', JSON.stringify(data));

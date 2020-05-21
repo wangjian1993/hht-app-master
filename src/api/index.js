@@ -6,8 +6,8 @@ let AUTH_TOKEN = (function() {
 })();
 //渠道id
 let USER = (function() {
-	return localStorage.getItem("user");
-	// return 5079819;
+	// return localStorage.getItem("user");
+	return 5079819;
 })();
 let CLId = (function() {
 	return 65;
@@ -322,7 +322,7 @@ export default {
 			method: "POST",
 			params: {
 				courseId: cid,
-				userId: localStorage.getItem("user"),
+				userId:5079819,
 			}
 		});
 	},

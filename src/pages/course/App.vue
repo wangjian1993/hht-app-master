@@ -1,8 +1,8 @@
 <template>
 	<div id="app" class="hhtApp">
 		<!-- <transition :name="transitionName"> -->
-			<keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
-			<router-view v-if="!$route.meta.keepAlive"></router-view>
+		<keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
+		<router-view v-if="!$route.meta.keepAlive"></router-view>
 		<!-- </transition> -->
 	</div>
 </template>
@@ -12,10 +12,19 @@ import Header from '@/components/Header.vue';
 export default {
 	data() {
 		return {
-			transitionName: 'slide-right', //初始过渡动画方向
+			transitionName: 'slide-right' //初始过渡动画方向
 		};
 	},
-	created() {},
+	created() {
+		this.type = this.getSystem();
+		if (this.type == 'ios') {
+			this.$store.dispatch('setBabyInfoAction');
+		} else {
+			this.$store.dispatch('setBabyInfoADAction');
+		}
+		this.$store.dispatch('setUserInfoAction');
+		this.$store.dispatch('getUserActivityInfo');
+	},
 	methods: {
 		getSystem() {
 			let ua = navigator.userAgent.toLowerCase();
@@ -35,15 +44,15 @@ export default {
 	},
 	watch: {
 		$route(to, from) {
-		        // 切换动画
-		        let isBack = this.$router.isBack // 监听路由变化时的状态为前进还是后退
-		        if (isBack) {
-		          this.transitionName = 'slide-left'
-		        } else {
-		          this.transitionName = 'slide-right'
-		        }
-		        this.$router.isBack = false
-		      }
+			// 切换动画
+			let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
+			if (isBack) {
+				this.transitionName = 'slide-left';
+			} else {
+				this.transitionName = 'slide-right';
+			}
+			this.$router.isBack = false;
+		}
 	},
 	components: {}
 };

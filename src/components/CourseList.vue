@@ -2,6 +2,19 @@
 	<div class="app">
 		<div class="list">
 			<ul>
+				<li v-if="isEdu">
+					<div class="list-name">
+						<p>智慧早教课程</p>
+						<p>
+							共
+							<span>30</span>
+							课时 |
+							<span>30</span>
+							分钟
+						</p>
+					</div>
+					<div class="list-btn" @click=""><span>上课</span></div>
+				</li>
 				<li v-for="(item, index) in courseData" :key="item.id">
 					<div class="list-name">
 						<p>
@@ -16,7 +29,7 @@
 							分钟
 						</p>
 					</div>
-					<div class="list-btn" @click=""><span>上课</span></div>
+					<div class="list-btn" @click="schooltime(item)"><span>上课</span></div>
 				</li>
 			</ul>
 		</div>
@@ -24,6 +37,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
 	props: {
 		courseData: ''
@@ -31,8 +45,48 @@ export default {
 	data() {
 		return {};
 	},
-	methods:{
-		
+	computed: {
+		...mapState(['isEdu','system'])
+	},
+	methods: {
+		schooltime(item) {
+			console.log("上课")
+			this.$axios
+				.getCourseData(item.courseGroupId,item.id)
+				.then(res => {
+					if (res.data.code == 1) {
+						let array = {
+							title: '智慧早教第0天',
+							coursePackId: item.courseGroupId,
+							courseId: localStorage.getItem('cid'),
+							babyId: localStorage.getItem('babyId'),
+							course: []
+						};
+						let item =res.data.data.audios;
+						item.forEach(function(data, index) {
+							let obj = {
+								url: data.url,
+								id: data.id,
+								name: data.name
+							};
+							array.course.push(obj);
+						});
+						console.log('array', array);
+						try {
+							this.$toast('获取早教课程成功');
+							if (this.system == 'ios') {
+								window.webkit.messageHandlers.course_play.postMessage(array);
+							} else if (this.system == 'android') {
+								window.android.playCourse('course_play', JSON.stringify(array));
+							}
+						} catch (e) {
+							this.$toast('获取早教课程失败');
+							//TODO handle the exception
+						}
+					}
+				})
+				.catch(err => {});
+		},
 	},
 	components: {}
 };

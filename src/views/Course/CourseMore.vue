@@ -22,7 +22,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['userCourseList'])
+		...mapState(['userCourseList','isEdu'])
 	},
 	created() {
 		console.log("啊哈哈哈")

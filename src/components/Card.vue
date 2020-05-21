@@ -1,6 +1,25 @@
 <template>
 	<div class="app">
-		<div class="course-card" @click="detailsRouter(item.id)" v-for="(item, index) in list" :key="item.id" :class="index == 0 ? 'course-bottom' : ''">
+		<div class="course-card course-bottom" @click="goEducation()" v-if="eduData">
+			<div class="course-ok"><span>已添加</span></div>
+			<div class="course-card-box">
+				<div class="card-name">
+					<p>智慧早教课程</p>
+				</div>
+				<div class="card-name-subhead">
+					<p>智慧早教</p>
+				</div>
+				<div class="card-time">
+					<p>
+						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
+					</p>
+					<p>
+						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="course-card" @click="detailsRouter(item.id)" v-for="(item, index) in list" :key="item.id" :class="index == 0 && !eduData? 'course-bottom' : ''">
 			<div class="course-ok" v-if="item.learningState == 20"><span>已添加</span></div>
 			<div class="course-card-box">
 				<div class="card-name">
@@ -30,7 +49,8 @@
 <script>
 export default {
 	props: {
-		list: ''
+		list: '',
+		eduData:''
 	},
 	data() {
 		return {};
@@ -38,6 +58,9 @@ export default {
 	methods: {
 		detailsRouter(id) {
 			this.$router.push({ name: 'details', query: { id: id } });
+		},
+		goEducation(){
+			window.location.href = '/index.html#/education'
 		}
 	},
 	components: {}
