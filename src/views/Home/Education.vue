@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><p @click="loca()">刷新</p></div>
+			<!-- <div><p @click="loca()">刷新</p></div> -->
 			<div class="apply-content" v-if="isApply">
 				<div class="header">
 					<div class="header-title">
