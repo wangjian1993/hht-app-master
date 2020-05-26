@@ -170,7 +170,7 @@ export default {
 			cardList: [],
 			cardIndex: 0,
 			buyLink: null,
-			buyOnePic:null,
+			buyOnePic: null,
 			buyArray: [],
 			buyOneArray: [],
 			activeName: '0',
@@ -233,7 +233,7 @@ export default {
 			this.buyLink = url;
 			this.buyArray = data;
 			this.buyOneArray = data;
-			this.buyOnePic =data.price
+			this.buyOnePic = data.price;
 			this.$store.dispatch('setEquityAction', this.buyOneArray.id);
 		},
 		timestampToTime(cjsj) {
@@ -294,6 +294,11 @@ export default {
 				});
 		},
 		activityRouter(url) {
+			console.log(this.memberInfoVip )
+			if (this.memberInfoVip == 0) {
+				this.$toast('请先开通会员');
+				return;
+			}
 			location.href = url;
 		},
 		setPhone(tel) {
@@ -351,7 +356,7 @@ export default {
 				.then(res => {
 					this.cardList = res.data.data.list;
 					this.buyLink = this.cardList[0].buyLink;
-					this.buyOnePic =this.cardList[0].price
+					this.buyOnePic = this.cardList[0].price;
 					this.buyOneArray = this.cardList[0];
 					this.$store.dispatch('setEquityAction', this.buyOneArray.id);
 				})
