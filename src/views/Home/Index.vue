@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><a href="course.html">跳转新的页面</a></div>
+			<!-- <div><p @click="loca()">刷新测试服</p></div> -->
 			<div class="member-user">
 				<!-- <div class="member-user-img"><img src="../../assets/image/logo@3x.png" alt="" /></div> -->
 				<div class="member-user-name">
@@ -170,7 +170,7 @@ export default {
 			cardList: [],
 			cardIndex: 0,
 			buyLink: null,
-			buyOnePic:null,
+			buyOnePic: null,
 			buyArray: [],
 			buyOneArray: [],
 			activeName: '0',
@@ -233,7 +233,7 @@ export default {
 			this.buyLink = url;
 			this.buyArray = data;
 			this.buyOneArray = data;
-			this.buyOnePic =data.price
+			this.buyOnePic = data.price;
 			this.$store.dispatch('setEquityAction', this.buyOneArray.id);
 		},
 		timestampToTime(cjsj) {
@@ -294,7 +294,12 @@ export default {
 				});
 		},
 		activityRouter(url) {
-			location.href = "./course.html";
+			console.log(this.memberInfoVip )
+			if (this.memberInfoVip == 0) {
+				this.$toast('请先开通会员');
+				return;
+			}
+			location.href = url;
 		},
 		setPhone(tel) {
 			try {
@@ -351,7 +356,7 @@ export default {
 				.then(res => {
 					this.cardList = res.data.data.list;
 					this.buyLink = this.cardList[0].buyLink;
-					this.buyOnePic =this.cardList[0].price
+					this.buyOnePic = this.cardList[0].price;
 					this.buyOneArray = this.cardList[0];
 					this.$store.dispatch('setEquityAction', this.buyOneArray.id);
 				})
