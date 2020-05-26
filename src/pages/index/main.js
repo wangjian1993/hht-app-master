@@ -11,7 +11,7 @@ import store from '../../store/index'
 import Vconsole from 'vconsole'
 // const vConsole = new Vconsole()
 import VueClipboard from 'vue-clipboard2'
-// Vue.use(VueClipboard)
+Vue.use(VueClipboard)
 // Vue.use(vConsole)
 import {
 	Button,
