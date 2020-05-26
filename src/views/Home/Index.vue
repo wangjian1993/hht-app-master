@@ -288,7 +288,7 @@ export default {
 							this.$toast('微信号复制成功!');
 						},
 						err => {
-							alert('Can not copy');
+							// alert('Can not copy');
 						}
 					);
 				});
