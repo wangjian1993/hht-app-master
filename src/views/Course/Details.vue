@@ -3,7 +3,7 @@
 		<v-header :title="title"></v-header>
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div class="course-box-top"></div>
+			<div class="course-box-top"><img src="../../assets/image/2.png" alt="" /></div>
 			<div class="course-card-details">
 				<div class="course-card">
 					<div class="course-card-box">
@@ -81,19 +81,30 @@ export default {
 				.catch(err => {});
 		},
 		delCoures() {
-			this.$toast.loading({
-				message: '删除中...',
-				forbidClick: true
-			});
-			this.$axios
-				.getCourseDel(this.$route.query.id)
-				.then(res => {
-					if (res.data.code == 1) {
-						this.$toast.success('删除成功');
-						this.$router.push({ name: 'index' });
-					}
+			this.$dialog
+				.confirm({
+					title: '删除课程',
+					message: '确认要取消该课程的学习吗？'
 				})
-				.catch(err => {});
+				.then(() => {
+					// on confirm
+					this.$toast.loading({
+						message: '删除中...',
+						forbidClick: true
+					});
+					this.$axios
+						.getCourseDel(this.$route.query.id)
+						.then(res => {
+							if (res.data.code == 1) {
+								this.$toast.success('删除成功');
+								this.$router.push({ name: 'index' });
+							}
+						})
+						.catch(err => {});
+				})
+				.catch(() => {
+					// on cancel
+				});
 		}
 	},
 	components: {

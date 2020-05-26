@@ -1,36 +1,28 @@
 <template>
 	<div class="app">
-		<div class="course-card course-bottom" @click="goEducation()" v-if="eduData">
-			<div class="course-ok"><span>已添加</span></div>
+		<div class="course-card" @click="goEducation()" v-if="eduData">
 			<div class="course-card-box">
-				<div class="card-name">
-					<p>智慧早教课程</p>
-				</div>
-				<div class="card-name-subhead">
-					<p>智慧早教</p>
-				</div>
+				<div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
+				<div class="card-name"><p>智慧早教课程</p></div>
+				<div class="card-name-subhead"><p>智慧早教</p></div>
 				<div class="card-time">
-					<p>
-						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
-					</p>
-					<p>
-						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
-					</p>
+					<p><img src="../assets/image/home_conner_iconalbum@2x.png" alt="" /></p>
+					<p><img src="../assets/image/home_conner_iconalbum@2x.png" alt="" /></p>
 				</div>
 			</div>
 		</div>
-		<div class="course-card" @click="detailsRouter(item.id)" v-for="(item, index) in list" :key="item.id" :class="index == 0 && !eduData? 'course-bottom' : ''">
-			<div class="course-ok" v-if="item.learningState == 20"><span>已添加</span></div>
+		<div class="course-card" @click="detailsRouter(item.id)" v-for="(item, index) in list" :key="item.id">
 			<div class="course-card-box">
+				<div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
 				<div class="card-name">
 					<p>{{ item.name }}</p>
 				</div>
 				<div class="card-name-subhead">
 					<p>{{ item.description }}</p>
 				</div>
-				<div class="card-lable">
-					<span v-for="opt in item.labels">{{opt.name}}</span>
-				</div>
+				<!-- <div class="card-lable">
+					<span v-for="opt in item.labels">{{ opt.name }}</span>
+				</div> -->
 				<div class="card-time">
 					<p>
 						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
@@ -38,8 +30,13 @@
 					</p>
 					<p>
 						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
-						{{ item.particiPants }}参与
+						<span>{{ item.particiPants }}</span>
+						参与
 					</p>
+				</div>
+				<div class="course-state">
+					<p class="course-state-btn2" v-if="item.learningState == 20">已添加</p>
+					<p class="course-state-btn1" v-else>会员免费</p>
 				</div>
 			</div>
 		</div>
@@ -50,7 +47,7 @@
 export default {
 	props: {
 		list: '',
-		eduData:''
+		eduData: ''
 	},
 	data() {
 		return {};
@@ -59,8 +56,8 @@ export default {
 		detailsRouter(id) {
 			this.$router.push({ name: 'details', query: { id: id } });
 		},
-		goEducation(){
-			window.location.href = '/index.html#/education'
+		goEducation() {
+			window.location.href = '/index.html#/education';
 		}
 	},
 	components: {}
@@ -70,42 +67,28 @@ export default {
 <style lang="less" scoped>
 .course-card {
 	width: 349px;
-	height: 153px;
-	background-color: #ffffff;
+	background-color: #fff;
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
 	margin: 0 auto;
-	display: flex;
-	align-items: center;
-	position: relative;
-}
-.course-bottom {
-	margin-top: -58px;
-}
-.course-ok {
-	position: absolute;
-	right: 0;
-	top: 0;
-	span {
-		display: inline-block;
-		width: 55px;
-		height: 20px;
-		background-color: rgba(0, 0, 0, 0.2);
-		border-radius: 0 8px 0px 8px;
-		text-align: center;
-		line-height: 20px;
-		font-size: 13px;
-		color: rgba(0, 0, 0, 0.8);
-	}
 }
 .course-card-box {
 	width: 317px;
-	height: 123px;
 	margin: 0 auto;
-	position: relative;
+	padding: 10px 0;
+	.course-img {
+		width: 321px;
+		height: 146px;
+		img {
+			width: 100%;
+			height: 100%;
+			border-radius: 6px;
+		}
+	}
 	.card-name {
 		font-size: 20px;
 		color: rgba(0, 0, 0, 0.8);
+		padding-top: 10px;
 	}
 	.card-name-subhead {
 		font-size: 15px;
@@ -127,19 +110,41 @@ export default {
 	.card-time {
 		width: 100%;
 		display: flex;
-		position: absolute;
-		bottom: 0;
 		align-items: center;
+		padding-top: 10px;
 		p {
-			font-size: 12px;
+			font-size: 14px;
 			color: rgba(0, 0, 0, 0.3);
 			img {
 				width: 11px;
 				height: 11px;
 			}
 			&:nth-of-type(2) {
-				margin-left: 20px;
+				margin-left: auto;
+				span {
+					color: #ff6666;
+				}
 			}
+		}
+	}
+	.course-state {
+		padding-top: 20px;
+		p {
+			width: 104px;
+			height: 30px;
+			border-radius: 15px;
+			text-align: center;
+			line-height: 30px;
+			font-size: 16px;
+		}
+		.course-state-btn1 {
+			background-color: #f9c003;
+			color: #fff;
+		}
+		.course-state-btn2 {
+			color: rgba(0, 0, 0, 0.6);
+			background: #fff;
+			border: solid 1px rgba(0, 0, 0, 0.4);
 		}
 	}
 }

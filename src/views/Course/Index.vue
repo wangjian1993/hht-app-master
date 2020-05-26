@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			<div class="course-card" v-if="courseTab == 1">
-				<div class="course-box-top"></div>
+				<!-- <div class="course-box-top"></div> -->
 				<v-card :list="lsit" :eduData="educationData"></v-card>
 			</div>
 			<div v-if="courseTab == 2">
@@ -98,8 +98,8 @@ export default {
 						this.educationData = true;
 						this.$store.dispatch('setEduFlag', true);
 					} else {
-						this.educationData = true;
-						this.$store.dispatch('setEduFlag', true);
+						this.educationData = false;
+						this.$store.dispatch('setEduFlag', false);
 					}
 				})
 				.catch(err => {});
