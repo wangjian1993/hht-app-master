@@ -59,7 +59,7 @@ const SERVER_LIST = [{
 		port: 22,
 		username: 'root',
 		password: 'wi@15!i4z53A',
-		path: '/usr/local/apache-tomcat-xiaohai/webapps/weixin/hht/app/'
+		path: '/usr/local/apache-tomcat-xiaohai/webapps/weixin/hht/dist/'
 	}
 ];
 module.exports = SERVER_LIST[SERVER_ID];

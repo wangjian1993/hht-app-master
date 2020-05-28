@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="list">
 			<ul>
-				<li @click="goEducation()" v-if="isEdu">
+				<li @click="goEducation()" v-if="isEdu && status == 0">
 					<div class="item-img"><img src="" /></div>
 					<div class="item-name">
 						<p>智慧早教</p>
@@ -10,7 +10,7 @@
 					</div>
 				</li>
 				<li v-for="(item, index) in courseData" :key="item.id" @click="goLearning(item.id)">
-					<div class="item-img"><img :src="item.coverImage"/></div>
+					<div class="item-img"><img :src="item.coverImage" /></div>
 					<div class="item-name">
 						<p>{{ item.name }}</p>
 						<p>共{{ item.classHourCount }}首</p>
@@ -25,7 +25,7 @@
 import { mapState } from 'vuex';
 export default {
 	props: {
-		audioData:[],
+		audioData: '',
 		isLearning: '',
 		status: 0
 	},
@@ -33,6 +33,7 @@ export default {
 		...mapState(['isEdu']),
 		courseData: function() {
 			return this.audioData.filter((item, index) => {
+				console.log(this.status);
 				if (this.status == 0) {
 					return item.status != 30;
 				} else if (this.status == 30) {
@@ -44,6 +45,9 @@ export default {
 	data() {
 		return {};
 	},
+	created() {
+		console.log('this.isEdu', this.isEdu);
+	},
 	methods: {
 		moveErrorImg: function(event) {
 			console.log('1111111');
@@ -51,11 +55,11 @@ export default {
 		},
 		goLearning(id) {
 			if (this.isLearning) {
-				this.$router.push({ name: 'learning', query: { id: id } });
+				this.$router.push({ name: 'course/learning', query: { id: id } });
 			}
 		},
 		goEducation() {
-			window.location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/education';
+			this.$router.push({ name: 'education' });
 		}
 	},
 	components: {}

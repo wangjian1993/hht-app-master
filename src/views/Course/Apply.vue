@@ -31,7 +31,7 @@ export default {
 	},
 	methods: {
 		routerHome() {
-			this.$router.push({ name: 'index' });
+			this.$router.push({ name: 'course/index' });
 		}
 	},
 	components: {

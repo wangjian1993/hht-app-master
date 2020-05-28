@@ -49,15 +49,16 @@ export default {
 				return;
 			}
 			this.$toast.loading({
-			  message: '正在激活...',
-			  forbidClick: true
+				message: '正在激活...',
+				forbidClick: true
 			});
+			let userid = localStorage.getItem('user');
 			this.$axios
-				.setVipClubCard(this.code)
+				.setVipClubCard(this.code, userid)
 				.then(res => {
-					if(!res.data.success){
+					if (!res.data.success) {
 						this.$toast(res.data.info);
-					}else {
+					} else {
 						this.$toast.success('激活成功');
 					}
 				})
@@ -102,7 +103,7 @@ export default {
 		background-color: #d8d8d8;
 		border-radius: 24px;
 		font-size: 17px;
-		color: rgba(0,0,0,.4);
+		color: rgba(0, 0, 0, 0.4);
 		margin: 0 auto;
 	}
 }

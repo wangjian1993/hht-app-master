@@ -1,6 +1,7 @@
 <template>
 	<div class="app">
-		<div class="list" v-if="courseData.length != 0">
+		<div class="empty" v-if="courseData.length == 0 && !isEdu"><van-empty class="custom-image" :image="emptyImg" description="你今天没有课程安排哦～" /></div>
+		<div class="list" v-else>
 			<ul>
 				<li v-if="isEdu">
 					<div class="list-name">
@@ -33,7 +34,6 @@
 				</li>
 			</ul>
 		</div>
-		<div class="empty" v-else><van-empty class="custom-image" :image="emptyImg" description="你今天没有课程安排哦～" /></div>
 	</div>
 </template>
 

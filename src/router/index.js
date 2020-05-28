@@ -101,6 +101,62 @@ export default new Router({
 				keepAlive: true,
 			}
 		},
+		{ //首页
+			path: '/course/index',
+			name: 'course/index',
+			component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
+			meta: {
+				keepAlive: true,
+			},
+		},
+		{ //详情
+			path: '/course/details',
+			name: 'course/details',
+			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/Details.vue'),
+			meta: {
+				keepAlive: false,
+			}
+		},
+		{ //报名详情
+			path: '/course/add-course',
+			name: 'course/add-course',
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/AddCourse.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
+		{ //报名详情
+			path: '/course/apply',
+			name: 'course/apply',
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Apply.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
+		{ //今日课程更多
+			path: '/course/course-more',
+			name: 'course/courseMore',
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/CourseMore.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
+		{ //学习中详情
+			path: '/course/learning',
+			name: 'course/learning',
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Learning.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
+		{ //学习中详情
+			path: '/error',
+			name: 'error',
+			component: () => import( /* webpackChunkName: "apply" */ '@/views/Common/Error.vue'),
+			meta: {
+				keepAlive: true,
+			}
+		},
 		{
 			path: '*',
 			redirect: '/'

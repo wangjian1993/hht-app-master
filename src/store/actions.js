@@ -53,6 +53,10 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
+				if(res.uid == undefined){
+					console.log("没有用户信息")
+					return
+				}
 				localStorage.setItem("user", res.uid)
 				commit(types.SET_USERINFO, res);
 				$axios

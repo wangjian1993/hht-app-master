@@ -201,7 +201,8 @@ export default {
 					img: require('../../assets/image/content4.jpg'),
 					subheading: '49.90'
 				}
-			]
+			],
+			userID: null
 		};
 	},
 	computed: {
@@ -224,6 +225,12 @@ export default {
 		}
 	},
 	created() {
+		//判断是否有用户id
+		this.userID = localStorage.getItem('user');
+		if (this.userID == null) {
+			this.$router.push({ name: 'error' });
+			return;
+		}
 		this.getVipAll();
 	},
 	mounted() {},
@@ -247,15 +254,9 @@ export default {
 			var s = date.getSeconds();
 			return Y + M + D + h + m + s;
 		},
-		getUserVip() {
-			$axios
-				.getUserVip()
-				.then(res => {
-					console.log('会员信息', res);
-					commit(types.SET_MEMBERINFO, res.data.data);
-				})
-				.catch(err => {});
-		},
+		/**
+		 *跳转喜马拉雅小程序
+		 */
 		xmlay() {
 			try {
 				let data = {
@@ -272,6 +273,9 @@ export default {
 				//TODO handle the exception
 			}
 		},
+		/**
+		 * 开通会员卡跳转有赞
+		 * */
 		memberBtn() {
 			try {
 				let data = {
@@ -327,8 +331,7 @@ export default {
 			}
 		},
 		loca() {
-			// location.reload();
-			window.location.href = './course.html';
+			this.$router.push({ name: 'course/index' });
 		},
 		cardPayBtn() {
 			console.log('调用支付===========', this.babyInfo);
@@ -350,7 +353,7 @@ export default {
 		},
 		async getVipAll() {
 			console.log('调用接口', localStorage.getItem('user'));
-			await this.$store.dispatch('setUserInfoAction');
+			// await this.$store.dispatch('setUserInfoAction');
 			await this.$axios
 				.getVipContent(1)
 				.then(res => {

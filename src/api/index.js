@@ -173,13 +173,13 @@ export default {
 	/**
 	 * 会员卡激活
 	 * */
-	setVipClubCard(code) {
+	setVipClubCard(code, userId) {
 		return fetch({
 			url: aliloUrl + "activation-code/activate",
 			method: "POST",
 			params: {
 				activationCode: code,
-				userId: localStorage.getItem("user"),
+				userId: userId,
 				channelId: CLId,
 				devid: 111
 			}
@@ -188,12 +188,12 @@ export default {
 	/**
 	 * 会员用户信息
 	 * */
-	getUserInfo() {
+	getUserInfo(userId) {
 		return fetch({
 			url: aliloUrl + "member-card/get",
 			method: "POST",
 			params: {
-				userId: localStorage.getItem("user"),
+				userId: userId,
 				channelId: CLId
 			}
 		});
@@ -215,13 +215,13 @@ export default {
 	/**
 	 * 权益介绍
 	 */
-	getVipEquity(id) {
+	getVipEquity(id,userId) {
 		return fetch({
 			url: aliloUrl + "member-rights/search",
 			method: "POST",
 			params: {
 				channelId: CLId,
-				userId: localStorage.getItem("user"),
+				userId: userId,
 				cardId: id,
 				pageNo: 1,
 				pageSize: 10
@@ -322,7 +322,7 @@ export default {
 			method: "POST",
 			params: {
 				courseId: cid,
-				userId:localStorage.getItem("user"),
+				userId: localStorage.getItem("user"),
 			}
 		});
 	},
@@ -392,7 +392,7 @@ export default {
 	 * 获取课程表详情
 	 * id:课程包id
 	 * */
-	getCourseDetails(id,babyid) {
+	getCourseDetails(id, babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/details",
 			method: "POST",
@@ -407,7 +407,7 @@ export default {
 	 * 获取包报名
 	 * id:课程包id
 	 * */
-	courseApply(id,babyid) {
+	courseApply(id, babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/singup",
 			method: "POST",
@@ -426,14 +426,14 @@ export default {
 			url: aliloUrl + "course-group/my-courses",
 			method: "POST",
 			params: {
-				babyId: 40747
+				babyId: babyid
 			}
 		});
 	},
 	/*
 	 * 获取上课课程
 	 */
-	getCourseData(id, courseId,babyid) {
+	getCourseData(id, courseId, babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/get-by-app",
 			method: "POST",
@@ -447,7 +447,7 @@ export default {
 	/*
 	 * 删除课程包
 	 */
-	getCourseDel(id,babyid) {
+	getCourseDel(id, babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/singout",
 			method: "POST",
@@ -460,14 +460,14 @@ export default {
 	/*
 	 * 课程详情
 	 */
-	getCourseDeta(id,babyid) {
+	getCourseDeta(id, babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/course-details",
 			method: "POST",
 			params: {
 				babyId: babyid,
 				channelId: CLId,
-				courseId:id
+				courseId: id
 			}
 		});
 	},

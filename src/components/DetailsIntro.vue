@@ -36,7 +36,7 @@ export default {
 	created() {},
 	methods: {
 		goLearning(id) {
-			this.$router.push({ name: 'learning', query: { id: id } });
+			this.$router.push({ name: 'course/learning', query: { id: id } });
 		}
 	},
 	components: {

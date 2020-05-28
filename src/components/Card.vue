@@ -58,10 +58,10 @@ export default {
 	},
 	methods: {
 		detailsRouter(id) {
-			this.$router.push({ name: 'details', query: { id: id } });
+			this.$router.push({ name: 'course/details', query: { id: id } });
 		},
 		goEducation() {
-			window.location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/education';
+			this.$router.push({ name: 'education' });
 		}
 	},
 	components: {}

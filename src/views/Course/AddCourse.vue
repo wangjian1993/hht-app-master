@@ -52,7 +52,7 @@ export default {
 				.then(res => {
 					if (res.data.code == 1) {
 						this.$toast('报名成功');
-						this.$router.push({ name: 'apply', query: { id: 1 } });
+						this.$router.push({ name: 'course/apply', query: { id: 1 } });
 					}
 				})
 				.catch(err => {});

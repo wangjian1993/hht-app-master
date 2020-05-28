@@ -51,11 +51,11 @@
 							<span v-if="courseUserTab == 2"></span>
 						</p>
 					</div>
-					<div class="course-user-list" v-if="userList.length != 0"><v-card-list :audioData.sync="userList" :isLearning.sync="learning"></v-card-list></div>
-					<div class="course-user-null" v-else>
+					<div class="course-user-null" v-if="userList.length == 0 && !educationData">
 						<p>没有正在学习课程噢，快去添加吧～</p>
 						<span @click="addCourse">添加课程</span>
 					</div>
+					<div class="course-user-list" v-else><v-card-list :status="status" :audioData="userList" :isLearning="learning"></v-card-list></div>
 				</div>
 			</div>
 		</div>
@@ -159,7 +159,7 @@ export default {
 			}
 		},
 		courseMore() {
-			this.$router.push({ name: 'courseMore' });
+			this.$router.push({ name: 'course/courseMore' });
 		}
 	},
 	components: {

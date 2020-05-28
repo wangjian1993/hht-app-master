@@ -42,7 +42,7 @@
 								</p>
 								<p>
 									<img src="../../assets/image/course/icon_listen备份@2x.png" alt="" />
-									{{ listItem.browseCount }}w
+									{{ tranNumber(listItem.browseCount, 1) }}
 								</p>
 							</div>
 						</li>
@@ -83,6 +83,18 @@ export default {
 					}
 				})
 				.catch(err => {});
+		},
+		tranNumber(num, point) {
+			let numStr = num.toString();
+			if (numStr.length > 8) {
+				let decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point);
+				return parseFloat(parseInt(num / 100000000) + '.' + decimal) + '亿';
+			}
+			//大于6位数是十万 (以10W分割 10W以下全部显示)
+			else if (numStr.length > 0) {
+				let decimal = numStr.substring(numStr.length - 4, numStr.length - 4 + point);
+				return parseFloat(parseInt(num / 10000) + '.' + decimal) + '万';
+			}
 		},
 		timeCycle(val) {
 			var h = Math.floor(val / 3600);
