@@ -9,8 +9,8 @@
 						<p>共1首</p>
 					</div>
 				</li>
-				<li v-for="(item, index) in data" :key="item.id" @click="goLearning(item.id)">
-					<div class="item-img"><img :src="item.coverImage" /></div>
+				<li v-for="(item, index) in courseData" :key="item.id" @click="goLearning(item.id)">
+					<div class="item-img"><img :src="item.coverImage" v-on:error.once="moveErrorImg($event)" /></div>
 					<div class="item-name">
 						<p>{{ item.name }}</p>
 						<p>共{{ item.classHourCount }}首</p>
@@ -25,23 +25,37 @@
 import { mapState } from 'vuex';
 export default {
 	props: {
-		data: '',
-		isLearning: ''
+		audioData: '',
+		isLearning: '',
+		status: 0
 	},
 	computed: {
-		...mapState(['isEdu'])
+		...mapState(['isEdu']),
+		courseData: function() {
+			return this.audioData.filter((item, index) => {
+				if (this.status == 0) {
+					return item.status != 30;
+				} else if (this.status == 30) {
+					return item.status == 30;
+				}
+			});
+		}
 	},
 	data() {
 		return {};
 	},
 	methods: {
+		moveErrorImg: function(event) {
+			console.log('1111111');
+			event.currentTarget.src = '../assets/image/course/qsy@2x.png';
+		},
 		goLearning(id) {
 			if (this.isLearning) {
 				this.$router.push({ name: 'learning', query: { id: id } });
 			}
 		},
-		goEducation(){
-			window.location.href = '/index.html#/education'
+		goEducation() {
+			window.location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/education';
 		}
 	},
 	components: {}

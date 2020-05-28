@@ -322,7 +322,7 @@ export default {
 			method: "POST",
 			params: {
 				courseId: cid,
-				userId:5079819,
+				userId:localStorage.getItem("user"),
 			}
 		});
 	},
@@ -378,13 +378,13 @@ export default {
 	/**
 	 * 获取全部课程包
 	 * */
-	getCoursePack() {
+	getCoursePack(id) {
 		return fetch({
 			url: aliloUrl + "course-group/get-all",
 			method: "POST",
 			params: {
 				channelId: CLId,
-				babyId: 40747
+				babyId: id
 			}
 		});
 	},
@@ -392,14 +392,14 @@ export default {
 	 * 获取课程表详情
 	 * id:课程包id
 	 * */
-	getCourseDetails(id) {
+	getCourseDetails(id,babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/details",
 			method: "POST",
 			params: {
 				channelId: CLId,
 				courseGroupId: id,
-				babyId: 40747
+				babyId: babyid
 			}
 		});
 	},
@@ -407,38 +407,38 @@ export default {
 	 * 获取包报名
 	 * id:课程包id
 	 * */
-	courseApply(id) {
+	courseApply(id,babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/singup",
 			method: "POST",
 			params: {
-				userId: 5079819,
+				userId: localStorage.getItem("user"),
 				courseGroupId: id,
-				babyId: 40747
+				babyId: babyid
 			}
 		});
 	},
 	/*
 	 * 获取宝宝课程
 	 */
-	getUserCourse() {
+	getUserCourse(babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/my-courses",
 			method: "POST",
 			params: {
-				babyId: 40747
+				babyId: babyid
 			}
 		});
 	},
 	/*
 	 * 获取上课课程
 	 */
-	getCourseData(id, courseId) {
+	getCourseData(id, courseId,babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/get-by-app",
 			method: "POST",
 			params: {
-				babyId: 40747,
+				babyId: babyid,
 				courseGroupId: id,
 				courseId: courseId,
 			}
@@ -447,12 +447,12 @@ export default {
 	/*
 	 * 删除课程包
 	 */
-	getCourseDel(id) {
+	getCourseDel(id,babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/singout",
 			method: "POST",
 			params: {
-				babyId: 40747,
+				babyId: babyid,
 				courseGroupId: id,
 			}
 		});
@@ -460,12 +460,12 @@ export default {
 	/*
 	 * 课程详情
 	 */
-	getCourseDeta(id) {
+	getCourseDeta(id,babyid) {
 		return fetch({
 			url: aliloUrl + "course-group/course-details",
 			method: "POST",
 			params: {
-				babyId: 40747,
+				babyId: babyid,
 				channelId: CLId,
 				courseId:id
 			}

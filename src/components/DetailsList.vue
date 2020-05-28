@@ -3,7 +3,10 @@
 		<van-tabs @click="tabClick">
 			<van-tab v-for="(item, index) in data" :title="item.name">
 				<div class="list-content">
-					<p class="list-content-title" @click="EbbinghausClick">艾宾浩斯曲线学习计划</p>
+					<p class="list-content-title" @click="EbbinghausClick">
+						艾宾浩斯曲线学习计划
+						<img src="../assets/image/course/icon_study@2x.png" alt="" />
+					</p>
 					<div class="list-box">
 						<ul v-for="(titleItem, index) in tabData.classHours">
 							<div class="list-item-title">
@@ -13,7 +16,7 @@
 							<li v-for="listItem in titleItem.audios">
 								<p class="item-name">{{ listItem.name }}</p>
 								<div class="item-time">
-									<p>{{ listItem.timeLength }}</p>
+									<p>{{ timeCycle(listItem.timeLength) }}</p>
 								</div>
 							</li>
 						</ul>
@@ -44,7 +47,13 @@ export default {
 				forbidClick: true
 			});
 			this.tabData = this.data[index];
-			console.log(this.tabData);
+		},
+		timeCycle(val) {
+			var h = Math.floor(val / 3600);
+			var m = Math.floor((val / 60) % 60) >= 10 ? Math.floor((val / 60) % 60) : '0' + Math.floor((val / 60) % 60);
+			var s = Math.floor(val % 60) >= 10 ? Math.floor(val % 60) : '0' + Math.floor(val % 60);
+			var format = Math.floor(val / 3600) != 0 ? h + ':' + m + ':' + s : m + ':' + s;
+			return format;
 		},
 		EbbinghausClick() {
 			this.$dialog
@@ -72,6 +81,10 @@ export default {
 		font-size: 12px;
 		color: rgba(0, 0, 0, 0.3);
 		margin-bottom: 10px;
+		img {
+			width: 14px;
+			height: 14px;
+		}
 	}
 	.list-box {
 		width: 345px;

@@ -2,6 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
+			<div @click="load()">刷新</div>
 			<div class="course-header">
 				<div class="course-box-tab">
 					<div class="course-tab-item">
@@ -16,23 +17,27 @@
 					</div>
 				</div>
 			</div>
-			<div class="course-card" v-if="courseTab == 1">
+			<div class="course-card mbot" v-if="courseTab == 1">
 				<!-- <div class="course-box-top"></div> -->
 				<v-card :list="lsit" :eduData="educationData"></v-card>
 			</div>
 			<div v-if="courseTab == 2">
-				<div class="course-user-top"><p>绑定故事机开机后按课程键，即可播放今日课程哦！</p></div>
+				<div class="course-user-top" @click="deviseText()" v-if="isDeviseText">
+					<p>绑定故事机开机后按课程键，即可播放今日课程哦！</p>
+					<span><img src="../../assets/image/course/icon_popup_close@2x.png" alt="" /></span>
+				</div>
 				<div class="course-user-day">
 					<div class="course-day-title">
 						<p>今日学习</p>
-						<span @click="courseMore">
+						<span @click="courseMore" v-if="userList.length != 0">
 							查看更多
 							<van-icon name="arrow" />
 						</span>
 					</div>
-					<div class="course-list"><v-course-list :courseData="userList" :eduData="educationData"></v-course-list></div>
+					<div class="course-list"><v-course-list :isShow="isShow" :courseData="userList" :eduData="educationData"></v-course-list></div>
+					<div class="more-img" v-if="userList.length != 0"><img src="../../assets/image/course/icon_device_spreadoutblue@2x.png" alt=""></div>
 				</div>
-				<div class="course-user-all">
+				<div class="course-user-all mbot">
 					<div class="course-day-title"><p>我的全部课程</p></div>
 					<div class="course-user-tab">
 						<p :class="courseUserTab == 1 ? 'tabActive' : ''" @click="courseTabCLick(1)">
@@ -44,7 +49,7 @@
 							<span v-if="courseUserTab == 2"></span>
 						</p>
 					</div>
-					<div class="course-user-list" v-if="userList.length != 0"><v-card-list :data="userList" :isLearning="learning"></v-card-list></div>
+					<div class="course-user-list" v-if="userList.length != 0"><v-card-list :status="status" :audioData="userList" :isLearning="learning"></v-card-list></div>
 					<div class="course-user-null" v-else>
 						<p>没有正在学习课程噢，快去添加吧～</p>
 						<span @click="addCourse">添加课程</span>
@@ -70,10 +75,15 @@ export default {
 			lsit: [],
 			userList: [],
 			learning: true,
-			educationData: false
+			educationData: false,
+			status: 0,
+			isShow: true,
+			babyid: 0,
+			isDeviseText: true
 		};
 	},
 	created() {
+		this.babyid = localStorage.getItem('courseBaby');
 		this.getUserApply();
 	},
 	activated() {
@@ -81,6 +91,9 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		load() {
+			location.reload();
+		},
 		onClickLeft() {
 			// Toast('返回');
 		},
@@ -89,6 +102,10 @@ export default {
 		},
 		addCourse() {
 			this.courseTab = 1;
+		},
+		deviseText() {
+			console.log("111")
+			this.isDeviseText = !this.isDeviseText;
 		},
 		getUserApply() {
 			this.$axios
@@ -106,7 +123,7 @@ export default {
 		},
 		getCourseAll() {
 			this.$axios
-				.getCoursePack()
+				.getCoursePack(this.babyid)
 				.then(res => {
 					if (res.data.code == 1) {
 						this.lsit = res.data.data;
@@ -114,7 +131,7 @@ export default {
 				})
 				.catch(err => {});
 			this.$axios
-				.getUserCourse()
+				.getUserCourse(this.babyid)
 				.then(res => {
 					if (res.data.code == 1) {
 						this.$store.dispatch('setUserCourse', res.data.data);
@@ -127,10 +144,19 @@ export default {
 			}, 500);
 		},
 		courstTab(index) {
+			this.isLoading = false;
 			this.courseTab = index;
+			setTimeout(() => {
+				this.isLoading = true;
+			}, 200);
 		},
 		courseTabCLick(index) {
 			this.courseUserTab = index;
+			if (index == 2) {
+				this.status = 30;
+			} else {
+				this.status = 0;
+			}
 		},
 		courseMore() {
 			this.$router.push({ name: 'courseMore' });

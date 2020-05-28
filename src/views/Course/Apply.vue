@@ -4,7 +4,7 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<div class="apply-img">
-				<img src="../../assets/image/checkin.png" alt="" />
+				<img src="../../assets/image/course/icon_chosen@2x.png" alt="" />
 				<p>报名成功</p>
 				<p>请在我的课程中查看上课信息，一起努力哦～</p>
 			</div>
@@ -46,15 +46,20 @@ export default {
 	margin: 0 auto;
 	margin-top: 40px;
 	text-align: center;
+	img {
+		width: 26px;
+		height: 26px;
+	}
 	p {
 		&:nth-of-type(1) {
 			font-size: 18px;
-			color: #4dc42a;
+			color: rgba(0, 0, 0, 0.8);
+			padding-top: 15px;
 		}
 		&:nth-of-type(2) {
 			margin-top: 32px;
 			font-size: 15px;
-			color: rgba(0, 0, 0, 0.8);
+			color: rgba(0, 0, 0, 0.5);
 		}
 	}
 }
@@ -81,7 +86,7 @@ export default {
 		position: relative;
 		p {
 			font-size: 14px;
-			color: rgba(0, 0, 0, 0.7);
+			color: rgba(0, 0, 0, 0.8);
 		}
 		span {
 			width: 104px;

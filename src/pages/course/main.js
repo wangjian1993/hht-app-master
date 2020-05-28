@@ -28,11 +28,13 @@ import {
 	CollapseItem,
 	NavBar,
 	Tab,
-	Tabs
+	Tabs,
+	Empty,
+	Lazyload
 } from 'vant';
 Vue.use(Button).use(Toast).use(Popup).use(
 	Icon).use(Loading).use(NoticeBar).use(Dialog).use(Cell).use(CellGroup).use(List).use(Collapse).use(CollapseItem).use(
-	NavBar).use(Tab).use(Tabs)
+	NavBar).use(Tab).use(Tabs).use(Empty).use(Lazyload)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 new Vue({

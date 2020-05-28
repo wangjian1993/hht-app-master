@@ -13,7 +13,7 @@
 			</div>
 			<div class="caurse-list">
 				<v-title :title="title"></v-title>
-				<v-card-list :data="courseDetails.courseList"></v-card-list>
+				<v-card-list :audioData="courseDetails.courseList"></v-card-list>
 			</div>
 			<div class="details-btn" @click="addApply"><p>确定</p></div>
 		</div>

@@ -1,19 +1,23 @@
 <template>
 	<div class="app">
-		<div class="course-card" @click="goEducation()" v-if="eduData">
+		<div class="course-card" @click="goEducation()">
 			<div class="course-card-box">
 				<div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
 				<div class="card-name"><p>智慧早教课程</p></div>
 				<div class="card-name-subhead"><p>智慧早教</p></div>
-				<div class="card-time">
+				<!-- <div class="card-time">
 					<p><img src="../assets/image/home_conner_iconalbum@2x.png" alt="" /></p>
 					<p><img src="../assets/image/home_conner_iconalbum@2x.png" alt="" /></p>
+				</div> -->
+				<div class="course-state">
+					<p class="course-state-btn2" v-if="eduData">已添加</p>
+					<p class="course-state-btn1" v-else>会员免费</p>
 				</div>
 			</div>
 		</div>
 		<div class="course-card" @click="detailsRouter(item.id)" v-for="(item, index) in list" :key="item.id">
 			<div class="course-card-box">
-				<div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
+				<div class="course-img"><img :src="item.coverImage" alt="" /></div>
 				<div class="card-name">
 					<p>{{ item.name }}</p>
 				</div>
@@ -25,7 +29,7 @@
 				</div> -->
 				<div class="card-time">
 					<p>
-						<img src="../assets/image/home_conner_iconalbum@2x.png" alt="" />
+						<img src="../assets/image/course/icon_time@2x.png" alt="" />
 						{{ item.classHour }}
 					</p>
 					<p>
@@ -47,7 +51,7 @@
 export default {
 	props: {
 		list: '',
-		eduData: ''
+		eduData: false
 	},
 	data() {
 		return {};
@@ -57,7 +61,7 @@ export default {
 			this.$router.push({ name: 'details', query: { id: id } });
 		},
 		goEducation() {
-			window.location.href = '/index.html#/education';
+			window.location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/education';
 		}
 	},
 	components: {}
@@ -71,6 +75,7 @@ export default {
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
 	margin: 0 auto;
+	margin-bottom: 20px;
 }
 .course-card-box {
 	width: 317px;
@@ -116,8 +121,9 @@ export default {
 			font-size: 14px;
 			color: rgba(0, 0, 0, 0.3);
 			img {
-				width: 11px;
-				height: 11px;
+				width: 15px;
+				height: 15px;
+				margin-top: -2px;
 			}
 			&:nth-of-type(2) {
 				margin-left: auto;
@@ -142,9 +148,9 @@ export default {
 			color: #fff;
 		}
 		.course-state-btn2 {
-			color: rgba(0, 0, 0, 0.6);
+			color: rgba(0, 0, 0, 0.3);
 			background: #fff;
-			border: solid 1px rgba(0, 0, 0, 0.4);
+			border: solid 1px rgba(0, 0, 0, 0.3);
 		}
 	}
 }

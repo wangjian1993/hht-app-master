@@ -1,30 +1,34 @@
 <template>
 	<div class="app">
-		<v-header :title="title"></v-header>
+		<v-header :title="detailsList.name"></v-header>
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
-		<div class="content" v-show="isLoading">
-			<div class="course-box-top"><img src="../../assets/image/2.png" alt="" /></div>
+		<div class="content mbot" v-show="isLoading">
+			<div class="course-box-top"><img :src="detailsList.coverImage" alt="" /></div>
 			<div class="course-card-details">
 				<div class="course-card">
 					<div class="course-card-box">
 						<div class="card-name">
 							<p>{{ detailsList.name }}</p>
 						</div>
-						<div class="card-name-subhead">
+						<!-- <div class="card-name-subhead">
 							<p>{{ detailsList.description }}</p>
+						</div> -->
+						<div class="card-time">
+							<p>
+								<img src="../../assets/image/course/icon_people@2x.png" alt="" />
+								适合{{ detailsList.suitedMinAge }}-{{ detailsList.suitedMaxAge }}岁
+							</p>
+							<p>
+								<img src="../../assets/image/course/icon_time@2x.png" alt="" />
+								共{{ detailsList.classHour }}课时
+							</p>
+							<p>
+								<img src="../../assets/image/course/icon_study@2x.png" alt="" />
+								{{ detailsList.particiPants }}参与
+							</p>
 						</div>
 						<div class="card-lable">
 							<span v-for="opt in detailsList.labels">{{ opt.name }}</span>
-						</div>
-						<div class="card-time">
-							<p>
-								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								{{ detailsList.classHour }}
-							</p>
-							<p>
-								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								{{ detailsList.particiPants }}参与
-							</p>
 						</div>
 					</div>
 				</div>
@@ -55,10 +59,12 @@ export default {
 			isLoading: false,
 			title: '课程详情',
 			tabAction: 1,
-			detailsList: []
+			detailsList: [],
+			babyid:0
 		};
 	},
 	created() {
+		this.babyid = localStorage.getItem('courseBaby');
 		this.getDetails();
 	},
 	methods: {
@@ -66,11 +72,24 @@ export default {
 			this.tabAction = index;
 		},
 		addCourse() {
-			this.$router.push({ name: 'addCourse', query: { id: this.$route.query.id } });
+			// this.$router.push({ name: 'addCourse', query: { id: this.$route.query.id } });
+			this.$toast.loading({
+				message: '报名中...',
+				forbidClick: true
+			});
+			this.$axios
+				.courseApply(this.$route.query.id,this.babyid)
+				.then(res => {
+					if (res.data.code == 1) {
+						this.$toast('报名成功');
+						this.$router.push({ name: 'apply', query: { id: 1 } });
+					}
+				})
+				.catch(err => {});
 		},
 		getDetails() {
 			this.$axios
-				.getCourseDetails(this.$route.query.id)
+				.getCourseDetails(this.$route.query.id,this.babyid)
 				.then(res => {
 					if (res.data.code == 1) {
 						this.detailsList = res.data.data;
@@ -93,7 +112,7 @@ export default {
 						forbidClick: true
 					});
 					this.$axios
-						.getCourseDel(this.$route.query.id)
+						.getCourseDel(this.$route.query.id,this.babyid)
 						.then(res => {
 							if (res.data.code == 1) {
 								this.$toast.success('删除成功');

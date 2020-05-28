@@ -2,7 +2,8 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<!-- <div><p @click="loca()">刷新测试服</p></div> -->
+			<div><p @click="loca()">进入课包</p></div>
+			<div @click="xmlay()">喜马拉雅</div>
 			<div class="member-user">
 				<!-- <div class="member-user-img"><img src="../../assets/image/logo@3x.png" alt="" /></div> -->
 				<div class="member-user-name">
@@ -255,6 +256,22 @@ export default {
 				})
 				.catch(err => {});
 		},
+		xmlay() {
+			try {
+				let data = {
+					albumId: 21051,
+					title: '喜马拉雅专辑'
+				};
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.redirectXmlyMiniProgram.postMessage(data);
+				} else {
+					window.android.playCourse('redirectXmlyMiniProgram', JSON.stringify(data));
+				}
+			} catch (e) {
+				this.$toast('请更新新版火火兔APP');
+				//TODO handle the exception
+			}
+		},
 		memberBtn() {
 			try {
 				let data = {
@@ -294,7 +311,7 @@ export default {
 				});
 		},
 		activityRouter(url) {
-			console.log(this.memberInfoVip )
+			console.log(this.memberInfoVip);
 			if (this.memberInfoVip == 0) {
 				this.$toast('请先开通会员');
 				return;
@@ -310,7 +327,8 @@ export default {
 			}
 		},
 		loca() {
-			location.reload();
+			// location.reload();
+			window.location.href = './course.html';
 		},
 		cardPayBtn() {
 			console.log('调用支付===========', this.babyInfo);

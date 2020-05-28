@@ -1,6 +1,6 @@
 <template>
 	<div class="app">
-		<div class="list">
+		<div class="list" v-if="courseData.length != 0">
 			<ul>
 				<li v-if="isEdu">
 					<div class="list-name">
@@ -13,9 +13,9 @@
 							分钟
 						</p>
 					</div>
-					<div class="list-btn" @click=""><span>上课</span></div>
+					<div class="list-btn" @click="schooltime('', 1)"><span>上课</span></div>
 				</li>
-				<li v-for="(item, index) in courseData" :key="item.id">
+				<li v-for="(item, index) in dataFilter" :key="item.id">
 					<div class="list-name">
 						<p>
 							{{ item.name }}
@@ -29,10 +29,11 @@
 							分钟
 						</p>
 					</div>
-					<div class="list-btn" @click="schooltime(item)"><span>上课</span></div>
+					<div class="list-btn" @click="schooltime(item, 0)"><span>上课</span></div>
 				</li>
 			</ul>
 		</div>
+		<div class="empty" v-else><van-empty class="custom-image" :image="emptyImg" description="你今天没有课程安排哦～" /></div>
 	</div>
 </template>
 
@@ -40,53 +41,192 @@
 import { mapState } from 'vuex';
 export default {
 	props: {
-		courseData: ''
+		courseData: '',
+		isShow: false
 	},
 	data() {
-		return {};
+		return {
+			emptyImg: require('../assets/image/course/qsy@2x.png'),
+			babyid: 0
+		};
 	},
 	computed: {
-		...mapState(['isEdu','system'])
+		...mapState(['isEdu', 'system']),
+		dataFilter: function() {
+			return this.courseData.filter((item, index) => {
+				if (this.isShow) {
+					return index < 3;
+				} else {
+					return item;
+				}
+			});
+		}
+	},
+	created() {
+		this.babyid = localStorage.getItem('courseBaby');
 	},
 	methods: {
-		schooltime(item) {
-			console.log("上课")
-			this.$axios
-				.getCourseData(item.courseGroupId,item.id)
-				.then(res => {
-					if (res.data.code == 1) {
+		schooltime(item, type) {
+			if (type == 0) {
+				this.$axios
+					.getCourseData(item.courseGroupId, item.id, this.babyid)
+					.then(res => {
+						if (res.data.code == 1) {
+							let array = {
+								title: '智慧早教第0天',
+								coursePackId: item.courseGroupId,
+								courseId: item.id,
+								babyId: this.babyid,
+								course: []
+							};
+							let audioData = res.data.data.audios;
+							audioData.forEach(function(data, index) {
+								let obj = {
+									url: data.url,
+									id: data.id,
+									name: data.name
+								};
+								array.course.push(obj);
+							});
+							console.log('array', array);
+							try {
+								this.$toast('获取早教课程成功');
+								if (this.system == 'ios') {
+									window.webkit.messageHandlers.course_play.postMessage(array);
+								} else if (this.system == 'android') {
+									window.android.playCourse('course_play', JSON.stringify(array));
+								}
+							} catch (e) {
+								this.$toast('获取早教课程失败');
+								//TODO handle the exception
+							}
+						}
+					})
+					.catch(err => {});
+			} else if (type == 1) {
+				var dd = new Date();
+				var y = dd.getFullYear();
+				var m = dd.getMonth() + 1; //获取当前月份的日期
+				var d = dd.getDate();
+				let currentTime = y + '-' + m + '-' + d;
+				this.$axios
+					.getDayCourse(currentTime)
+					.then(res => {
+						console.log('点击====');
 						let array = {
-							title: '智慧早教第0天',
-							coursePackId: item.courseGroupId,
+							title: '智慧早教第' + this.applyTime + '天',
+							coursePackId: 0,
 							courseId: localStorage.getItem('cid'),
 							babyId: localStorage.getItem('babyId'),
 							course: []
 						};
-						let item =res.data.data.audios;
-						item.forEach(function(data, index) {
-							let obj = {
-								url: data.url,
-								id: data.id,
-								name: data.name
-							};
-							array.course.push(obj);
-						});
-						console.log('array', array);
-						try {
-							this.$toast('获取早教课程成功');
-							if (this.system == 'ios') {
-								window.webkit.messageHandlers.course_play.postMessage(array);
-							} else if (this.system == 'android') {
-								window.android.playCourse('course_play', JSON.stringify(array));
+						// let array = [];
+						if (res.data.code == 1) {
+							let item = res.data.data;
+							item.forEach(function(data, index) {
+								let obj = {
+									url: data.url,
+									id: data.id,
+									name: data.name
+								};
+								array.course.push(obj);
+								// array.push(obj);
+							});
+							console.log('array', array);
+							try {
+								this.$toast('获取早教课程成功');
+								if (this.system == 'ios') {
+									window.webkit.messageHandlers.course_play.postMessage(array);
+								} else if (this.system == 'android') {
+									window.android.playCourse('course_play', JSON.stringify(array));
+								}
+							} catch (e) {
+								this.$toast('获取早教课程失败');
+								//TODO handle the exception
 							}
-						} catch (e) {
-							this.$toast('获取早教课程失败');
-							//TODO handle the exception
+						} else {
+							this.$toast('暂无今日早教课程');
 						}
-					}
-				})
-				.catch(err => {});
-		},
+					})
+					.catch(err => {});
+			}
+		}
+		// schooltime(item, type) {
+		// 	if (type == 0) {
+		// 		this.$axios
+		// 			.getCourseData(item.courseGroupId, item.id)
+		// 			.then(res => {
+		// 				if (res.data.code == 1) {
+		// 					let array = {
+		// 						title: '智慧早教第0天',
+		// 						coursePackId: item.courseGroupId,
+		// 						courseId: item.id,
+		// 						babyId: localStorage.getItem('babyId') || 0,
+		// 						course: []
+		// 					};
+		// 					let audioData = res.data.data.audios;
+		// 					audioData.forEach(function(data, index) {
+		// 						let obj = {
+		// 							url: data.url,
+		// 							id: data.id,
+		// 							name: data.name
+		// 						};
+		// 						array.course.push(obj);
+		// 					});
+		// 					try {
+		// 						this.$toast('获取早教课程成功');
+		// 						if (this.system == 'ios') {
+		// 							window.webkit.messageHandlers.course_play.postMessage(array);
+		// 						} else if (this.system == 'android') {
+		// 							window.android.playCourse('course_play', JSON.stringify(array));
+		// 						}
+		// 					} catch (e) {
+		// 						this.$toast('获取早教课程失败');
+		// 						//TODO handle the exception
+		// 					}
+		// 				}
+		// 			})
+		// 			.catch(err => {});
+		// 	} else if (type == 1) {
+		// 		this.$axios
+		// 			.getDayCourse(this.currentTime)
+		// 			.then(res => {
+		// 				console.log('点击====');
+		// 				let array = {
+		// 					title: '智慧早教第' + this.applyTime + '天',
+		// 					coursePackId: 0,
+		// 					courseId: localStorage.getItem('cid'),
+		// 					babyId: localStorage.getItem('babyId'),
+		// 					course: []
+		// 				};
+		// 				if (res.data.code == 1) {
+		// 					let audioData = res.data.data;
+		// 					audioData.forEach(function(data, index) {
+		// 						let obj = {
+		// 							url: data.url,
+		// 							id: data.id,
+		// 							name: data.name
+		// 						};
+		// 						array.course.push(obj);
+		// 					});
+		// 					try {
+		// 						this.$toast('获取早教课程成功');
+		// 						if (this.system == 'ios') {
+		// 							window.webkit.messageHandlers.course_play.postMessage(array);
+		// 						} else if (this.system == 'android') {
+		// 							window.android.playCourse('course_play', JSON.stringify(array));
+		// 						}
+		// 					} catch (e) {
+		// 						this.$toast('获取早教课程失败');
+		// 						//TODO handle the exception
+		// 					}
+		// 				} else {
+		// 					this.$toast('暂无今日早教课程');
+		// 				}
+		// 			})
+		// 			.catch(err => {});
+		// 	}
+		// }
 	},
 	components: {}
 };
@@ -99,7 +239,7 @@ export default {
 	border-radius: 8px;
 	padding: 10px 0;
 	ul {
-		width: 325px;
+		width: 345px;
 		margin: 0 auto;
 		li {
 			padding: 10px 0;
