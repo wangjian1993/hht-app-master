@@ -74,7 +74,6 @@ export default {
 	},
 	methods: {
 		getCourseDeta(id) {
-			console.log('id-----', id);
 			this.$axios
 				.getCourseDeta(id, this.babyid)
 				.then(res => {

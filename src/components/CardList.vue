@@ -10,7 +10,7 @@
 					</div>
 				</li>
 				<li v-for="(item, index) in courseData" :key="item.id" @click="goLearning(item.id)">
-					<div class="item-img"><img :src="item.coverImage" v-on:error.once="moveErrorImg($event)" /></div>
+					<div class="item-img"><img :src="item.coverImage"/></div>
 					<div class="item-name">
 						<p>{{ item.name }}</p>
 						<p>共{{ item.classHourCount }}首</p>
@@ -25,7 +25,7 @@
 import { mapState } from 'vuex';
 export default {
 	props: {
-		audioData: '',
+		audioData:[],
 		isLearning: '',
 		status: 0
 	},

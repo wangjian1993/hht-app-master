@@ -426,7 +426,7 @@ export default {
 			url: aliloUrl + "course-group/my-courses",
 			method: "POST",
 			params: {
-				babyId: babyid
+				babyId: 40747
 			}
 		});
 	},

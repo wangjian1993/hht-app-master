@@ -151,82 +151,6 @@ export default {
 					.catch(err => {});
 			}
 		}
-		// schooltime(item, type) {
-		// 	if (type == 0) {
-		// 		this.$axios
-		// 			.getCourseData(item.courseGroupId, item.id)
-		// 			.then(res => {
-		// 				if (res.data.code == 1) {
-		// 					let array = {
-		// 						title: '智慧早教第0天',
-		// 						coursePackId: item.courseGroupId,
-		// 						courseId: item.id,
-		// 						babyId: localStorage.getItem('babyId') || 0,
-		// 						course: []
-		// 					};
-		// 					let audioData = res.data.data.audios;
-		// 					audioData.forEach(function(data, index) {
-		// 						let obj = {
-		// 							url: data.url,
-		// 							id: data.id,
-		// 							name: data.name
-		// 						};
-		// 						array.course.push(obj);
-		// 					});
-		// 					try {
-		// 						this.$toast('获取早教课程成功');
-		// 						if (this.system == 'ios') {
-		// 							window.webkit.messageHandlers.course_play.postMessage(array);
-		// 						} else if (this.system == 'android') {
-		// 							window.android.playCourse('course_play', JSON.stringify(array));
-		// 						}
-		// 					} catch (e) {
-		// 						this.$toast('获取早教课程失败');
-		// 						//TODO handle the exception
-		// 					}
-		// 				}
-		// 			})
-		// 			.catch(err => {});
-		// 	} else if (type == 1) {
-		// 		this.$axios
-		// 			.getDayCourse(this.currentTime)
-		// 			.then(res => {
-		// 				console.log('点击====');
-		// 				let array = {
-		// 					title: '智慧早教第' + this.applyTime + '天',
-		// 					coursePackId: 0,
-		// 					courseId: localStorage.getItem('cid'),
-		// 					babyId: localStorage.getItem('babyId'),
-		// 					course: []
-		// 				};
-		// 				if (res.data.code == 1) {
-		// 					let audioData = res.data.data;
-		// 					audioData.forEach(function(data, index) {
-		// 						let obj = {
-		// 							url: data.url,
-		// 							id: data.id,
-		// 							name: data.name
-		// 						};
-		// 						array.course.push(obj);
-		// 					});
-		// 					try {
-		// 						this.$toast('获取早教课程成功');
-		// 						if (this.system == 'ios') {
-		// 							window.webkit.messageHandlers.course_play.postMessage(array);
-		// 						} else if (this.system == 'android') {
-		// 							window.android.playCourse('course_play', JSON.stringify(array));
-		// 						}
-		// 					} catch (e) {
-		// 						this.$toast('获取早教课程失败');
-		// 						//TODO handle the exception
-		// 					}
-		// 				} else {
-		// 					this.$toast('暂无今日早教课程');
-		// 				}
-		// 			})
-		// 			.catch(err => {});
-		// 	}
-		// }
 	},
 	components: {}
 };
@@ -235,8 +159,6 @@ export default {
 <style lang="less" scoped>
 .list {
 	width: 100%;
-	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
-	border-radius: 8px;
 	padding: 10px 0;
 	ul {
 		width: 345px;
@@ -266,6 +188,7 @@ export default {
 				margin-left: auto;
 				width: 67px;
 				height: 26px;
+				line-height: 26px;
 				border-radius: 13px;
 				border: solid 1px #ff985b;
 				font-size: 15px;

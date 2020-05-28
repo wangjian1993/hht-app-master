@@ -110,7 +110,6 @@ export default {
 	setCourseDetails({
 		commit
 	}, data) {
-		console.log(data)
 		commit(types.SET_COURSEDETAILS, data);
 	},
 	/*

@@ -34,8 +34,10 @@
 							<van-icon name="arrow" />
 						</span>
 					</div>
-					<div class="course-list"><v-course-list :isShow="isShow" :courseData="userList" :eduData="educationData"></v-course-list></div>
-					<div class="more-img" v-if="userList.length != 0"><img src="../../assets/image/course/icon_device_spreadoutblue@2x.png" alt=""></div>
+					<div class="course-list">
+						<v-course-list :isShow="isShow" :courseData="userList" :eduData="educationData"></v-course-list>
+						<div class="more-img" v-if="userList.length != 0"><img src="../../assets/image/course/icon_device_spreadoutblue@2x.png" alt="" /></div>
+					</div>
 				</div>
 				<div class="course-user-all mbot">
 					<div class="course-day-title"><p>我的全部课程</p></div>
@@ -49,7 +51,7 @@
 							<span v-if="courseUserTab == 2"></span>
 						</p>
 					</div>
-					<div class="course-user-list" v-if="userList.length != 0"><v-card-list :status="status" :audioData="userList" :isLearning="learning"></v-card-list></div>
+					<div class="course-user-list" v-if="userList.length != 0"><v-card-list :audioData.sync="userList" :isLearning.sync="learning"></v-card-list></div>
 					<div class="course-user-null" v-else>
 						<p>没有正在学习课程噢，快去添加吧～</p>
 						<span @click="addCourse">添加课程</span>
@@ -104,7 +106,7 @@ export default {
 			this.courseTab = 1;
 		},
 		deviseText() {
-			console.log("111")
+			console.log('111');
 			this.isDeviseText = !this.isDeviseText;
 		},
 		getUserApply() {
@@ -136,12 +138,10 @@ export default {
 					if (res.data.code == 1) {
 						this.$store.dispatch('setUserCourse', res.data.data);
 						this.userList = res.data.data;
+						this.isLoading = true;
 					}
 				})
 				.catch(err => {});
-			setTimeout(() => {
-				this.isLoading = true;
-			}, 500);
 		},
 		courstTab(index) {
 			this.isLoading = false;

@@ -5,7 +5,7 @@
 				<div class="list-content">
 					<p class="list-content-title" @click="EbbinghausClick">
 						艾宾浩斯曲线学习计划
-						<img src="../assets/image/course/icon_study@2x.png" alt="" />
+						<img src="../assets/image/course/icon_tips@2x.png" alt="" />
 					</p>
 					<div class="list-box">
 						<ul v-for="(titleItem, index) in tabData.classHours">
@@ -16,7 +16,14 @@
 							<li v-for="listItem in titleItem.audios">
 								<p class="item-name">{{ listItem.name }}</p>
 								<div class="item-time">
-									<p>{{ timeCycle(listItem.timeLength) }}</p>
+									<p>
+										<img src="../assets/image/course/icon_time@2x.png" alt="" />
+										{{ timeCycle(listItem.timeLength) }}
+									</p>
+									<p>
+										<img src="../assets/image/course/icon_listen备份@2x.png" alt="" />
+										{{ tranNumber(listItem.browseCount,1) }}
+									</p>
 								</div>
 							</li>
 						</ul>
@@ -54,6 +61,18 @@ export default {
 			var s = Math.floor(val % 60) >= 10 ? Math.floor(val % 60) : '0' + Math.floor(val % 60);
 			var format = Math.floor(val / 3600) != 0 ? h + ':' + m + ':' + s : m + ':' + s;
 			return format;
+		},
+		tranNumber(num, point) {
+			let numStr = num.toString();
+			if (numStr.length > 8) {
+				let decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point);
+				return parseFloat(parseInt(num / 100000000) + '.' + decimal) + '亿';
+			}
+			//大于6位数是十万 (以10W分割 10W以下全部显示)
+			else if (numStr.length > 0) {
+				let decimal = numStr.substring(numStr.length - 4, numStr.length - 4 + point);
+				return parseFloat(parseInt(num / 10000) + '.' + decimal) + '万';
+			}
 		},
 		EbbinghausClick() {
 			this.$dialog
@@ -120,9 +139,18 @@ export default {
 				}
 				.item-time {
 					display: flex;
+					align-items: center;
 					p {
 						font-size: 12px;
 						color: rgba(0, 0, 0, 0.4);
+						&:nth-of-type(2) {
+							padding-left: 16px;
+						}
+						img {
+							width: 14px;
+							height: 14px;
+							margin-top: -3px;
+						}
 					}
 				}
 			}
