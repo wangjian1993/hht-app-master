@@ -2,27 +2,30 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><p @click="loca()">进入课包</p></div>
+			<div><p @click="loca()">刷新</p></div>
 			<div @click="xmlay()">喜马拉雅</div>
 			<div class="member-user">
-				<!-- <div class="member-user-img"><img src="../../assets/image/logo@3x.png" alt="" /></div> -->
-				<div class="member-user-name">
-					<p>
-						<span>{{ setPhone(userInfo.phone) }}</span>
-						<img v-if="memberInfoVip == 1" class="member-icon" src="../../assets/image/vip_ykt_label@3x.png" alt="" />
-						<img v-else class="member-icon" src="../../assets/image/vip_wkt_label@3x.png" alt="" />
-					</p>
-					<p>{{ memberInfoVip == 1 ? '会员有效期至:' + memberInfoTime : '您还不是会员，快去开通火火兔会员吧~' }}</p>
+				<div class="member-user-bg">
+					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
+					<div class="member-user-name">
+						<p>
+							<span>{{ setPhone(userInfo.phone) }}</span>
+						</p>
+						<!-- 	<p>{{ memberInfoVip == 1 ? '会员有效期至:' + memberInfoTime : '您还不是会员，快去开通火火兔会员吧~' }}</p> -->
+					</div>
+					<div class="member-icon">
+						<span>
+							<img src="../../assets/image/my_vip_icon@3x.png" v-if="memberInfoVip == 1" alt="" />
+							<img src="../../assets/image/my_vip_blkicon@3x.png" v-else alt="" />
+						</span>
+						<p>{{ memberInfoVip == 1 ? '尊享会员' : '未开通会员' }}</p>
+					</div>
 				</div>
 			</div>
-			<div class="borderBottm"></div>
-			<div class="member-pay" v-if="memberInfoVip == 0">
+			<div class="member-pay" v-if="memberInfoVip == 1">
 				<div class="member-header">
-					<p>VIP会员权益包</p>
-					<p @click="setRouter('membership', true)">
-						兑换会员
-						<van-icon name="arrow" />
-					</p>
+					<p style="color: #fff;">VIP会员权益包</p>
+					<p @click="setRouter('membership', true)">使用兑换码</p>
 				</div>
 				<div class="card-list">
 					<div
@@ -41,14 +44,18 @@
 					</div>
 				</div>
 				<div class="member-pay-btn">
-					<div class="member-pay-btn-text" @click="cardPayBtn" v-if="buyOnePic == 360">
+					<!-- <div class="member-pay-btn-text" @click="cardPayBtn" v-if="buyOnePic == 360">
 						<p>360元立即开通年卡会员</p>
 						<p>赠送价值¥299火火兔G9S故事机</p>
+					</div> -->
+					<div class="member-pay-btn-text" @click="memberBtn">
+						<p>
+							立即开通
+							<span>赠送早教机</span>
+						</p>
 					</div>
-					<div class="member-pay-btn-text" @click="memberBtn" v-else><p>立即开通</p></div>
 				</div>
 			</div>
-			<div class="borderBottm" v-if="memberInfoVip == 0"></div>
 			<div class="member-introduce">
 				<div class="member-header">
 					<p>VIP权益介绍</p>
@@ -64,7 +71,39 @@
 					</div>
 				</div>
 			</div>
-			<div class="borderBottm"></div>
+			<div class="member-exclusive">
+				<div class="member-header">
+					<p>会员省钱</p>
+					<!-- <p @click="setRouter('more', true)">
+						查看全部
+						<van-icon name="arrow" />
+					</p> -->
+				</div>
+				<div class="member-goods-list">
+					<div class="member-goods-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url)" v-if="index < 3">
+						<div class="list-item-img">
+							<img :src="item.img" alt="" />
+							<!-- <p class="list-item-img-sum">
+								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
+								共{{ item.childResCount }}首
+							</p> -->
+						</div>
+						<div class="member-exclusive-pic">
+							<p class="goods-name van-ellipsis">{{ item.name }}</p>
+							<div class="goods-pic">
+								<p>
+									¥
+									<span>{{ item.subheading }}</span>
+								</p>
+								<p>
+									¥
+									<span>{{ item.subheading }}</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="member-exclusive">
 				<div class="member-header">
 					<p>VIP专享内容</p>
@@ -82,15 +121,16 @@
 								共{{ item.childResCount }}首
 							</p> -->
 						</div>
-						<p class="van-multi-ellipsis">{{ item.name }}</p>
-						<p>
-							<span>原价¥{{ item.subheading }}</span>
-							会员畅听
-						</p>
+						<div class="member-exclusive-pic">
+							<p class="van-multi-ellipsis" :style="{ color: item.color }">{{ item.name }}</p>
+							<p>
+								<span :style="{ color: item.color }">原价¥{{ item.subheading }}</span>
+							</p>
+							<p :style="{ background: item.color }">会员畅听</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="borderBottm"></div>
 			<div class="member-exclusive">
 				<div class="member-header"><p>VIP专享课程</p></div>
 				<div class="member-early" @click="setRouter('education', true)"><img src="../../assets/image/2.png" alt="" /></div>
@@ -99,7 +139,6 @@
 					<p>根据宝宝成长关键期，每日更新课程内容</p>
 				</div>
 			</div>
-			<div class="borderBottm"></div>
 			<div class="member-introduce" v-if="activeActivityList.length != 0">
 				<div class="member-header">
 					<p>VIP会员活动</p>
@@ -115,17 +154,19 @@
 					</div>
 				</div>
 			</div>
-			<div class="borderBottm" v-if="activeActivityList.length != 0"></div>
 			<div class="member-introduce">
 				<div class="member-header"><p>VIP专属客服</p></div>
 				<div class="member-service-list">
 					<div class="member-service-list-item" @click="serviceBox()">
 						<img src="../../assets/image/boy_customer@3x.png" alt="" />
-						<p>火火兔客服</p>
+						<p>
+							<span>火火兔客服</span>
+							<span>工作日 8:30—18:00在线</span>
+						</p>
+						<p>咨询</p>
 					</div>
 				</div>
 			</div>
-			<div class="borderBottm"></div>
 			<div class="member-introduce member-help-content" v-if="activeHelp.length != 0">
 				<div class="member-header">
 					<p>VIP帮助中心</p>
@@ -180,26 +221,30 @@ export default {
 				{
 					name: '火火兔学古诗',
 					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=1y922shpp6n7k&qr=paidcolumn_1y922shpp6n7k',
-					img: require('../../assets/image/content1.jpg'),
-					subheading: '19.90'
+					img: require('../../assets/image/content1.png'),
+					subheading: '19.90',
+					color: '#2a7790'
 				},
 				{
 					name: '火火兔绘本动画馆',
 					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3emxmywq5qny8&qr=paidcolumn_3emxmywq5qny8',
-					img: require('../../assets/image/content2.jpg'),
-					subheading: '99.00'
+					img: require('../../assets/image/content2.png'),
+					subheading: '99.00',
+					color: '#ba8762'
 				},
 				{
 					name: '火火兔世界艺术启蒙',
 					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2xael59ackx3k&qr=paidcolumn_2xael59ackx3k',
-					img: require('../../assets/image/content3.jpg'),
-					subheading: '9.90'
+					img: require('../../assets/image/content3.png'),
+					subheading: '9.90',
+					color: '#66a277'
 				},
 				{
 					name: '火火兔幼儿思维课堂',
 					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3et2bnyh42zk0&qr=paidcolumn_3et2bnyh42zk0',
-					img: require('../../assets/image/content4.jpg'),
-					subheading: '49.90'
+					img: require('../../assets/image/content4.png'),
+					subheading: '49.90',
+					color: '#ab614f'
 				}
 			],
 			userID: null
@@ -331,7 +376,8 @@ export default {
 			}
 		},
 		loca() {
-			this.$router.push({ name: 'course/index' });
+			location.reload();
+			// this.$router.push({ name: 'course/index' });
 		},
 		cardPayBtn() {
 			console.log('调用支付===========', this.babyInfo);

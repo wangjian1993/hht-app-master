@@ -54,13 +54,26 @@ export default {
 		eduData: false
 	},
 	data() {
-		return {};
+		return {
+			userId:null
+		};
+	},
+	created() {
+		this.userId =localStorage.getItem("courseBaby");
 	},
 	methods: {
 		detailsRouter(id) {
+			if(this.userId == null){
+				this.$toast('请登录火火兔APP');
+				return
+			}
 			this.$router.push({ name: 'course/details', query: { id: id } });
 		},
 		goEducation() {
+			if(this.userId == null){
+				this.$toast('请登录火火兔APP');
+				return
+			}
 			this.$router.push({ name: 'education' });
 		}
 	},
