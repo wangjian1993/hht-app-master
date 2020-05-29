@@ -53,7 +53,7 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				if(res.uid == undefined){
+				if (res.uid == undefined) {
 					console.log("没有用户信息")
 					return
 				}
@@ -71,26 +71,31 @@ export default {
 				localStorage.setItem("courseBaby", res.babyId)
 			}
 		} catch (e) {
-
+			console.log("请先登录app")
 		}
 
 	},
 	setBabyInfoADAction({
 		commit
 	}, data) {
-		let user = window.android.getUserInfo();
-		let babyid = window.android.getCurrentBaby();
-		let babyData = JSON.parse(babyid);
-		localStorage.setItem("courseBaby", babyData.id)
-		let userData = JSON.parse(user);
-		localStorage.setItem("user", userData.id)
-		commit(types.SET_USERINFO, JSON.parse(user));
-		$axios
-			.getBabyList(userData.id)
-			.then(res => {
-				commit(types.SET_BABYINFO, res.data.data);
-			})
-			.catch(err => {});
+		try {
+			let user = window.android.getUserInfo();
+			let babyid = window.android.getCurrentBaby();
+			let babyData = JSON.parse(babyid);
+			localStorage.setItem("courseBaby", babyData.id)
+			let userData = JSON.parse(user);
+			localStorage.setItem("user", userData.id)
+			commit(types.SET_USERINFO, JSON.parse(user));
+			$axios
+				.getBabyList(userData.id)
+				.then(res => {
+					commit(types.SET_BABYINFO, res.data.data);
+				})
+				.catch(err => {});
+		} catch (e) {
+			console.log("请先登录app")
+			//TODO handle the exception
+		}
 	},
 	/*
 	 *设置宝宝信息

@@ -9,7 +9,7 @@
 				<p>请在我的课程中查看上课信息，一起努力哦～</p>
 			</div>
 			<div class="apply-wacht">
-				<div class="wacht-img"><img src="../../assets/image/content1.jpg" alt="" /></div>
+				<div class="wacht-img"><img src="../../assets/image/content1.png" alt="" /></div>
 				<div class="wacht-text">
 					<p>用微信扫码加入专业交流群， 在线宝爸宝妈互吐心声一起 养娃～</p>
 					<span>加入微信群</span>
