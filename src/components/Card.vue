@@ -63,10 +63,10 @@ export default {
 	},
 	methods: {
 		detailsRouter(id) {
-			if(this.userId == null){
-				this.$toast('请登录火火兔APP');
-				return
-			}
+			// if(this.userId == null){
+			// 	this.$toast('请登录火火兔APP');
+			// 	return
+			// }
 			this.$router.push({ name: 'course/details', query: { id: id } });
 		},
 		goEducation() {

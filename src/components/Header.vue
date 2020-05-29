@@ -1,5 +1,5 @@
 <template>
-	<div class="app"><van-nav-bar :title="title" left-arrow @click-left="onClickLeft" /></div>
+	<div class="app"><van-nav-bar class="iphonex-pt app-header" :title="title" left-arrow @click-left="onClickLeft" /></div>
 </template>
 
 <script>
@@ -23,4 +23,10 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.app-header{
+	width: 100%;
+	position: fixed;
+	top: 0;
+}
+</style>
