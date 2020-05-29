@@ -28,5 +28,11 @@ export default {
 	width: 100%;
 	position: fixed;
 	top: 0;
+	left: 0;
+	/* 因为header导航栏是基于屏幕进行定位，所以要做单独的padding挤压处理 */
+	padding-right: constant(safe-area-inset-right);
+	padding-left: constant(safe-area-inset-left);
+	padding-right: env(safe-area-inset-right);
+	padding-left: env(safe-area-inset-left);
 }
 </style>

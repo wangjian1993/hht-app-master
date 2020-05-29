@@ -88,6 +88,7 @@ export default {
 	},
 	created() {
 		this.babyid = localStorage.getItem('courseBaby');
+		console.log(this.babyid);
 		this.getUserApply();
 	},
 	activated() {
@@ -132,13 +133,11 @@ export default {
 					if (res.data.code == 1) {
 						this.lsit = res.data.data;
 						this.isLoading = true;
+					} else {
+						this.$toast(res.data.info);
 					}
 				})
 				.catch(err => {});
-			if (this.babyid != undefined) {
-				this.isLoading = true;
-				return;
-			}
 			this.$axios
 				.getUserCourse(this.babyid)
 				.then(res => {
@@ -147,7 +146,7 @@ export default {
 						this.userList = res.data.data;
 						this.isLoading = true;
 					} else {
-						this.isLoading = false;
+						this.$toast(res.data.info);
 					}
 				})
 				.catch(err => {});

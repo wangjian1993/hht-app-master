@@ -1,5 +1,6 @@
 import * as types from "./mutation-type.js";
 import $axios from '../api/index.js';
+import router from '../router/index';
 export default {
 	/*
 	 * 获取用户信息
@@ -53,8 +54,11 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				if (res.uid == undefined) {
-					console.log("没有用户信息")
+				console.log("没有用户信息=====", res)
+				if (res.uid == "") {
+					router.push({
+						name: 'error'
+					})
 					return
 				}
 				localStorage.setItem("user", res.uid)

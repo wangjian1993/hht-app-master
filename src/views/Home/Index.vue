@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><p @click="loca()">刷新</p></div>
+			<div><button @click="loca()">刷新</button></div>
 			<div @click="xmlay()">喜马拉雅</div>
 			<div class="member-user">
 				<div class="member-user-bg">
@@ -65,7 +65,7 @@
 					</p> -->
 				</div>
 				<div class="member-introduce-list">
-					<div class="member-introduce-list-box" v-for="(item, index) in equityList" v-if="index < 5" :key="index">
+					<div class="member-introduce-list-box" v-for="(item, index) in equityList" v-if="index < 6" :key="index">
 						<img :src="item.pics" alt="" />
 						<p>{{ item.name }}</p>
 					</div>
@@ -303,15 +303,18 @@ export default {
 		 *跳转喜马拉雅小程序
 		 */
 		xmlay() {
+			let userid = localStorage.getItem('user');
+			let name = '喜马拉雅';
+			let id = 210022;
 			try {
 				let data = {
-					albumId: 21051,
-					title: '喜马拉雅专辑'
+					mini_program_id: 'gh_c7ae9c51172b',
+					path: '/src/xxmPages/album/index?type=23&supplier=xxm&source=alilo&appkey=5a038226a57546a3b8beee9ec12c6ce6&id=' + id + '&title=' + name + '&huid=' + userid
 				};
 				if (this.system == 'ios') {
-					window.webkit.messageHandlers.redirectXmlyMiniProgram.postMessage(data);
+					window.webkit.messageHandlers.redirectMiniProgram.postMessage(data);
 				} else {
-					window.android.playCourse('redirectXmlyMiniProgram', JSON.stringify(data));
+					window.android.playCourse('redirectMiniProgram', JSON.stringify(data));
 				}
 			} catch (e) {
 				this.$toast('请更新新版火火兔APP');
