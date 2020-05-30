@@ -458,7 +458,7 @@ export default {
 							//TODO handle the exception
 						}
 					} else {
-						this.$toast('暂无今日早教课程');
+						this.$toast('今天放假一天(*^▽^*)');
 					}
 				})
 				.catch(err => {});
