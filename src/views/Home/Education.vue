@@ -396,16 +396,16 @@ export default {
 		computedTime(time) {
 			//传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
 			let t = time.split(' ');
-			console.log("t===",t)
+			console.log('t===', t);
 			let oldTimeFormat = new Date(t[0]);
 			let nowDate = new Date();
-			console.log("oldTimeFormat",oldTimeFormat)
-			console.log("nowDate",nowDate)
+			console.log('oldTimeFormat', oldTimeFormat);
+			console.log('nowDate', nowDate);
 			if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
-				console.log("111111111")
+				console.log('111111111');
 				let times = nowDate.getTime() - oldTimeFormat.getTime();
 				let days = parseInt(times / (60 * 60 * 24 * 1000));
-				console.log("days",days)
+				console.log('days', days);
 				return days + 1;
 			}
 		},
@@ -434,7 +434,7 @@ export default {
 						course: []
 					};
 					// let array = [];
-					if (res.data.code == 1) {
+					if (res.data.code == 1 && res.data.data.length != 0) {
 						let item = res.data.data;
 						item.forEach(function(data, index) {
 							let obj = {
@@ -458,7 +458,7 @@ export default {
 							//TODO handle the exception
 						}
 					} else {
-						this.$toast('暂无今日早教课程');
+						this.$toast('今天放假一天(*^▽^*)');
 					}
 				})
 				.catch(err => {});
