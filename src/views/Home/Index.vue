@@ -107,6 +107,10 @@
 						<van-icon name="arrow" />
 					</p>
 				</div>
+				<div class="english-activity" @click="activityRouter('https://m.ximalaya.com/ort/router/presale/extraConsume/110?sharerId=147770569')">
+					<img src="../../assets/image/111110000.jpg" alt="" />
+					<p>牛津树英语启蒙课程</p>
+				</div>
 				<div class="member-activity-list">
 					<div class="member-activity-list-item" v-for="(item, index) in activeActivityList" @click="activityRouter(item.links)">
 						<img :src="item.coverImage" alt="" />
@@ -293,8 +297,14 @@ export default {
 					);
 				});
 		},
+		englishActivity() {
+			if (this.memberInfoVip == 0) {
+				this.$toast('请先开通会员');
+				return;
+			}
+			location.href = url;
+		},
 		activityRouter(url) {
-			console.log(this.memberInfoVip )
 			if (this.memberInfoVip == 0) {
 				this.$toast('请先开通会员');
 				return;
