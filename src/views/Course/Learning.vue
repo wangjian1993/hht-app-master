@@ -3,7 +3,7 @@
 		<v-header :title="courseData.name"></v-header>
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div class="learning-top">
+			<div class="learning-top mbot ptop">
 				<p>{{ courseData.name }}</p>
 				<p>
 					共
@@ -38,11 +38,11 @@
 							<div class="item-time">
 								<p>
 									<img src="../../assets/image/course/icon_time@2x.png" alt="" />
-									{{ timeCycle(listItem.timeLength) }}
+									{{ time(listItem.timeLength) }}
 								</p>
 								<p>
 									<img src="../../assets/image/course/icon_listen备份@2x.png" alt="" />
-									{{ tranNumber(listItem.browseCount, 1) }}
+									{{ browse(listItem.browseCount, 1) }}
 								</p>
 							</div>
 						</li>
@@ -55,7 +55,7 @@
 <script>
 import Header from '@/components/Header.vue';
 import Title from '@/components/Title.vue';
-import tiem from '../../common/date.js';
+import { tranNumber, timeCycle } from '../../common/util.js';
 import { mapState } from 'vuex';
 export default {
 	data() {
@@ -84,24 +84,11 @@ export default {
 				})
 				.catch(err => {});
 		},
-		tranNumber(num, point) {
-			let numStr = num.toString();
-			if (numStr.length > 8) {
-				let decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point);
-				return parseFloat(parseInt(num / 100000000) + '.' + decimal) + '亿';
-			}
-			//大于6位数是十万 (以10W分割 10W以下全部显示)
-			else if (numStr.length > 0) {
-				let decimal = numStr.substring(numStr.length - 4, numStr.length - 4 + point);
-				return parseFloat(parseInt(num / 10000) + '.' + decimal) + '万';
-			}
+		browse(num, point) {
+			return tranNumber(num, point);
 		},
-		timeCycle(val) {
-			var h = Math.floor(val / 3600);
-			var m = Math.floor((val / 60) % 60) >= 10 ? Math.floor((val / 60) % 60) : '0' + Math.floor((val / 60) % 60);
-			var s = Math.floor(val % 60) >= 10 ? Math.floor(val % 60) : '0' + Math.floor(val % 60);
-			var format = Math.floor(val / 3600) != 0 ? h + ':' + m + ':' + s : m + ':' + s;
-			return format;
+		time(val) {
+			return timeCycle(val);
 		}
 	},
 	components: {

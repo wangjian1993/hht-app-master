@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div class="course-header">
+			<div class="course-header iphonex-bd-top">
 				<div class="course-box-tab">
 					<div class="course-tab-item">
 						<div @click="courstTab(1)">
@@ -16,7 +16,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="course-content">
+			<div class="course-content mbot">
 				<div class="course-card mbot" v-if="courseTab == 1">
 					<!-- <div class="course-box-top"></div> -->
 					<div @click="load()">刷新</div>
@@ -104,6 +104,9 @@ export default {
 		},
 		onClickRight() {
 			// Toast('按钮');
+		},
+		router(){
+			location.href="./course.html"
 		},
 		addCourse() {
 			this.courseTab = 1;

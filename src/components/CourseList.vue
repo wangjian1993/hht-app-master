@@ -39,6 +39,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { getDayTime } from '../common/util.js';
 export default {
 	props: {
 		courseData: '',
@@ -80,35 +81,12 @@ export default {
 								course: []
 							};
 							let audioData = res.data.data.audios;
-							audioData.forEach(function(data, index) {
-								let obj = {
-									url: data.url,
-									id: data.id,
-									name: data.name
-								};
-								array.course.push(obj);
-							});
-							console.log('array', array);
-							try {
-								this.$toast('获取早教课程成功');
-								if (this.system == 'ios') {
-									window.webkit.messageHandlers.course_play.postMessage(array);
-								} else if (this.system == 'android') {
-									window.android.playCourse('course_play', JSON.stringify(array));
-								}
-							} catch (e) {
-								this.$toast('获取早教课程失败');
-								//TODO handle the exception
-							}
+							this.setAudioData(audioData, array);
 						}
 					})
 					.catch(err => {});
 			} else if (type == 1) {
-				var dd = new Date();
-				var y = dd.getFullYear();
-				var m = dd.getMonth() + 1; //获取当前月份的日期
-				var d = dd.getDate();
-				let currentTime = y + '-' + m + '-' + d;
+				let currentTime = getDayTime();
 				this.$axios
 					.getDayCourse(currentTime)
 					.then(res => {
@@ -122,33 +100,35 @@ export default {
 						};
 						// let array = [];
 						if (res.data.code == 1) {
-							let item = res.data.data;
-							item.forEach(function(data, index) {
-								let obj = {
-									url: data.url,
-									id: data.id,
-									name: data.name
-								};
-								array.course.push(obj);
-								// array.push(obj);
-							});
-							console.log('array', array);
-							try {
-								this.$toast('获取早教课程成功');
-								if (this.system == 'ios') {
-									window.webkit.messageHandlers.course_play.postMessage(array);
-								} else if (this.system == 'android') {
-									window.android.playCourse('course_play', JSON.stringify(array));
-								}
-							} catch (e) {
-								this.$toast('获取早教课程失败');
-								//TODO handle the exception
-							}
+							let audioData = res.data.data;
+							this.setAudioData(audioData, array);
 						} else {
 							this.$toast('暂无今日早教课程');
 						}
 					})
 					.catch(err => {});
+			}
+		},
+		setAudioData(audioData, array) {
+			audioData.forEach(function(data, index) {
+				let obj = {
+					url: data.url,
+					id: data.id,
+					name: data.name
+				};
+				array.course.push(obj);
+			});
+			console.log(array);
+			try {
+				this.$toast('获取课程成功');
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.course_play.postMessage(array);
+				} else if (this.system == 'android') {
+					window.android.playCourse('course_play', JSON.stringify(array));
+				}
+			} catch (e) {
+				this.$toast('获取课程失败');
+				//TODO handle the exception
 			}
 		}
 	},

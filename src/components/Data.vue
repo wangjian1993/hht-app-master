@@ -56,12 +56,11 @@ export default {
 		};
 	},
 	created() {
-		this.year = this.today.getFullYear();
-		this.month = this.today.getMonth() + 1;
-		this.currentMouth = this.today.getMonth() + 1;
-		this.day = this.today.getDay();
-		this.date = this.today.getDate();
-		console.log('date===', this.date);
+		this.year = this.today.getFullYear();  //年
+		this.month = this.today.getMonth() + 1;   //月
+		this.currentMouth = this.today.getMonth() + 1;   //月
+		this.day = this.today.getDay(); 
+		this.date = this.today.getDate();  //日
 		this.getCalendar();
 		this.getBabyDay(this.month);
 	},

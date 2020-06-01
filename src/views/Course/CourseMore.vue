@@ -3,6 +3,7 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<div class="course-data">
+				<v-header-icon></v-header-icon>
 				<div class="header"></div>
 				<v-data></v-data>
 			</div>
@@ -18,6 +19,7 @@
 import { mapState } from 'vuex';
 import Data from '@/components/Data.vue';
 import CourseList from '@/components/CourseList.vue';
+import HeaderIcon from '@/components/HeaderIcon.vue';
 export default {
 	data() {
 		return {
@@ -35,7 +37,8 @@ export default {
 	},
 	components: {
 		'v-data': Data,
-		'v-course-list': CourseList
+		'v-course-list': CourseList,
+		'v-header-icon':HeaderIcon
 	}
 };
 </script>

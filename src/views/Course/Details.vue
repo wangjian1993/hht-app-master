@@ -1,8 +1,9 @@
 <template>
 	<div class="app">
 		<v-header :title="detailsList.name"></v-header>
+		<!-- <div class="header iphonex-bd-top"><p>{{detailsList.name}}</p></div> -->
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
-		<div class="content mbot" v-show="isLoading">
+		<div class="content mbot iphonex-bd-top-bg" v-show="isLoading">
 			<div class="course-box-top"><img :src="detailsList.coverImage" alt="" /></div>
 			<div class="course-card-details">
 				<div class="course-card">

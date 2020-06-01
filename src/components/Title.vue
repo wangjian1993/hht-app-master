@@ -1,6 +1,9 @@
 <template>
 	<div class="title">
-		<p>{{ title }} <span>{{age}}</span></p>
+		<p>
+			{{ title }}
+			<span>{{ age }}</span>
+		</p>
 	</div>
 </template>
 
@@ -10,7 +13,7 @@ export default {
 		title: {
 			type: String
 		},
-		age:{
+		age: {
 			type: String
 		}
 	}
@@ -26,10 +29,11 @@ export default {
 	position: relative;
 	// box-shadow:-4px 0px 0 0 #ff6666;
 	// box-shadow:inset 4px 0 0 0 #ff6666;
-	&::after{
+	&::after {
 		content: '';
 		width: 4px;
 		height: 22px;
+		border-radius: 2px;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -40,7 +44,7 @@ export default {
 		padding-left: 12px;
 		color: rgba(0, 0, 0, 0.8);
 	}
-	span{
+	span {
 		font-size: 13px;
 		color: rgba(0, 0, 0, 0.3);
 		padding-left: 12px;
