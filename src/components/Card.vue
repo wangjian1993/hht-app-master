@@ -74,7 +74,7 @@ export default {
 				this.$toast('请登录火火兔APP');
 				return
 			}
-			this.$router.push({ name: 'education' });
+			this.$router.push({ name: 'education',query:{header:1}});
 		}
 	},
 	components: {}

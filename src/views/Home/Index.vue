@@ -1,7 +1,8 @@
 <template>
 	<div class="app">
+		<v-header :title="title"></v-header>
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
-		<div class="content" v-show="isLoading">
+		<div class="content ptop" v-show="isLoading">
 			<div><button @click="loca()">刷新</button></div>
 			<div @click="xmlay()">喜马拉雅</div>
 			<div class="member-user">
@@ -247,7 +248,8 @@ export default {
 					color: '#ab614f'
 				}
 			],
-			userID: null
+			userID: null,
+			title:"会员中心"
 		};
 	},
 	computed: {

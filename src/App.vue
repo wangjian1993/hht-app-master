@@ -1,14 +1,18 @@
 <template>
 	<div id="app" class="hhtApp">
-		<keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
-		<router-view v-if="!$route.meta.keepAlive"></router-view>
+		<transition :name="transitionName">
+			<keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
+		</transition>
+		<transition :name="transitionName"><router-view v-if="!$route.meta.keepAlive"></router-view></transition>
 	</div>
 </template>
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
 export default {
 	data() {
-		return {};
+		return {
+			transitionName: 'slide-right' //初始过渡动画方向
+		};
 	},
 	created() {
 		this.type = this.getSystem();
@@ -18,7 +22,7 @@ export default {
 			this.$store.dispatch('setBabyInfoADAction');
 		}
 		this.$store.dispatch('setUserInfoAction');
-		this.$store.dispatch("getUserActivityInfo");
+		this.$store.dispatch('getUserActivityInfo');
 	},
 	methods: {
 		getSystem() {
@@ -37,7 +41,18 @@ export default {
 			}
 		}
 	},
-	watch: {},
+	watch: {
+		$route(to, from) {
+			// 切换动画
+			let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
+			if (isBack) {
+				this.transitionName = 'slide-left';
+			} else {
+				this.transitionName = 'slide-right';
+			}
+			this.$router.isBack = false;
+		}
+	},
 	components: {}
 };
 </script>
@@ -48,5 +63,29 @@ export default {
 	-webkit-text-size-adjust: 100%;
 	font-size: 62.5%;
 	background: #fff;
+}
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+	will-change: transform;
+	transition: all 500ms;
+	position: absolute;
+}
+.slide-right-enter {
+	opacity: 0;
+	transform: translate3d(-100%, 0, 0);
+}
+.slide-right-leave-active {
+	opacity: 0;
+	transform: translate3d(100%, 0, 0);
+}
+.slide-left-enter {
+	opacity: 0;
+	transform: translate3d(100%, 0, 0);
+}
+.slide-left-leave-active {
+	opacity: 0;
+	transform: translate3d(-100%, 0, 0);
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
 	<div class="app">
+		<v-header-icon v-if="isHeader == 1"></v-header-icon>
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<!-- <div><p @click="loca()">刷新</p></div> -->
@@ -85,6 +86,7 @@ import Data from '@/components/Data.vue';
 import Pie from '@/components/Pie.vue';
 import Suspend from '@/components/Suspend.vue';
 import BabaList from '@/components/BabyList.vue';
+import HeaderIcon from '@/components/HeaderIcon.vue';
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
 export default {
 	data() {
@@ -107,13 +109,15 @@ export default {
 			babyArray: [],
 			babyId: 0,
 			defaultBabyArray: [],
-			defaultBaby: []
+			defaultBaby: [],
+			isHeader: 0
 		};
 	},
 	computed: {
 		...mapState(['system', 'babyInfo', 'memberInfoTime', 'memberInfoVip', 'userBaby'])
 	},
 	created() {
+		this.isHeader = this.$route.query.header;
 		let baby = JSON.parse(localStorage.getItem('babyInfo'));
 		this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby;
 		if (localStorage.getItem('cid') == null) {
@@ -202,36 +206,9 @@ export default {
 				return '5-6岁';
 			}
 		},
-		//计算宝宝多少天
-		getBirthSlot(date) {
-			var time;
-			try {
-				time = date
-					.replace('年', '-')
-					.replace('月', '-')
-					.replace('日', '');
-			} catch (e) {
-				//TODO handle the exception
-				time = this.currentTime;
-			}
-			this.getGrowAge(time);
-			console.log('宝宝年龄111111111111', time);
-			let birthDay = new Date(time);
-			let nowDate = new Date();
-			let date1 = Date.parse(birthDay);
-			let date2 = Date.parse(nowDate);
-			let day = Math.floor((date2 - date1) / (60 * 60 * 1000 * 24));
-			let age = '';
-			let year = Math.floor(day / 365);
-			let y = day % 365;
-			let month = Math.floor(y / 30);
-			let d = Math.floor((day % 365) % 30);
-			age += year + '岁' + month + '月' + d + '天';
-			this.babyYear = year;
-			this.babyMonth = month;
-			console.log('宝宝年龄==============', age);
-			return age;
-		},
+		/**
+		 * 计算宝宝年龄
+		 * */
 		getGrowAge(birthday) {
 			var time;
 			try {
@@ -469,7 +446,8 @@ export default {
 		'v-title': Title,
 		'v-pie': Pie,
 		'v-suspend': Suspend,
-		'v-babaList': BabaList
+		'v-babaList': BabaList,
+		'v-header-icon': HeaderIcon
 	}
 };
 </script>
