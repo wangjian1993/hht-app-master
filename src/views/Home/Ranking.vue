@@ -52,7 +52,7 @@
 						<div class="lsit-name">
 							<p>
 								{{ ameSplip(userList.userName) || '火火兔宝宝' }}
-								<img v-if="userList.sex == 0" src="../../assets/image/my_navbar_boy@3x.png" alt="" />
+								<img v-if="userList.sex == '男'" src="../../assets/image/my_navbar_boy@3x.png" alt="" />
 								<img v-else src="../../assets/image/my_navbar_girl@3x.png" alt="" />
 							</p>
 						</div>
