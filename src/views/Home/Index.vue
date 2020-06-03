@@ -82,7 +82,7 @@
 					</p> -->
 				</div>
 				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url)" v-if="index < 3">
+					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url,true)" v-if="index < 3">
 						<div class="list-item-img">
 							<img :src="item.img" alt="" />
 							<!-- <p class="list-item-img-sum">
@@ -474,11 +474,11 @@ export default {
 			}, 300);
 		},
 		//专属内容
-		musicDaile(url) {
-			// if (this.memberInfoVip == 0) {
-			// 	this.$toast('请先开通会员');
-			// 	return;
-			// }
+		musicDaile(url,isVip) {
+			if (this.memberInfoVip == 0 && isVip) {
+				this.$toast('请先开通会员');
+				return;
+			}
 			try {
 				let data = {
 					url: url
