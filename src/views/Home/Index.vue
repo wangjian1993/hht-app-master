@@ -66,6 +66,40 @@
 			<div class="borderBottm"></div>
 			<div class="member-exclusive">
 				<div class="member-header">
+					<p>VIP商城优惠</p>
+					<!-- <p @click="setRouter('more', true)">
+									查看全部
+									<van-icon name="arrow" />
+								</p> -->
+				</div>
+				<div class="member-goods-list">
+					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true)" v-if="index < 3">
+						<div class="list-item-img">
+							<img :src="item.img" alt="" />
+							<!-- <p class="list-item-img-sum">
+											<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
+											共{{ item.childResCount }}首
+										</p> -->
+						</div>
+						<div class="member-exclusive-pic">
+							<p class="goods-name van-ellipsis">{{ item.name }}</p>
+							<div class="goods-pic">
+								<p>
+									¥
+									<span>{{ item.currentprice }}</span>
+								</p>
+								<p>
+									¥
+									<span>{{ item.originalprice }}</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="borderBottm"></div>
+			<div class="member-exclusive">
+				<div class="member-header">
 					<p>VIP专享内容</p>
 					<!-- <p @click="setRouter('more', true)">
 						查看全部
@@ -164,6 +198,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
+import Global from '@/common/global.js';
 export default {
 	data() {
 		return {
@@ -179,6 +214,7 @@ export default {
 			buyOneArray: [],
 			activeName: '0',
 			message: 'dilidilibao',
+			vipGoods: Global.vipGoods,
 			vipContent: [
 				{
 					name: '火火兔学古诗',
@@ -376,11 +412,11 @@ export default {
 			}, 300);
 		},
 		//专属内容
-		musicDaile(url) {
-			// if (this.memberInfoVip == 0) {
-			// 	this.$toast('请先开通会员');
-			// 	return;
-			// }
+		musicDaile(url, isVip) {
+			if (this.memberInfoVip == 0 && isVip) {
+				this.$toast('请先开通会员');
+				return;
+			}
 			try {
 				let data = {
 					url: url
