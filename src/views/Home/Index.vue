@@ -1,10 +1,10 @@
 <template>
 	<div class="app">
-		<v-header :title="title"></v-header>
+		<v-header :title="title" v-if="isHeader == 1"></v-header>
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content ptop" v-show="isLoading">
 			<div><button @click="loca()">刷新</button></div>
-			<div @click="xmlay()">喜马拉雅</div>
+			<div><button @click="xmlay()">喜马拉雅</button></div>
 			<div class="member-user">
 				<div class="member-user-bg">
 					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="member-pay" v-if="memberInfoVip == 1">
+			<div class="member-pay" v-if="memberInfoVip == 0">
 				<div class="member-header">
 					<p style="color: #fff;">VIP会员权益包</p>
 					<p @click="setRouter('membership', true)">使用兑换码</p>
@@ -57,7 +57,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="member-introduce">
+			<div class="member-introduce" :class="memberInfoVip == 1 ? 'member-introduce-top' : ''">
 				<div class="member-header">
 					<p>VIP权益介绍</p>
 					<!-- <p @click="setRouter('member-equity', true)">
@@ -72,6 +72,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/2F7C245C-9828-4136-B77D-B1170092E48B.png" alt="" /></div>
 			<div class="member-exclusive">
 				<div class="member-header">
 					<p>会员省钱</p>
@@ -81,7 +82,7 @@
 					</p> -->
 				</div>
 				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url)" v-if="index < 3">
+					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url)" v-if="index < 3">
 						<div class="list-item-img">
 							<img :src="item.img" alt="" />
 							<!-- <p class="list-item-img-sum">
@@ -94,13 +95,46 @@
 							<div class="goods-pic">
 								<p>
 									¥
-									<span>{{ item.subheading }}</span>
+									<span>{{ item.currentprice }}</span>
 								</p>
 								<p>
 									¥
-									<span>{{ item.subheading }}</span>
+									<span>{{ item.originalprice }}</span>
 								</p>
 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="member-exclusive">
+				<div class="member-header">
+					<p>喜马拉雅专区</p>
+					<!-- <p @click="setRouter('more', true)">
+						查看全部
+						<van-icon name="arrow" />
+					</p> -->
+				</div>
+				<div class="member-goods-list">
+					<div class="member-goods-list-item" v-for="(item, index) in xmlyContent" :key="index" @click="xmlay(item.id, item.name)" v-if="index < 3">
+						<div class="list-item-img">
+							<img :src="item.img" alt="" />
+							<!-- <p class="list-item-img-sum">
+								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
+								共{{ item.childResCount }}首
+							</p> -->
+						</div>
+						<div class="member-exclusive-pic">
+							<p class="goods-name van-ellipsis">{{ item.name }}</p>
+							<!-- <div class="goods-pic">
+								<p>
+									¥
+									<span>{{ item.currentprice }}</span>
+								</p>
+								<p>
+									¥
+									<span>{{ item.originalprice }}</span>
+								</p>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -203,6 +237,8 @@
 
 <script>
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
+import Header from '@/components/Header.vue';
+import Global from '@/common/global.js';
 export default {
 	data() {
 		return {
@@ -217,39 +253,13 @@ export default {
 			buyArray: [],
 			buyOneArray: [],
 			activeName: '0',
+			isHeader: 1,
 			message: 'dilidilibao',
-			vipContent: [
-				{
-					name: '火火兔学古诗',
-					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=1y922shpp6n7k&qr=paidcolumn_1y922shpp6n7k',
-					img: require('../../assets/image/content1.png'),
-					subheading: '19.90',
-					color: '#2a7790'
-				},
-				{
-					name: '火火兔绘本动画馆',
-					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3emxmywq5qny8&qr=paidcolumn_3emxmywq5qny8',
-					img: require('../../assets/image/content2.png'),
-					subheading: '99.00',
-					color: '#ba8762'
-				},
-				{
-					name: '火火兔世界艺术启蒙',
-					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2xael59ackx3k&qr=paidcolumn_2xael59ackx3k',
-					img: require('../../assets/image/content3.png'),
-					subheading: '9.90',
-					color: '#66a277'
-				},
-				{
-					name: '火火兔幼儿思维课堂',
-					url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3et2bnyh42zk0&qr=paidcolumn_3et2bnyh42zk0',
-					img: require('../../assets/image/content4.png'),
-					subheading: '49.90',
-					color: '#ab614f'
-				}
-			],
 			userID: null,
-			title:"会员中心"
+			title: '会员中心',
+			vipGoods: Global.vipGoods,
+			vipContent: Global.vipContent,
+			xmlyContent: Global.xmlyContent
 		};
 	},
 	computed: {
@@ -304,15 +314,21 @@ export default {
 		/**
 		 *跳转喜马拉雅小程序
 		 */
-		xmlay() {
+		xmlay(id, name, type) {
 			let userid = localStorage.getItem('user');
-			let name = '喜马拉雅';
-			let id = 210022;
 			try {
-				let data = {
-					mini_program_id: 'gh_c7ae9c51172b',
-					path: '/src/xxmPages/album/index?type=23&supplier=xxm&source=alilo&appkey=5a038226a57546a3b8beee9ec12c6ce6&id=' + id + '&title=' + name + '&huid=' + userid
-				};
+				if (type == 0) {
+					let data = {
+						mini_program_id: 'gh_c7ae9c51172b',
+						path: '/src/xxmPages/album/index?type=23&supplier=xxm&source=alilo&appkey=5a038226a57546a3b8beee9ec12c6ce6&id=' + id + '&title=' + name + '&huid=' + userid
+					};
+				} else {
+					let data = {
+						mini_program_id: 'gh_c7ae9c51172b',
+						path: '/src/pages/home/index?appkey=5a038226a57546a3b8beee9ec12c6ce6'
+					};
+				}
+				console.log("跳转喜马拉雅===",data)
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.redirectMiniProgram.postMessage(data);
 				} else {
@@ -402,6 +418,26 @@ export default {
 		helpClick(index) {
 			this.$router.push({ name: 'member-equity', query: { id: index } });
 		},
+		getXMLY() {
+			this.$axios
+				.getXMLYVip(this.userID, 7)
+				.then(res => {
+					if (res.data.code == 1) {
+						this.$dialog
+							.confirm({
+								message: '你已成功领取7天喜马拉雅会员！',
+								confirmButtonText: '立即查看'
+							})
+							.then(() => {
+								this.xmlay("","",0);
+							})
+							.catch(() => {
+								// on cancel
+							});
+					}
+				})
+				.catch(err => {});
+		},
 		async getVipAll() {
 			console.log('调用接口', localStorage.getItem('user'));
 			// await this.$store.dispatch('setUserInfoAction');
@@ -468,7 +504,9 @@ export default {
 				.replace(/>/g, ' ');
 		}
 	},
-	components: {},
+	components: {
+		'v-header': Header
+	},
 	watch: {
 		a(val, oldVal) {
 			//普通的watch监听

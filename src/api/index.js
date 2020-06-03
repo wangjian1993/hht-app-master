@@ -104,7 +104,7 @@ export default {
 	 * */
 	userLogin() {
 		return fetch({
-			url: "http://api.cloud.alilo.com.cn/api/v4/login/get-token",
+			url: "http://api.tcloud.alilo.com.cn/api/v4/login/get-token",
 			method: "get",
 			params: {
 				appKey: "hht",
@@ -471,4 +471,14 @@ export default {
 			}
 		});
 	},
+	getXMLYVip(uid,day){
+		return fetch({
+			url: aliloUrl + "xmly-vip/grant-code",
+			method: "POST",
+			params: {
+				userId:uid,
+				termDay: day
+			}
+		});
+	}
 };
