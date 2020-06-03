@@ -1,10 +1,9 @@
 <template>
 	<div class="app">
-		<v-header :title="title" v-if="isHeader == 1"></v-header>
+		<!-- <v-header :title="title" v-if="isHeader == 1"></v-header> -->
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
-		<div class="content ptop" v-show="isLoading">
+		<div class="content" v-show="isLoading">
 			<div><button @click="loca()">刷新</button></div>
-			<div><button @click="xmlay()">喜马拉雅</button></div>
 			<div class="member-user">
 				<div class="member-user-bg">
 					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
@@ -82,7 +81,7 @@
 					</p> -->
 				</div>
 				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url,true)" v-if="index < 3">
+					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true)" v-if="index < 3">
 						<div class="list-item-img">
 							<img :src="item.img" alt="" />
 							<!-- <p class="list-item-img-sum">
@@ -108,14 +107,14 @@
 			</div>
 			<div class="member-exclusive">
 				<div class="member-header">
-					<p>喜马拉雅专区</p>
-					<!-- <p @click="setRouter('more', true)">
+					<p>火火兔x喜马拉雅专区</p>
+					<p @click="xmlay()">
 						查看全部
 						<van-icon name="arrow" />
-					</p> -->
+					</p>
 				</div>
 				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in xmlyContent" :key="index" @click="xmlay(item.id, item.name)" v-if="index < 3">
+					<div class="member-goods-list-item" v-for="(item, index) in xmlyContent" :key="index" @click="xmlay(item.id, item.name, 0)" v-if="index < 3">
 						<div class="list-item-img">
 							<img :src="item.img" alt="" />
 							<!-- <p class="list-item-img-sum">
@@ -124,7 +123,7 @@
 							</p> -->
 						</div>
 						<div class="member-exclusive-pic">
-							<p class="goods-name van-ellipsis">{{ item.name }}</p>
+							<p class="goods-name van-multi-ellipsis--l2">{{ item.name }}</p>
 							<!-- <div class="goods-pic">
 								<p>
 									¥
@@ -316,25 +315,30 @@ export default {
 		 */
 		xmlay(id, name, type) {
 			let userid = localStorage.getItem('user');
+			console.log('id==', id);
+			console.log('name==', name);
+			console.log('type==', type);
 			try {
+				let data;
 				if (type == 0) {
-					let data = {
+					data = {
 						mini_program_id: 'gh_c7ae9c51172b',
 						path: '/src/xxmPages/album/index?type=23&supplier=xxm&source=alilo&appkey=5a038226a57546a3b8beee9ec12c6ce6&id=' + id + '&title=' + name + '&huid=' + userid
 					};
 				} else {
-					let data = {
+					data = {
 						mini_program_id: 'gh_c7ae9c51172b',
 						path: '/src/pages/home/index?appkey=5a038226a57546a3b8beee9ec12c6ce6'
 					};
 				}
-				console.log("跳转喜马拉雅===",data)
+				console.log('跳转喜马拉雅===', data);
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.redirectMiniProgram.postMessage(data);
 				} else {
 					window.android.playCourse('redirectMiniProgram', JSON.stringify(data));
 				}
 			} catch (e) {
+				console.log('e====', e);
 				this.$toast('请更新新版火火兔APP');
 				//TODO handle the exception
 			}
@@ -419,17 +423,27 @@ export default {
 			this.$router.push({ name: 'member-equity', query: { id: index } });
 		},
 		getXMLY() {
+			if (this.memberInfoVip == 0) {
+				this.$toast('请先开通会员');
+				return;
+			}
 			this.$axios
 				.getXMLYVip(this.userID, 7)
 				.then(res => {
 					if (res.data.code == 1) {
+						let msg;
+						if (res.data.info == "用户已领取") {
+							msg = '你已经领取过喜马拉雅会员!';
+						} else {
+							msg = '你已成功领取7天喜马拉雅会员！';
+						}
 						this.$dialog
 							.confirm({
-								message: '你已成功领取7天喜马拉雅会员！',
+								message: msg,
 								confirmButtonText: '立即查看'
 							})
 							.then(() => {
-								this.xmlay("","",0);
+								this.xmlay();
 							})
 							.catch(() => {
 								// on cancel
@@ -474,7 +488,7 @@ export default {
 			}, 300);
 		},
 		//专属内容
-		musicDaile(url,isVip) {
+		musicDaile(url, isVip) {
 			if (this.memberInfoVip == 0 && isVip) {
 				this.$toast('请先开通会员');
 				return;
