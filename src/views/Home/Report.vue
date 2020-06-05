@@ -3,8 +3,8 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<div class="report-name">
-				<p>Hi, {{babyInfo.nickName}}</p>
-				<p>{{month}}月份的成长记录已生成，快来看看吧！</p>
+				<p>Hi, {{ babyInfo.nickName }}</p>
+				<p>{{ month }}月份的成长记录已生成，快来看看吧！</p>
 			</div>
 			<div class="report-content">
 				<div class="report-img-head"><img src="../../assets/image/vip_learningreporter_clip@3x.png" alt="" /></div>
@@ -59,7 +59,7 @@ export default {
 			time: [],
 			sumDay: 0,
 			today: new Date(),
-			month:null,
+			month: null
 		};
 	},
 	computed: {

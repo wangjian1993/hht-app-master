@@ -18,7 +18,7 @@
 			<div class="member-pay" v-if="memberInfoVip == 0">
 				<div class="member-header">
 					<p>VIP会员权益包</p>
-					<p @click="setRouter('membership', true)">
+					<p @click="setRouter('membership', true, '兑换会员')">
 						兑换会员
 						<van-icon name="arrow" />
 					</p>
@@ -73,7 +73,7 @@
 								</p> -->
 				</div>
 				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true)" v-if="index < 3">
+					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true, item.name)" v-if="index < 3">
 						<div class="list-item-img">
 							<img :src="item.img" alt="" />
 							<!-- <p class="list-item-img-sum">
@@ -107,7 +107,7 @@
 					</p> -->
 				</div>
 				<div class="member-exclusive-list">
-					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url)">
+					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url, false, item.name)">
 						<div class="list-item-img">
 							<img :src="item.img" alt="" />
 							<!-- <p class="list-item-img-sum">
@@ -126,7 +126,7 @@
 			<div class="borderBottm"></div>
 			<div class="member-exclusive">
 				<div class="member-header"><p>VIP专享课程</p></div>
-				<div class="member-early" @click="setRouter('education', true)"><img src="../../assets/image/2.png" alt="" /></div>
+				<div class="member-early" @click="setRouter('education', true, '智慧早教')"><img src="../../assets/image/2.png" alt="" /></div>
 				<div class="member-early-text">
 					<p>智慧早教课程</p>
 					<p>根据宝宝成长关键期，每日更新课程内容</p>
@@ -141,12 +141,12 @@
 						<van-icon name="arrow" />
 					</p>
 				</div>
-				<div class="english-activity" @click="activityRouter('https://m.ximalaya.com/ort/router/presale/extraConsume/110?sharerId=147770569')">
+				<div class="english-activity" @click="activityRouter('https://m.ximalaya.com/ort/router/presale/extraConsume/110?sharerId=147770569', '牛津树英语启蒙课程')">
 					<img src="../../assets/image/111110000.jpg" alt="" />
 					<p>牛津树英语启蒙课程</p>
 				</div>
 				<div class="member-activity-list">
-					<div class="member-activity-list-item" v-for="(item, index) in activeActivityList" @click="activityRouter(item.links)">
+					<div class="member-activity-list-item" v-for="(item, index) in activeActivityList" @click="activityRouter(item.links, item.name)">
 						<img :src="item.coverImage" alt="" />
 						<p>{{ item.name }}</p>
 					</div>
@@ -166,7 +166,7 @@
 			<div class="member-introduce member-help-content" v-if="activeHelp.length != 0">
 				<div class="member-header">
 					<p>VIP帮助中心</p>
-					<p @click="setRouter('member-help', true)">
+					<p @click="setRouter('member-help', true, 'vip帮助中心更多')">
 						查看全部
 						<van-icon name="arrow" />
 					</p>
@@ -264,6 +264,7 @@ export default {
 	},
 	created() {
 		this.getVipAll();
+		window._czc.push(['_trackEvent', '火火兔APP', '打开页面', '会员中心']);
 	},
 	mounted() {},
 	methods: {
@@ -300,6 +301,7 @@ export default {
 				let data = {
 					url: this.buyLink
 				};
+				window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员']);
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
 				} else {
@@ -325,6 +327,7 @@ export default {
 					// on close
 					this.$copyText(this.message).then(
 						res => {
+							window._czc.push(['_trackEvent', '火火兔APP', '点击', '客服微信']);
 							this.$toast('微信号复制成功!');
 						},
 						err => {
@@ -338,13 +341,15 @@ export default {
 				this.$toast('请先开通会员');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '会员活动']);
 			location.href = url;
 		},
-		activityRouter(url) {
+		activityRouter(url, name) {
 			if (this.memberInfoVip == 0) {
 				this.$toast('请先开通会员');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '会员活动-' + name]);
 			location.href = url;
 		},
 		setPhone(tel) {
@@ -364,13 +369,15 @@ export default {
 				this.$toast('请选择要开通的会员卡');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员1年']);
 			this.$router.push({ name: 'purchase-help', query: { url: this.buyLink } });
 		},
-		setRouter(val, flag) {
+		setRouter(val, flag, name) {
 			if (this.memberInfoVip == 0 && !flag) {
 				this.$toast('请先开通会员');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', name]);
 			this.$router.push({ name: val });
 		},
 		helpClick(index) {
@@ -412,7 +419,7 @@ export default {
 			}, 300);
 		},
 		//专属内容
-		musicDaile(url, isVip) {
+		musicDaile(url, isVip, name) {
 			if (this.memberInfoVip == 0 && isVip) {
 				this.$toast('请先开通会员');
 				return;
@@ -421,6 +428,7 @@ export default {
 				let data = {
 					url: url
 				};
+				window._czc.push(['_trackEvent', '火火兔APP', '点击', name]);
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.audioPause.postMessage(null);
 					window.webkit.messageHandlers.redirectToYZ.postMessage(data);

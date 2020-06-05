@@ -18,7 +18,13 @@ export default {
 			this.$store.dispatch('setBabyInfoADAction');
 		}
 		this.$store.dispatch('setUserInfoAction');
-		this.$store.dispatch("getUserActivityInfo");
+		this.$store.dispatch('getUserActivityInfo');
+	},
+	mounted() {
+		const script = document.createElement('script');
+		script.src = 'https://s95.cnzz.com/z_stat.php?id=1278964945&web_id=1278964945';
+		script.language = 'JavaScript';
+		document.body.appendChild(script);
 	},
 	methods: {
 		getSystem() {
@@ -37,7 +43,19 @@ export default {
 			}
 		}
 	},
-	watch: {},
+	watch: {
+		$route() {
+			console.log("window._czc=====",window._czc)
+			if (window._czc) {
+				console.log(window._czc);
+				let location = window.location;
+				let contentUrl = location.pathname + location.hash;
+				let refererUrl = '/';
+				window._czc.push(['_trackPageview', contentUrl, refererUrl]);
+				// window._czc.push(﻿["_trackEvent",category,action,label,value,nodeid]);
+			}
+		}
+	},
 	components: {}
 };
 </script>

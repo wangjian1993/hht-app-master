@@ -23,6 +23,7 @@ export default {
 		};
 	},
 	created() {
+		window._czc.push(['_trackEvent', '火火兔APP', '打开页面', '帮助中心更多']);
 		this.getVipHelp();
 	},
 	methods: {

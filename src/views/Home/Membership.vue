@@ -22,6 +22,7 @@ export default {
 	},
 	created() {
 		let self = this;
+		window._czc.push(['_trackEvent', '火火兔APP', '打开页面', '激活会员卡']);
 		setTimeout(function() {
 			self.isLoading = true;
 		}, 500);
@@ -52,6 +53,7 @@ export default {
 			  message: '正在激活...',
 			  forbidClick: true
 			});
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '会员卡激活']);
 			this.$axios
 				.setVipClubCard(this.code)
 				.then(res => {

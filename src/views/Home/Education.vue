@@ -123,6 +123,7 @@ export default {
 		}
 		this.getSumTime();
 		this.current();
+		window._czc.push(['_trackEvent', '火火兔APP', '打开页面', '智慧早教']);
 	},
 	methods: {
 		goReport() {
@@ -132,6 +133,7 @@ export default {
 			location.reload();
 		},
 		setRouter(val) {
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教排行榜']);
 			this.$router.push({ name: val });
 		},
 		cloneBox() {
@@ -166,6 +168,7 @@ export default {
 				message: '报名中...',
 				forbidClick: true
 			});
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教报名']);
 			// console.log('报名id=========', data.id);
 			this.$axios
 				.userApply(data.id)
@@ -290,7 +293,8 @@ export default {
 			}
 
 			var dateStr = gapYear + '岁' + (gapMonth < 10 ? '0' + gapMonth : gapMonth) + '月' + (gapDay < 10 ? '0' + gapDay : gapDay) + '天';
-			console.log('dateStr....', dateStr);
+			this.babyYear = gapYear;
+			this.babyMonth = gapMonth;
 			return dateStr;
 		},
 		getDaysOfMonth(dateStr) {
@@ -446,6 +450,7 @@ export default {
 							// array.push(obj);
 						});
 						console.log('array', array);
+						window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教课程']);
 						try {
 							this.$toast('获取早教课程成功');
 							if (this.system == 'ios') {
