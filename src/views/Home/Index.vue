@@ -328,7 +328,7 @@ export default {
 				} else {
 					data = {
 						mini_program_id: 'gh_c7ae9c51172b',
-						path: '/src/pages/home/index?appkey=5a038226a57546a3b8beee9ec12c6ce6'
+						path: '/src/pages/home/index?appkey=5a038226a57546a3b8beee9ec12c6ce6&huid=' + userid
 					};
 				}
 				console.log('跳转喜马拉雅===', data);
