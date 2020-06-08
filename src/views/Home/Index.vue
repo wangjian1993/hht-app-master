@@ -73,7 +73,7 @@
 								</p> -->
 				</div>
 				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true, item.name)" v-if="index < 3">
+					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, false, item.name)" v-if="index < 3">
 						<div class="list-item-img">
 							<img :src="item.img" alt="" />
 							<!-- <p class="list-item-img-sum">
