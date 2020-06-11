@@ -20,6 +20,26 @@ const vipGoods = [{
 		url: 'https://shop40802088.m.youzan.com/wscgoods/detail/3ngpf0z3jm33k'
 	}
 ];
+const xmlyContent = [{
+		name: '小猪佩奇第一季·中英双语',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=1y922shpp6n7k&qr=paidcolumn_1y922shpp6n7k',
+		img: require('../assets/image/xmly3.png'),
+		id: 210567
+	},
+	{
+		name: '碰碰狐！生活习惯儿歌',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3emxmywq5qny8&qr=paidcolumn_3emxmywq5qny8',
+		img: require('../assets/image/xmly1.png'),
+		id: 314333
+	},
+	{
+		name: '海底小纵队|官方正版广播剧',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2xael59ackx3k&qr=paidcolumn_2xael59ackx3k',
+		img: require('../assets/image/xmly2.png'),
+		id: 210610
+	}
+];
 export default {
-	vipGoods
+	vipGoods,
+	xmlyContent,
 }

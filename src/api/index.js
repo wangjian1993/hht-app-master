@@ -93,7 +93,7 @@ export default {
 			url: aliloUrl + "course/study-report",
 			method: "post",
 			params: {
-				babyId:  localStorage.getItem("babyId"),
+				babyId: localStorage.getItem("babyId"),
 				courseId: CID,
 				month: month
 			}
@@ -252,7 +252,7 @@ export default {
 			params: {
 				babyId: localStorage.getItem("babyId"),
 				// userId: USER || localStorage.getItem("user"),
-				courseId:localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				currentDate: time
 			}
 		});
@@ -266,7 +266,7 @@ export default {
 			method: "POST",
 			params: {
 				babyId: localStorage.getItem("babyId"),
-				courseId:  localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				currentDate: time
 			}
 		});
@@ -279,7 +279,7 @@ export default {
 			url: aliloUrl + "course/get-critical-period",
 			method: "POST",
 			params: {
-				babyId:localStorage.getItem("babyId"),
+				babyId: localStorage.getItem("babyId"),
 			}
 		});
 	},
@@ -306,7 +306,7 @@ export default {
 			url: aliloUrl + "course/apply",
 			method: "POST",
 			params: {
-				courseId:  localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				userId: localStorage.getItem("user"),
 				babyId: id
 			}
@@ -370,6 +370,16 @@ export default {
 			method: "GET",
 			params: {
 				userId: localStorage.getItem("user")
+			}
+		});
+	},
+	getXMLYVip(uid, day) {
+		return fetch({
+			url: aliloUrl + "xmly-vip/grant-code",
+			method: "POST",
+			params: {
+				userId: uid,
+				termDay: day
 			}
 		});
 	}

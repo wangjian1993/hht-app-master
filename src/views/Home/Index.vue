@@ -64,6 +64,8 @@
 				</div>
 			</div>
 			<div class="borderBottm"></div>
+			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/e7ae8c4423ec46eba4470c010722d2b.png" alt="" /></div>
+			<div class="borderBottm"></div>
 			<div class="member-exclusive">
 				<div class="member-header">
 					<p>VIP商城优惠</p>
@@ -93,6 +95,40 @@
 									<span>{{ item.originalprice }}</span>
 								</p>
 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="borderBottm"></div>
+			<div class="member-exclusive">
+				<div class="member-header">
+					<p>火火兔×喜马拉雅儿童专区</p>
+					<p @click="xmlay()">
+						查看全部
+						<van-icon name="arrow" />
+					</p>
+				</div>
+				<div class="member-goods-list">
+					<div class="member-goods-list-item" v-for="(item, index) in xmlyContent" :key="index" @click="xmlay(item.id, item.name, 0)" v-if="index < 3">
+						<div class="list-item-img">
+							<img :src="item.img" alt="" />
+							<!-- <p class="list-item-img-sum">
+											<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
+											共{{ item.childResCount }}首
+										</p> -->
+						</div>
+						<div class="member-exclusive-pic">
+							<p class="goods-name van-multi-ellipsis--l2">{{ item.name }}</p>
+							<!-- <div class="goods-pic">
+											<p>
+												¥
+												<span>{{ item.currentprice }}</span>
+											</p>
+											<p>
+												¥
+												<span>{{ item.originalprice }}</span>
+											</p>
+										</div> -->
 						</div>
 					</div>
 				</div>
@@ -215,6 +251,7 @@ export default {
 			activeName: '0',
 			message: 'dilidilibao',
 			vipGoods: Global.vipGoods,
+			xmlyContent: Global.xmlyContent,
 			vipContent: [
 				{
 					name: '火火兔学古诗',
@@ -286,6 +323,36 @@ export default {
 			var m = date.getMinutes() + ':';
 			var s = date.getSeconds();
 			return Y + M + D + h + m + s;
+		},
+		/**
+		 *跳转喜马拉雅小程序
+		 */
+		xmlay(id, name, type) {
+			let userid = localStorage.getItem('user');
+			try {
+				let data;
+				if (type == 0) {
+					data = {
+						mini_program_id: 'gh_c7ae9c51172b',
+						path: '/src/xxmPages/album/index?type=23&supplier=xxm&source=alilo&appkey=5a038226a57546a3b8beee9ec12c6ce6&id=' + id + '&title=' + name + '&huid=' + userid
+					};
+				} else {
+					data = {
+						mini_program_id: 'gh_c7ae9c51172b',
+						path: '/src/pages/home/index?appkey=5a038226a57546a3b8beee9ec12c6ce6&huid=' + userid
+					};
+				}
+				console.log('跳转喜马拉雅===', data);
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.redirectMiniProgram.postMessage(data);
+				} else {
+					window.android.playCourse('redirectMiniProgram', JSON.stringify(data));
+				}
+			} catch (e) {
+				console.log('e====', e);
+				this.$toast('请更新新版火火兔APP');
+				//TODO handle the exception
+			}
 		},
 		getUserVip() {
 			$axios
@@ -439,6 +506,39 @@ export default {
 				this.$toast('请更新新版火火兔APP');
 				//TODO handle the exception
 			}
+		},
+		getXMLY() {
+			if (this.memberInfoVip == 0) {
+				this.$toast('请先开通会员');
+				return;
+			}
+			let userid = localStorage.getItem('user');
+			this.$axios
+				.getXMLYVip(userid, 30)
+				.then(res => {
+					if (res.data.code == 1) {
+						let msg;
+						if (res.data.info == '用户已领取') {
+							msg = '你已经领取过喜马拉雅会员!';
+						} else {
+							msg = '你已成功领取7天喜马拉雅会员！';
+						}
+						this.$dialog
+							.confirm({
+								message: msg,
+								confirmButtonText: '立即查看'
+							})
+							.then(() => {
+								this.xmlay();
+							})
+							.catch(() => {
+								// on cancel
+							});
+					} else {
+						this.$toast(res.data.info);
+					}
+				})
+				.catch(err => {});
 		},
 		ToText(HTML) {
 			var input = HTML;
