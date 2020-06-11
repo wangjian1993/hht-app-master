@@ -521,7 +521,7 @@ export default {
 						if (res.data.info == '用户已领取') {
 							msg = '你已经领取过喜马拉雅会员!';
 						} else {
-							msg = '你已成功领取7天喜马拉雅会员！';
+							msg = '你已成功领取30天喜马拉雅会员！';
 						}
 						this.$dialog
 							.confirm({
