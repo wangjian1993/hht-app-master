@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'SourceHanSansCN-Medium';
+  src: url('~@/assets/font/medium/SourceHanSansCN-Medium.eot'),
+    url('~@/assets/font/medium/SourceHanSansCN-Medium.ttf') format('truetype'),
+    url('~@/assets/font/medium/SourceHanSansCN-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SourceHanSansCN-Normal';
+  src: url('~@/assets/font/normal/SourceHanSansCN-Normal.eot'),
+    url('~@/assets/font/normal/SourceHanSansCN-Normal.ttf') format('truetype'),
+    url('~@/assets/font/normal/SourceHanSansCN-Normal.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SourceHanSansCN-Bold';
+  src: url('~@/assets/font/bold/SourceHanSansCN-Bold.eot'),
+    url('~@/assets/font/bold/SourceHanSansCN-Bold.ttf') format('truetype'),
+    url('~@/assets/font/bold/SourceHanSansCN-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SourceHanSansCN-Regular';
+  src: url('~@/assets/font/regular/SourceHanSansCN-Regular.ttf')
+      format('truetype'),
+    url('~@/assets/font/regular/SourceHanSansCN-Regular.woff') format('woff');
+}

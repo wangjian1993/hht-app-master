@@ -3,22 +3,30 @@
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
-    <div class="content" v-show="isLoading">
+    <div class="content">
       <div class="course-header iphonex-bd-top">
         <div class="course-box-tab">
           <div class="course-tab-item">
             <div @click="courstTab(1)">
-              <p>智慧早教</p>
+              <p
+                :style="{ color: courseTab !== 1 ? 'rgba(0, 0, 0, 0.3)' : '' }"
+              >
+                智慧早教
+              </p>
               <span v-if="courseTab == 1"></span>
             </div>
             <div @click="courstTab(2)">
-              <p>我的课程</p>
+              <p
+                :style="{ color: courseTab !== 2 ? 'rgba(0, 0, 0, 0.3)' : '' }"
+              >
+                我的课程
+              </p>
               <span v-if="courseTab == 2"></span>
             </div>
           </div>
         </div>
       </div>
-      <div class="course-content mbot">
+      <div class="course-content mbot iphonex-bd-top">
         <div class="course-card mbot" v-if="courseTab == 1">
           <!-- <div class="course-box-top"></div> -->
           <div @click="load()">刷新</div>
@@ -30,7 +38,7 @@
             @click="deviseText()"
             v-if="isDeviseText"
           >
-            <p>绑定故事机开机后按课程键，即可播放今日课程哦！</p>
+            <p>绑定故事机开机，即可播放今日课程哦！</p>
             <span
               ><img
                 src="../../assets/image/course/icon_popup_close@2x.png"
@@ -50,13 +58,14 @@
                 :isShow="isShow"
                 :courseData="userList"
                 :eduData="educationData"
-              ></v-course-list>
-              <div class="more-img" v-if="userList.length != 0">
-                <img
-                  src="../../assets/image/course/icon_device_spreadoutblue@2x.png"
-                  alt=""
-                />
-              </div>
+              >
+                <div class="more-img" v-if="userList.length != 0">
+                  <img
+                    src="../../assets/image/course/icon_device_spreadoutblue@2x.png"
+                    @click="courseMore"
+                  />
+                </div>
+              </v-course-list>
             </div>
           </div>
           <div class="course-user-all mbot">
@@ -67,14 +76,14 @@
                 @click="courseTabCLick(1)"
               >
                 学习中
-                <span v-if="courseUserTab == 1"></span>
+                <!-- <span v-if="courseUserTab == 1"></span> -->
               </p>
               <p
                 :class="courseUserTab == 2 ? 'tabActive' : ''"
                 @click="courseTabCLick(2)"
               >
                 已完成
-                <span v-if="courseUserTab == 2"></span>
+                <!-- <span v-if="courseUserTab == 2"></span> -->
               </p>
             </div>
             <div
