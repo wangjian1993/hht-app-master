@@ -61,26 +61,26 @@ module.exports = {
 			.set('base', resolve('src/base'))
 			.set('static', resolve('src/static'));
 		//压缩图片
-		config.module
-			.rule("images")
-			.use("image-webpack-loader")
-			.loader("image-webpack-loader")
-			.options({
-				mozjpeg: {
-					progressive: true,
-					quality: 65
-				},
-				optipng: {
-					enabled: false
-				},
-				pngquant: {
-					quality: [0.9, 0.98],
-					speed: 4
-				},
-				gifsicle: {
-					interlaced: false
-				}
-			});
+		// config.module
+		// 	.rule("images")
+		// 	.use("image-webpack-loader")
+		// 	.loader("image-webpack-loader")
+		// 	.options({
+		// 		mozjpeg: {
+		// 			progressive: true,
+		// 			quality: 65
+		// 		},
+		// 		optipng: {
+		// 			enabled: false
+		// 		},
+		// 		pngquant: {
+		// 			quality: [0.9, 0.98],
+		// 			speed: 4
+		// 		},
+		// 		gifsicle: {
+		// 			interlaced: false
+		// 		}
+		// 	});
 
 		// 打包分析
 		if (process.env.IS_ANALYZ) {

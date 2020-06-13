@@ -8,7 +8,7 @@ export default new Router({
 	routes: [{ //首页
 			path: '/',
 			name: 'index',
-			component: () => import( /* webpackChunkName: "home" */ '@/views/Home/Index.vue'),
+			component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
 			meta: {
 				keepAlive: true,
 			},
