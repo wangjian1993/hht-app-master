@@ -10,10 +10,18 @@ import './assets/css/font.css' //公共css
 import 'lib-flexible/flexible'
 import store from './store/index'
 import Vconsole from 'vconsole'
+import ALLFILTERS from "@/filters/index";
+
 const vConsole = new Vconsole()
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 Vue.use(vConsole)
+
+//global filters
+Object.keys(ALLFILTERS).forEach(key => Vue.filter(key, ALLFILTERS[key]))
+
+
+
 import {
   Button,
   NavBar,

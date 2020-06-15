@@ -14,7 +14,7 @@ export default {
 				console.log("会员信息", res);
 				commit(types.SET_MEMBERINFO, res.data.data);
 			})
-			.catch(err => {});
+			.catch(err => console.error(err));
 	},
 	/*
 	 *获取课程id
@@ -29,7 +29,7 @@ export default {
 				localStorage.setItem("cid", res.data.data.id);
 				commit(types.SET_USERCID, res.data.data.id);
 			})
-			.catch(err => {});
+			.catch(err => console.error(err));
 	},
 	/*
 	 *获取vip权益介绍
@@ -42,7 +42,7 @@ export default {
 			.then(res => {
 				commit(types.SET_EQUITYLIST, res.data.data.list);
 			})
-			.catch(err => {});
+			.catch(err => console.error(err));
 	},
 	/**
 	 * 获取宝贝信息
@@ -54,10 +54,10 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				console.log("没有用户信息=====", res)
+				// console.log("没有用户信息=====", res)
 				if (res.uid == "") {
 					router.push({
-						name: 'error'
+						name: 'course-login'
 					})
 					return
 				}
@@ -66,10 +66,10 @@ export default {
 				$axios
 					.getBabyList(res.uid)
 					.then(res => {
-						console.log("获取宝宝类表=========")
+						// console.log("获取宝宝类表=========")
 						commit(types.SET_BABYINFO, res.data.data);
 					})
-					.catch(err => {});
+					.catch(err => console.error(err));
 			};
 			window['getCurrentBaby'] = res => {
 				localStorage.setItem("courseBaby", res.babyId)
@@ -95,7 +95,7 @@ export default {
 				.then(res => {
 					commit(types.SET_BABYINFO, res.data.data);
 				})
-				.catch(err => {});
+				.catch(err => console.error(err));
 		} catch (e) {
 			console.log("请先登录app")
 			//TODO handle the exception

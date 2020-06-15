@@ -87,7 +87,10 @@ export default {
               this.setAudioData(audioData, array)
             }
           })
-          .catch((err) => {})
+          .catch((err) => {
+            console.error(err)
+            this.$toast.fail(err)
+          })
       } else if (type == 1) {
         let currentTime = getDayTime()
         this.$axios
@@ -109,7 +112,10 @@ export default {
               this.$toast('暂无今日早教课程')
             }
           })
-          .catch((err) => {})
+          .catch((err) => {
+            console.error(err)
+            this.$toast.fail(err)
+          })
       }
     },
     setAudioData(audioData, array) {
@@ -144,7 +150,7 @@ export default {
   padding-top: 21px;
   padding-bottom: 16px;
   background-color: #ffffff;
-  box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
+  // box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
 }
 .list {

@@ -1,8 +1,15 @@
 <template>
-  <div class="title">
+  <div
+    class="title"
+    :style="{ 'margin-top': `${top}px`, 'margin-bottom': `${bottom}px` }"
+  >
     <p>
       {{ title }}
-      <span>{{ age }}</span>
+      <span v-if="age">{{ age }}</span>
+      <span v-if="courseCount"
+        >共<i>{{ courseCount }}</i
+        >课时</span
+      >
     </p>
   </div>
 </template>
@@ -16,6 +23,15 @@ export default {
     age: {
       type: String,
     },
+    top: {
+      type: [String, Number],
+      default: '36',
+    },
+    bottom: {
+      type: [String, Number],
+      default: '20',
+    },
+    courseCount: [String, Number],
   },
 }
 </script>
@@ -24,8 +40,8 @@ export default {
 .title {
   width: 345px;
   margin: 0 auto;
-  margin-top: 36px;
-  margin-bottom: 20px;
+  // margin-top: 36px;
+  // margin-bottom: 20px;
   position: relative;
   // background-color: #fff000;
   // box-shadow:-4px 0px 0 0 #ff6666;
@@ -50,11 +66,36 @@ export default {
     font-weight: normal;
     font-stretch: normal;
     letter-spacing: 0px;
-  }
-  span {
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.3);
-    padding-left: 12px;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    & > span {
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.3);
+      padding-left: 12px;
+    }
+
+    & > span:last-of-type {
+      margin-left: auto;
+
+      font-family: 'SourceHanSansCN-Normal';
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: rgba(0, 0, 0, 0.6);
+      & > i {
+        font-style: normal;
+
+        font-family: 'SourceHanSansCN-Medium';
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
   }
 }
 </style>

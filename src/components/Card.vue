@@ -65,10 +65,6 @@ export default {
   },
   methods: {
     detailsRouter(id) {
-      // if(this.userId == null){
-      // 	this.$toast('请登录火火兔APP');
-      // 	return
-      // }
       this.$router.push({ name: 'course/details', query: { id: id } })
     },
     goEducation() {
@@ -76,6 +72,7 @@ export default {
         this.$toast('请登录火火兔APP')
         return
       }
+
       this.$router.push({ name: 'education', query: { header: 1 } })
     },
   },
@@ -115,6 +112,7 @@ export default {
     padding-top: 10px;
   }
   .card-name-subhead {
+    margin-left: 2px;
     color: rgba(0, 0, 0, 0.5);
     font-family: 'SourceHanSansCN-Normal';
     font-size: 14px;
@@ -140,7 +138,8 @@ export default {
     width: 100%;
     display: flex;
     align-items: center;
-    margin-top: 13px;
+    margin-top: 9px;
+    // background-color: #ff0000;
     p {
       font-size: 14px;
       color: rgba(0, 0, 0, 0.3);

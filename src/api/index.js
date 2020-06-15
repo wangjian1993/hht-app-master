@@ -316,7 +316,7 @@ export default {
 	 * 获取报名时间
 	 */
 	userApplyTime(cid) {
-		console.log("cid====", cid)
+		// console.log("cid====", cid)
 		return fetch({
 			url: aliloUrl + "course/apply-time",
 			method: "POST",

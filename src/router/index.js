@@ -10,7 +10,7 @@ export default new Router({
 			name: 'index',
 			component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
 			meta: {
-				keepAlive: true,
+				keepAlive: false,
 			},
 		},
 		{ //排行榜
@@ -33,6 +33,14 @@ export default new Router({
 			path: '/login',
 			name: 'login',
 			component: () => import( /* webpackChunkName: "login" */ '@/views/Login/Login.vue'),
+			meta: {
+				keepAlive: true,
+			},
+		},
+		{ //课程包登录页面
+			path: '/course-login',
+			name: 'course-login',
+			component: () => import( /* webpackChunkName: "login" */ '@/views/Login/CourseLogin.vue'),
 			meta: {
 				keepAlive: true,
 			},
@@ -146,7 +154,7 @@ export default new Router({
 			name: 'course/learning',
 			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Learning.vue'),
 			meta: {
-				keepAlive: true,
+				keepAlive: false,
 			}
 		},
 		{ //学习中详情

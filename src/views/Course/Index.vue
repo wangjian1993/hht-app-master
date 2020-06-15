@@ -1,15 +1,18 @@
 <template>
-  <div class="app">
+  <div class="course-index-wrapper">
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
+    <!-- <v-pull-down @load-data="loaddata"> -->
     <div class="content">
       <div class="course-header iphonex-bd-top">
         <div class="course-box-tab">
           <div class="course-tab-item">
             <div @click="courstTab(1)">
               <p
-                :style="{ color: courseTab !== 1 ? 'rgba(0, 0, 0, 0.3)' : '' }"
+                :style="{
+                  color: courseTab !== 1 ? 'rgba(0, 0, 0, 0.3)' : '',
+                }"
               >
                 智慧早教
               </p>
@@ -17,7 +20,9 @@
             </div>
             <div @click="courstTab(2)">
               <p
-                :style="{ color: courseTab !== 2 ? 'rgba(0, 0, 0, 0.3)' : '' }"
+                :style="{
+                  color: courseTab !== 2 ? 'rgba(0, 0, 0, 0.3)' : '',
+                }"
               >
                 我的课程
               </p>
@@ -29,8 +34,10 @@
       <div class="course-content mbot iphonex-bd-top">
         <div class="course-card mbot" v-if="courseTab == 1">
           <!-- <div class="course-box-top"></div> -->
-          <div @click="load()">刷新</div>
+
           <v-card :list="lsit" :eduData="educationData"></v-card>
+
+          <div @click="load()">测试服刷新</div>
         </div>
         <div v-if="courseTab == 2">
           <div
@@ -104,6 +111,7 @@
         </div>
       </div>
     </div>
+    <!-- </v-pull-down> -->
   </div>
 </template>
 
@@ -112,6 +120,7 @@ import Header from '@/components/Header.vue'
 import CourseList from '@/components/CourseList.vue'
 import CradList from '@/components/CardList.vue'
 import Card from '@/components/Card.vue'
+import PullDown from '@/components/Loadmore/PullDown.vue'
 
 export default {
   data() {
@@ -131,14 +140,19 @@ export default {
   },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
-    console.log(this.babyid)
+    // console.log(this.babyid)
     this.getUserApply()
+    this.getCourseAll()
   },
   activated() {
     this.getCourseAll()
   },
   mounted() {},
   methods: {
+    loaddata() {
+      // location.reload()
+      alert(`time: ${new Date()}`)
+    },
     load() {
       location.reload()
     },
@@ -162,6 +176,10 @@ export default {
       this.$axios
         .userApplyTime(localStorage.getItem('cid'))
         .then((res) => {
+          console.warn('getUserApply - res')
+          console.log(res)
+          console.log('\n')
+
           if (res.data.code == 1) {
             this.educationData = true
             this.$store.dispatch('setEduFlag', true)
@@ -170,12 +188,19 @@ export default {
             this.$store.dispatch('setEduFlag', false)
           }
         })
-        .catch((err) => {})
+        .catch((err) => {
+          console.error(err)
+          this.$toast.fail(err)
+        })
     },
     getCourseAll() {
       this.$axios
         .getCoursePack(this.babyid)
         .then((res) => {
+          console.warn('res')
+          console.log(res)
+          console.log('\n')
+
           if (res.data.code == 1) {
             this.lsit = res.data.data
             this.isLoading = true
@@ -183,7 +208,10 @@ export default {
             this.$toast(res.data.info)
           }
         })
-        .catch((err) => {})
+        .catch((err) => {
+          console.error(err)
+          this.$toast.fail(err)
+        })
       this.$axios
         .getUserCourse(this.babyid)
         .then((res) => {
@@ -195,7 +223,10 @@ export default {
             this.$toast(res.data.info)
           }
         })
-        .catch((err) => {})
+        .catch((err) => {
+          console.error(err)
+          this.$toast.fail(err)
+        })
     },
     courstTab(index) {
       this.isLoading = false
@@ -221,6 +252,7 @@ export default {
     'v-card': Card,
     'v-course-list': CourseList,
     'v-card-list': CradList,
+    'v-pull-down': PullDown,
   },
 }
 </script>

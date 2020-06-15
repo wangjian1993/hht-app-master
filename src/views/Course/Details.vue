@@ -112,12 +112,14 @@ export default {
       this.$axios
         .courseApply(this.$route.query.id, this.babyid)
         .then((res) => {
-          if (res.data.code == 1) {
-            this.$toast('报名成功')
-            this.$router.push({ name: 'course/apply', query: { id: 1 } })
-          }
+          if (res.data.code * 1 !== 1) throw new Error(res.data.info)
+          this.$toast('报名成功')
+          this.$router.push({ name: 'course/apply', query: { id: 1 } })
         })
-        .catch((err) => {})
+        .catch((err) => {
+          console.error(err)
+          this.$toast.fail(err.message)
+        })
     },
     getDetails() {
       this.$axios
@@ -129,7 +131,10 @@ export default {
             this.$store.dispatch('setCourseDetails', res.data.data)
           }
         })
-        .catch((err) => {})
+        .catch((err) => {
+          console.error(err)
+          this.$toast.fail(err)
+        })
     },
     delCoures() {
       this.$dialog
@@ -151,7 +156,10 @@ export default {
                 this.$router.push({ name: 'course/index' })
               }
             })
-            .catch((err) => {})
+            .catch((err) => {
+              console.error(err)
+              this.$toast.fail(err)
+            })
         })
         .catch(() => {
           // on cancel

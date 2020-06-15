@@ -16,7 +16,7 @@ const mutations = {
 				if (localStorage.getItem("babyInfo") == null) {
 					localStorage.setItem("babyInfo", JSON.stringify(item));
 				}
-				console.log("宝宝信息mutations====", state.userBaby)
+				// console.log("宝宝信息mutations====", state.userBaby)
 			}
 		});
 	},
