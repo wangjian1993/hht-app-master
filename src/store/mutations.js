@@ -39,7 +39,7 @@ const mutations = {
 	},
 	[types.SET_USERCOURSE](state, data) {
 		state.userCourseList = data;
-		console.log("state.userCourseList", state.userCourseList)
+		// console.log("state.userCourseList", state.userCourseList)
 	},
 	[types.SET_ISEDU](state, data) {
 		state.isEdu =data;

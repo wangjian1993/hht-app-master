@@ -7,24 +7,28 @@
 </template>
 <script>
 import * as CONSTANTS from '@/constants/index'
+import { mapState } from 'vuex'
 export default {
   props: {},
-  components: {
-    // 'v-header': Header,
-  },
+  components: {},
   data() {
-    // let CONSTANTS = Object.freeze(CONSTANTS)
     return {
       CONSTANTS,
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['system']),
+  },
   mounted() {},
   filters: {},
   watch: {},
   methods: {
     onRedirect() {
-      window.webkit.messageHandlers.web_login.postMessage(null)
+      if (this.system == 'ios') {
+        window.webkit.messageHandlers.web_login.postMessage(null)
+      } else {
+        window.android.playCourse('web_login', '')
+      }
     },
   },
 }

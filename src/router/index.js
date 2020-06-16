@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import COURSEROUTE from "./routes/course";
 Vue.use(Router)
 
 export default new Router({
 	mode: 'hash',
 	base: process.env.BASE_URL,
-	routes: [{ //首页
+	routes: [
+		...COURSEROUTE,
+		{ //首页
 			path: '/',
 			name: 'index',
-			component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
+			component: () => import( /* webpackChunkName: "home" */ '@/views/Home/Index.vue'),
 			meta: {
 				keepAlive: false,
 			},
@@ -33,14 +36,6 @@ export default new Router({
 			path: '/login',
 			name: 'login',
 			component: () => import( /* webpackChunkName: "login" */ '@/views/Login/Login.vue'),
-			meta: {
-				keepAlive: true,
-			},
-		},
-		{ //课程包登录页面
-			path: '/course-login',
-			name: 'course-login',
-			component: () => import( /* webpackChunkName: "login" */ '@/views/Login/CourseLogin.vue'),
 			meta: {
 				keepAlive: true,
 			},
@@ -109,54 +104,7 @@ export default new Router({
 				keepAlive: true,
 			}
 		},
-		{ //首页
-			path: '/course/index',
-			name: 'course/index',
-			component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
-			meta: {
-				keepAlive: true,
-			},
-		},
-		{ //详情
-			path: '/course/details',
-			name: 'course/details',
-			component: () => import( /* webpackChunkName: "details" */ '@/views/Course/Details.vue'),
-			meta: {
-				keepAlive: false,
-			}
-		},
-		{ //报名详情
-			path: '/course/add-course',
-			name: 'course/add-course',
-			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/AddCourse.vue'),
-			meta: {
-				keepAlive: true,
-			}
-		},
-		{ //报名详情
-			path: '/course/apply',
-			name: 'course/apply',
-			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Apply.vue'),
-			meta: {
-				keepAlive: true,
-			}
-		},
-		{ //今日课程更多
-			path: '/course/course-more',
-			name: 'course/courseMore',
-			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/CourseMore.vue'),
-			meta: {
-				keepAlive: true,
-			}
-		},
-		{ //学习中详情
-			path: '/course/learning',
-			name: 'course/learning',
-			component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Learning.vue'),
-			meta: {
-				keepAlive: false,
-			}
-		},
+		
 		{ //学习中详情
 			path: '/error',
 			name: 'error',

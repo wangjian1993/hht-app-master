@@ -1,54 +1,54 @@
 <template>
   <div class="app">
-    <van-tabs @click="tabClick">
-      <van-tab
-        v-for="(item, index) in dataWith"
-        :key="item.id"
-        :title="item.name"
-      >
-        <div class="list-content">
-          <p class="list-content-title" @click="EbbinghausClick">
-            艾宾浩斯曲线学习计划
-            <img src="../assets/image/course/icon_tips@2x.png" alt="" />
-          </p>
-          <div class="list-box">
-            <ul
-              v-for="(titleItem, index) in tabData.classHours"
-              :key="titleItem.courseId"
-            >
-              <div class="list-item-title">
-                <span
-                  >第{{
-                    titleItem.index | convertCNNum(titleItem.index, true)
-                  }}课时</span
-                >
-                <span
-                  >新学{{ titleItem.newLearning | convertCNNum }}首 / 复习{{
-                    titleItem.review | convertCNNum
-                  }}首</span
-                >
-              </div>
-              <li v-for="listItem in titleItem.audios" :key="listItem.name">
-                <p class="item-name">{{ listItem.name }}</p>
-                <div class="item-time">
-                  <p>
-                    <img src="../assets/image/course/icon_time@2x.png" alt="" />
-                    {{ timeCycle(listItem.timeLength) }}
-                  </p>
-                  <p>
-                    <img
-                      src="../assets/image/course/icon_listen备份@2x.png"
-                      alt=""
-                    />
-                    {{ tranNumber(listItem.browseCount, 1) }}
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
+    <van-tabs @click="tabClick" class="details-list-tab" color="#ff6666">
+      <van-tab v-for="item in dataWith" :key="item.id" :title="item.name">
       </van-tab>
     </van-tabs>
+
+    <div class="list-content">
+      <p class="list-content-title">
+        <span @click="EbbinghausClick"
+          >艾宾浩斯曲线学习计划
+          <img src="../assets/image/course/icon_tips@2x.png" alt=""
+        /></span>
+      </p>
+      <div class="list-box">
+        <ul
+          v-for="(titleItem, index) in tabData.classHours"
+          :key="`${titleItem.courseId}-${titleItem.index}`"
+        >
+          <div class="list-item-title">
+            <span
+              >第{{
+                titleItem.index | convertCNNum(titleItem.index, true)
+              }}课时</span
+            >
+            <span
+              >新学{{ titleItem.newLearning | convertCNNum }}首 | 复习{{
+                titleItem.review | convertCNNum
+              }}首</span
+            >
+          </div>
+          <li v-for="listItem in titleItem.audios" :key="listItem.name">
+            <p class="item-name">{{ listItem.name }}</p>
+            <div class="item-time">
+              <p>
+                <img src="../assets/image/course/icon_time@2x.png" alt="" />
+                {{ timeCycle(listItem.timeLength) }}
+              </p>
+              <p>
+                <img
+                  src="../assets/image/course/icon_listen备份@2x.png"
+                  alt=""
+                />
+                {{ tranNumber(listItem.browseCount, 1) }}
+              </p>
+            </div>
+          </li>
+          <div class="list-box-divider"></div>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,7 +69,6 @@ export default {
           item.name.length > 5 ? item.name.slice(0, 6) + '...' : item.name
         return {
           ...item,
-          name,
         }
       })
     },
@@ -152,8 +151,6 @@ export default {
     color: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
-
-    // background-color: #ff0000;
     img {
       width: 14px;
       height: 14px;
@@ -168,16 +165,21 @@ export default {
     margin: 0 auto;
     ul {
       width: 100%;
-      padding: 18px 24px;
-      border-bottom: 1px #f3f3f3 solid;
+      padding: 18px 12px;
+      padding-bottom: 0;
+      // background-color: #00ffff;
       .list-item-title {
         width: 100%;
+        padding-left: 12px;
         display: flex;
         align-items: center;
-        // background-color: #ff0000;
         span {
           &:nth-of-type(1) {
+            font-family: 'SourceHanSansCN-Medium';
             font-size: 15px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
             color: rgba(0, 0, 0, 0.8);
           }
           &:nth-of-type(2) {
@@ -187,20 +189,24 @@ export default {
             margin-left: auto;
             font-size: 12px;
             color: rgba(0, 0, 0, 0.3);
-            // background-color: #00ffff;
           }
         }
       }
       li {
+        padding-left: 12px;
+        padding-right: 12px;
         margin-top: 19px;
         .item-name {
+          font-family: 'SourceHanSansCN-Normal';
           font-size: 16px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
           color: rgba(0, 0, 0, 0.8);
         }
         .item-time {
           display: flex;
           align-items: center;
-          // background-color: #ff0000;
           p {
             font-size: 12px;
             color: rgba(0, 0, 0, 0.4);
@@ -211,13 +217,39 @@ export default {
               width: 14px;
               height: 14px;
               margin-top: -1px;
-              // position: relative;
-              // top: 2px;
             }
           }
         }
       }
     }
+  }
+  .list-box-divider {
+    width: 100%;
+    height: 1px;
+    margin-top: 18px;
+    background-color: #f3f3f3;
+  }
+}
+
+.details-list-tab {
+  overflow-x: scroll;
+  // background-color: #ff0000;
+  /deep/ .van-tab--active {
+    // background-color: #fff000;
+  }
+
+  /deep/ .van-tabs__line {
+    width: 30px !important;
+    // display: none;
+  }
+
+  /deep/ .van-tabs__wrap {
+    overflow-x: auto;
+  }
+
+  /deep/ .van-tab__text {
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }
 </style>

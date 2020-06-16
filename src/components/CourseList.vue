@@ -12,20 +12,20 @@
         <li v-if="isEdu">
           <div class="list-name">
             <p>智慧早教课程</p>
-            <p>共<span>30</span>课时 | <span>30</span>分钟</p>
+            <p>第<span>30</span>天计划 | 约<span>30</span>分钟</p>
           </div>
           <div class="list-btn" @click="schooltime('', 1)">
             <span>上课</span>
           </div>
         </li>
-        <li v-for="item in dataFilter" :key="item.id">
+        <li v-for="item in dataWithIndex" :key="item.id">
           <div class="list-name">
             <p>
               {{ item.name }}
               <span v-if="item.status == 20">已完成</span>
             </p>
             <p>
-              共<span>{{ item.classHourCount }}</span
+              第{{ item.classHoursIdx }}/<span>{{ item.classHourCount }}</span
               >课时 | <span>{{ item.avgDuration }}</span
               >分钟
             </p>
@@ -57,11 +57,25 @@ export default {
   computed: {
     ...mapState(['isEdu', 'system']),
     dataFilter: function() {
-      return this.courseData.filter((item, index) => {
-        if (this.isShow) {
-          return index < 3
-        } else {
-          return item
+      return this.courseData.filter((item, index) =>
+        this.isShow ? index < 3 : item
+      )
+    },
+    dataWithIndex() {
+      return this.dataFilter.map((item) => {
+        let classHoursIdx
+        const list = item.classHours
+        const isReadyState = list.every((val) => val.status * 1 === 0)
+        const learningItem = list.find((val) => val.status * 1 === 10)
+
+        classHoursIdx = isReadyState ? 1 : learningItem && learningItem.index
+        //当有仅有一个20，其余为0的情况
+        if (!isReadyState && !learningItem)
+          classHoursIdx = this.getLearningItemIdx(list, 'status', 20)
+
+        return {
+          ...item,
+          classHoursIdx,
         }
       })
     },
@@ -96,7 +110,7 @@ export default {
         this.$axios
           .getDayCourse(currentTime)
           .then((res) => {
-            console.log('点击====')
+            // console.log('点击====')
             let array = {
               title: '智慧早教第' + this.applyTime + '天',
               coursePackId: 0,
@@ -127,7 +141,7 @@ export default {
         }
         array.course.push(obj)
       })
-      console.log(array)
+      // console.log(array)
       try {
         this.$toast('获取课程成功')
         if (this.system == 'ios') {
@@ -137,8 +151,12 @@ export default {
         }
       } catch (e) {
         this.$toast('获取课程失败')
-        //TODO handle the exception
       }
+    },
+    //获取正在学习中的课时index
+    getLearningItemIdx(list, prop, conditional) {
+      const idx = list.findIndex((val) => val[prop] * 1 === conditional * 1)
+      return list[idx * 1 + 1]['index']
     },
   },
   components: {},

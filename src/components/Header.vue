@@ -36,14 +36,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import './../assets/css/constants.less';
+
 .app-header {
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  height: 44px;
-  background: #ffffff;
-  z-index: 3000;
+  height: @header-comp-height;
+  background-color: #fff;
+  z-index: 2000;
   /* 因为header导航栏是基于屏幕进行定位，所以要做单独的padding挤压处理 */
   // padding-right: constant(safe-area-inset-right);
   // padding-left: constant(safe-area-inset-left);
@@ -51,14 +53,13 @@ export default {
   // padding-left: env(safe-area-inset-left);
   .app-header-box {
     width: 100%;
-    height: 44px;
+    height: @header-comp-height;
     display: flex;
     align-items: center;
-    background: #ffffff;
     z-index: 3000;
     .header-left {
       width: 15%;
-      height: 44px;
+      height: @header-comp-height;
       padding-left: 16px;
       display: flex;
       align-items: center;

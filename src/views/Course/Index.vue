@@ -3,12 +3,12 @@
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
-    <!-- <v-pull-down @load-data="loaddata"> -->
+
     <div class="content">
-      <div class="course-header iphonex-bd-top">
-        <div class="course-box-tab">
-          <div class="course-tab-item">
-            <div @click="courstTab(1)">
+      <div class="course-header iphonex-course-header iphonex-bd-top">
+        <div class="course-box-tab iphonex-course-box-tab">
+          <div class="course-tab-item iphonex-course-tab-item">
+            <div @click="courstTab(1)" class="iphonex-course-tab-item-div">
               <p
                 :style="{
                   color: courseTab !== 1 ? 'rgba(0, 0, 0, 0.3)' : '',
@@ -18,7 +18,7 @@
               </p>
               <span v-if="courseTab == 1"></span>
             </div>
-            <div @click="courstTab(2)">
+            <div @click="courstTab(2)" class="iphonex-course-tab-item-div">
               <p
                 :style="{
                   color: courseTab !== 2 ? 'rgba(0, 0, 0, 0.3)' : '',
@@ -31,13 +31,10 @@
           </div>
         </div>
       </div>
-      <div class="course-content mbot iphonex-bd-top">
-        <div class="course-card mbot" v-if="courseTab == 1">
-          <!-- <div class="course-box-top"></div> -->
-
+      <div class="course-content mbot iphonex-bd-top iphonex-course-content">
+        <div class="course-card mbot iphonex-course-card" v-if="courseTab == 1">
           <v-card :list="lsit" :eduData="educationData"></v-card>
-
-          <div @click="load()">测试服刷新</div>
+          <div @click="onLoad()">测试服刷新</div>
         </div>
         <div v-if="courseTab == 2">
           <div
@@ -47,9 +44,7 @@
           >
             <p>绑定故事机开机，即可播放今日课程哦！</p>
             <span
-              ><img
-                src="../../assets/image/course/icon_popup_close@2x.png"
-                alt=""
+              ><img src="../../assets/image/course/icon_popup_close@2x.png"
             /></span>
           </div>
           <div class="course-user-day">
@@ -76,21 +71,19 @@
             </div>
           </div>
           <div class="course-user-all mbot">
-            <div class="course-day-title"><p>我的全部课程</p></div>
+            <div class="course-day-title"><p>已报名课程</p></div>
             <div class="course-user-tab">
               <p
                 :class="courseUserTab == 1 ? 'tabActive' : ''"
                 @click="courseTabCLick(1)"
               >
                 学习中
-                <!-- <span v-if="courseUserTab == 1"></span> -->
               </p>
               <p
                 :class="courseUserTab == 2 ? 'tabActive' : ''"
                 @click="courseTabCLick(2)"
               >
                 已完成
-                <!-- <span v-if="courseUserTab == 2"></span> -->
               </p>
             </div>
             <div
@@ -111,7 +104,6 @@
         </div>
       </div>
     </div>
-    <!-- </v-pull-down> -->
   </div>
 </template>
 
@@ -140,8 +132,8 @@ export default {
   },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
-    // console.log(this.babyid)
-    this.getUserApply()
+
+    this.getSignupTime()
     this.getCourseAll()
   },
   activated() {
@@ -149,84 +141,59 @@ export default {
   },
   mounted() {},
   methods: {
-    loaddata() {
-      // location.reload()
-      alert(`time: ${new Date()}`)
-    },
-    load() {
+    onLoad() {
       location.reload()
-    },
-    onClickLeft() {
-      // Toast('返回');
-    },
-    onClickRight() {
-      // Toast('按钮');
-    },
-    router() {
-      location.href = './course.html'
     },
     addCourse() {
       this.courseTab = 1
     },
     deviseText() {
-      console.log('111')
       this.isDeviseText = !this.isDeviseText
     },
-    getUserApply() {
-      this.$axios
-        .userApplyTime(localStorage.getItem('cid'))
-        .then((res) => {
-          console.warn('getUserApply - res')
-          console.log(res)
-          console.log('\n')
+    // 获取报名时间
+    async getSignupTime() {
+      try {
+        const cid = localStorage.getItem('cid')
+        const { data } = await this.$axios.userApplyTime(cid)
+        if (!data.success) throw new Error(data.info)
 
-          if (res.data.code == 1) {
-            this.educationData = true
-            this.$store.dispatch('setEduFlag', true)
-          } else {
-            this.educationData = false
-            this.$store.dispatch('setEduFlag', false)
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-          this.$toast.fail(err)
-        })
+        this.educationData = true
+        this.$store.dispatch('setEduFlag', true)
+      } catch (err) {
+        this.educationData = false
+        this.$store.dispatch('setEduFlag', false)
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
     },
-    getCourseAll() {
-      this.$axios
-        .getCoursePack(this.babyid)
-        .then((res) => {
-          console.warn('res')
-          console.log(res)
-          console.log('\n')
-
-          if (res.data.code == 1) {
-            this.lsit = res.data.data
-            this.isLoading = true
-          } else {
-            this.$toast(res.data.info)
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-          this.$toast.fail(err)
-        })
-      this.$axios
-        .getUserCourse(this.babyid)
-        .then((res) => {
-          if (res.data.code == 1) {
-            this.$store.dispatch('setUserCourse', res.data.data)
-            this.userList = res.data.data
-            this.isLoading = true
-          } else {
-            this.$toast(res.data.info)
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-          this.$toast.fail(err)
-        })
+    async getCourseAll() {
+      await this.getAsyncCoursePackage()
+      await this.getAsyncUserCourse()
+    },
+    async getAsyncCoursePackage() {
+      try {
+        const { data } = await this.$axios.getCoursePack(this.babyid)
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        this.lsit = resData
+        this.isLoading = true
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
+    },
+    async getAsyncUserCourse() {
+      try {
+        const { data } = await this.$axios.getUserCourse(this.babyid)
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        this.$store.dispatch('setUserCourse', resData)
+        this.userList = resData
+        this.isLoading = true
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
     },
     courstTab(index) {
       this.isLoading = false

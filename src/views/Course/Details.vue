@@ -1,10 +1,11 @@
 <template>
   <div class="app">
     <v-header title="" v-show="isLoading"></v-header>
-    <!-- <div class="header iphonex-bd-top"><p>{{detailsList.name}}</p></div> -->
+
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
+
     <div class="content mbot iphonex-bd-top-bg" v-show="isLoading">
       <div class="course-box-top">
         <img :src="detailsList.coverImage" alt="" />
@@ -15,9 +16,6 @@
             <div class="card-name">
               <p>{{ detailsList.name }}</p>
             </div>
-            <!-- <div class="card-name-subhead">
-							<p>{{ detailsList.description }}</p>
-						</div> -->
             <div class="card-time">
               <p>
                 <img
@@ -34,11 +32,13 @@
               </p>
               <p>
                 <img src="../../assets/image/course/icon_study@2x.png" alt="" />
-                {{ detailsList.particiPants }}人学习
+                {{ participants }}人学习
               </p>
             </div>
             <div class="card-lable">
-              <span v-for="opt in detailsList.labels">{{ opt.name }}</span>
+              <span v-for="opt in detailsList.labels" :key="opt.name">{{
+                opt.name
+              }}</span>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@
       </div>
       <div
         class="details-btn"
-        @click="addCourse"
+        @click="onAddCourse"
         v-if="detailsList.learningState == 10"
       >
         <p>会员免费加入</p>
@@ -85,6 +85,7 @@
 import Header from '@/components/Header.vue'
 import DetailsIntro from '@/components/DetailsIntro.vue'
 import DetailsList from '@/components/DetailsList.vue'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -95,46 +96,73 @@ export default {
       babyid: 0,
     }
   },
+  computed: {
+    ...mapState(['memberInfoVip', 'userCourseList']),
+    //学习人数: 初始值+课程实际报名人数*3
+    participants() {
+      const list = this.detailsList
+      return list.participantOpsCount + list.particiPants * 3
+    },
+    //当前课程包的课程
+    courseList() {
+      if (!this.detailsList && !this.detailsList.courseList) return []
+      return this.detailsList.courseList
+    },
+  },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
-    this.getDetails()
+    this.getAsyncCourseDetails()
   },
   methods: {
     detalsTab(index) {
       this.tabAction = index
     },
-    addCourse() {
-      // this.$router.push({ name: 'addCourse', query: { id: this.$route.query.id } });
-      this.$toast.loading({
-        message: '报名中...',
-        forbidClick: true,
-      })
-      this.$axios
-        .courseApply(this.$route.query.id, this.babyid)
-        .then((res) => {
-          if (res.data.code * 1 !== 1) throw new Error(res.data.info)
-          this.$toast('报名成功')
-          this.$router.push({ name: 'course/apply', query: { id: 1 } })
-        })
-        .catch((err) => {
-          console.error(err)
-          this.$toast.fail(err.message)
-        })
+    //添加课程
+    async onAddCourse() {
+      const signupCourseLen = this.courseList.length
+      const willCourseLen = this.userCourseList.length
+      const courseLength = signupCourseLen * 1 + willCourseLen * 1
+
+      // 添加课程限制
+      if (courseLength > 10) return this.showOverloadCourseModal()
+
+      if (this.memberInfoVip == 0) {
+        this.$router.push({ name: 'index' })
+        return this.$toast('请先开通会员')
+      }
+
+      this.$toast.loading({ message: '报名中...', forbidClick: true })
+
+      try {
+        const { data } = await this.$axios.courseApply(
+          this.$route.query.id,
+          this.babyid
+        )
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        this.$toast('报名成功')
+        this.$router.push({ name: 'course/apply', query: { id: 1 } })
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
     },
-    getDetails() {
-      this.$axios
-        .getCourseDetails(this.$route.query.id, this.babyid)
-        .then((res) => {
-          if (res.data.code == 1) {
-            this.detailsList = res.data.data
-            this.isLoading = true
-            this.$store.dispatch('setCourseDetails', res.data.data)
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-          this.$toast.fail(err)
-        })
+    // 课程包详情
+    async getAsyncCourseDetails() {
+      try {
+        const { data } = await this.$axios.getCourseDetails(
+          this.$route.query.id,
+          this.babyid
+        )
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        this.detailsList = resData
+        this.isLoading = true
+        this.$store.dispatch('setCourseDetails', resData)
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
     },
     delCoures() {
       this.$dialog
@@ -164,6 +192,20 @@ export default {
         .catch(() => {
           // on cancel
         })
+    },
+    //添加课程限制 Modal
+    async showOverloadCourseModal() {
+      const dialog = await this.$createDialog(
+        () => import('@/views/Course/OverloadCourseModal.vue'),
+        {
+          destroyOnClose: true,
+          on: {
+            close: (v) => {
+              dialog.close()
+            },
+          },
+        }
+      )
     },
   },
   components: {

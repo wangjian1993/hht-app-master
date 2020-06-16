@@ -1,4 +1,6 @@
 html {
+  width: 100%;
+  height: 100%;
   font-family: 'SourceHanSansCN-Regular', Helvetica, STHeiTi, Arial, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -6,6 +8,8 @@ html {
 }
 
 body {
+  width: 100%;
+  height: 100%;
   margin: 0;
   line-height: 1.5;
   color: #323232;
@@ -327,10 +331,39 @@ textarea::-webkit-input-placeholder {
 
   .iphonex-bd-top {
     border-top: 44px solid transparent;
+    /* border-top: 44px solid #00f; */
   }
 
   .iphonex-bd-bottom {
     border-bottom: 34px solid transparent;
+  }
+
+  /* iphoneX special topbar height */
+  .iphonex-course-header {
+    height: 44px !important;
+    /* background-color: #ff0000; */
+  }
+
+  .iphonex-course-box-tab {
+    height: 27px !important;
+    /* background-color: #00ffff; */
+  }
+  .iphonex-course-tab-item {
+    height: 0px !important;
+    /* background-color: #ccc; */
+  }
+
+  .iphonex-course-tab-item-div {
+    margin-top: 0px !important;
+    /* background-color: #fff000; */
+  }
+
+  .iphonex-course-card {
+    padding-top: 16px;
+  }
+
+  .iphonex-course-content {
+    padding-top: 27px !important;
   }
 }
 .ptop {

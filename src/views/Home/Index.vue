@@ -56,10 +56,6 @@
           </div>
         </div>
         <div class="member-pay-btn">
-          <!-- <div class="member-pay-btn-text" @click="cardPayBtn" v-if="buyOnePic == 360">
-						<p>360元立即开通年卡会员</p>
-						<p>赠送价值¥299火火兔G9S故事机</p>
-					</div> -->
           <div class="member-pay-btn-text" @click="memberBtn">
             <p>
               立即开通

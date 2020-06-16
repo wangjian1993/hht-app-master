@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="course-card" @click="goEducation()" v-show="list.length">
+    <div class="course-card" @click="onRedirect" v-show="list.length">
       <div class="course-card-box">
         <div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
         <div class="card-name"><p>智慧早教课程</p></div>
@@ -25,16 +25,12 @@
         <div class="card-name-subhead">
           <p>{{ item.description || '暂无描述' }}</p>
         </div>
-        <!-- <div class="card-lable">
-					<span v-for="opt in item.labels">{{ opt.name }}</span>
-				</div> -->
         <div class="card-time">
           <p>
             <img src="../assets/image/course/icon_time@2x.png" alt="" />
             共{{ item.classHour }}课时
           </p>
           <p>
-            <!-- <img src="../assets/image/home_conner_iconalbum@2x.png" alt="" /> -->
             <span>{{ item.particiPants }}人</span>正在上课
           </p>
         </div>
@@ -67,13 +63,9 @@ export default {
     detailsRouter(id) {
       this.$router.push({ name: 'course/details', query: { id: id } })
     },
-    goEducation() {
-      if (this.userId == null) {
-        this.$toast('请登录火火兔APP')
-        return
-      }
-
-      this.$router.push({ name: 'education', query: { header: 1 } })
+    onRedirect() {
+      if (!this.userId) return this.$toast('请登录火火兔APP')
+      this.$router.push({ name: 'wisdom-course/introduction' })
     },
   },
   components: {},

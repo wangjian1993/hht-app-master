@@ -7,7 +7,7 @@
     </div>
 
     <div class="content" v-show="isLoading">
-      <div class="apply-content" v-if="isSignupWisdom">
+      <div class="apply-content">
         <div class="header">
           <div class="header-title">
             <div class="header-img">
@@ -101,16 +101,7 @@
           <div v-else class="content-null"><p>暂无关键期</p></div>
         </div>
 
-        <div class="apply-btn" @click="onUserApply"><p>立刻报名</p></div>
-      </div>
-      <div class="noapply-content" v-else>
-        <div class="apply-img">
-          <img
-            src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png"
-            alt=""
-          />
-        </div>
-        <div class="apply-btn" @click="onUserApply"><p>立刻报名</p></div>
+        <!-- <div class="apply-btn" @click="onUserApply"><p>立刻报名</p></div> -->
       </div>
 
       <!-- 浮窗 -->
@@ -175,8 +166,8 @@ export default {
   },
   created() {
     this.isHeader = this.$route.query.header
-    let baby = JSON.parse(localStorage.getItem('babyInfo'))
-    this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby
+    // let baby = JSON.parse(localStorage.getItem('babyInfo'))
+    // this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby
 
     if (localStorage.getItem('cid') == null) return this.getActivity()
     this.getSumTime()

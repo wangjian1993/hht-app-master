@@ -45,7 +45,7 @@ export default {
 			.catch(err => console.error(err));
 	},
 	/**
-	 * 获取宝贝信息
+	 * ios: 获取宝贝信息
 	 * */
 	setBabyInfoAction({
 		commit
@@ -54,30 +54,23 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				// console.log("没有用户信息=====", res)
-				if (res.uid == "") {
-					router.push({
-						name: 'course-login'
-					})
-					return
-				}
+				if (res.uid == "") return router.push({ name: 'course-login' });
+				
 				localStorage.setItem("user", res.uid)
 				commit(types.SET_USERINFO, res);
+				alert(2);
 				$axios
 					.getBabyList(res.uid)
 					.then(res => {
-						// console.log("获取宝宝类表=========")
+						alert(3)
 						commit(types.SET_BABYINFO, res.data.data);
 					})
 					.catch(err => console.error(err));
 			};
-			window['getCurrentBaby'] = res => {
-				localStorage.setItem("courseBaby", res.babyId)
-			}
+			window['getCurrentBaby'] = res => localStorage.setItem("courseBaby", res.babyId)
 		} catch (e) {
 			console.log("请先登录app")
 		}
-
 	},
 	setBabyInfoADAction({
 		commit
@@ -86,6 +79,8 @@ export default {
 			let user = window.android.getUserInfo();
 			let babyid = window.android.getCurrentBaby();
 			let babyData = JSON.parse(babyid);
+			if (Object.keys(babyData).length === 0 && babyData.constructor === Object) throw new Error('lack of babyId');
+			
 			localStorage.setItem("courseBaby", babyData.id)
 			let userData = JSON.parse(user);
 			localStorage.setItem("user", userData.id)
@@ -97,7 +92,8 @@ export default {
 				})
 				.catch(err => console.error(err));
 		} catch (e) {
-			console.log("请先登录app")
+			if (this.system == 'ios') return window.webkit.messageHandlers.addBabys.postMessage(null)
+      else return window.android.addBabys('addBabys', "")
 			//TODO handle the exception
 		}
 	},
@@ -131,7 +127,7 @@ export default {
 	setUserCourse({
 		commit
 	}, data) {
-		console.log(data)
+		// console.log(data)
 		commit(types.SET_USERCOURSE, data);
 	},
 	setEduFlag({

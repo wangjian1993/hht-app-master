@@ -17,7 +17,7 @@ let babyId = (function() {
 })();
 //课程id
 let CID = (function() {
-	console.log("Cid1111", localStorage.getItem("cid"))
+	// console.log("Cid1111", localStorage.getItem("cid"))
 	return localStorage.getItem("cid");
 })();
 export function fetch(options) {
@@ -301,7 +301,7 @@ export default {
 	 * 报名
 	 */
 	userApply(id) {
-		console.log("报名id=========", id)
+		// console.log("报名id=========", id)
 		return fetch({
 			url: aliloUrl + "course/apply",
 			method: "POST",
@@ -316,7 +316,6 @@ export default {
 	 * 获取报名时间
 	 */
 	userApplyTime(cid) {
-		// console.log("cid====", cid)
 		return fetch({
 			url: aliloUrl + "course/apply-time",
 			method: "POST",
@@ -355,7 +354,6 @@ export default {
 	 * 获取宝宝列表
 	 * */
 	getBabyList(id) {
-		console.log("用户id======", localStorage.getItem("user"))
 		return fetch({
 			url: aliloUrl + "user/baby/query",
 			method: "GET",

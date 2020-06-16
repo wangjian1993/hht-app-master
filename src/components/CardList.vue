@@ -2,15 +2,15 @@
   <div class="card-list-wrapper">
     <div class="card-list-list">
       <ul>
-        <li @click="goEducation()" v-if="isEdu && status == 0">
-          <div class="item-img"><img src="" /></div>
+        <li @click="onRedirect()" v-if="isEdu && status == 0">
+          <div class="item-img"><img src="../assets/image/2.png" /></div>
           <div class="item-name">
             <p>智慧早教</p>
             <p>1课时</p>
           </div>
         </li>
         <li
-          v-for="(item, index) in courseList"
+          v-for="item in courseList"
           :key="item.id"
           @click="goLearning(item.id)"
         >
@@ -56,23 +56,16 @@ export default {
           audiosCount,
         }
       })
-
-      // console.warn('this.courseData')
-      // console.log(this.courseData)
-      // console.log('\n')
-
-      // return this.courseData
     },
   },
   data() {
     return {}
   },
   created() {
-    console.log('this.isEdu', this.isEdu)
+    // console.log('this.isEdu', this.isEdu)
   },
   methods: {
     moveErrorImg: function(event) {
-      console.log('1111111')
       event.currentTarget.src = '../assets/image/course/qsy@2x.png'
     },
     goLearning(id) {
@@ -80,8 +73,13 @@ export default {
         this.$router.push({ name: 'course/learning', query: { id: id } })
       }
     },
-    goEducation() {
-      this.$router.push({ name: 'education' })
+    onRedirect() {
+      this.$router.push({
+        name: 'wisdom-course/index',
+        query: {
+          isHeader: 1,
+        },
+      })
     },
   },
   components: {},

@@ -180,7 +180,7 @@ export default {
   margin-top: 28px;
   padding-top: 14px;
   margin-bottom: 34px;
-  background-color: #ff0000;
+  // background-color: #ff0000;
   border-top: solid 1px rgba(0, 0, 0, 0.08);
 
   p {
