@@ -1,10 +1,10 @@
 <template>
   <div class="learning-wrapper">
-    <v-header title=""></v-header>
+    <!-- <v-header title=""></v-header> -->
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
-    <div class="learning-content iphonex-bd-top" v-show="isLoading">
+    <div class="learning-content" v-show="isLoading">
       <div class=" mbot learning-top">
         <p>{{ courseData.name }}</p>
         <p>
@@ -70,6 +70,7 @@
   </div>
 </template>
 <script>
+import * as CONSTANTS from '@/constants/index'
 import Header from '@/components/Header.vue'
 import Title from '@/components/Title.vue'
 import { tranNumber, timeCycle } from '../../common/util.js'
@@ -132,7 +133,11 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$toast.success('重新报名成功')
-        this.$router.push({ name: 'course/index' })
+        // this.$router.push({ name: 'course/index' })
+
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+          path: '/course/smart-course',
+        })
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
@@ -149,7 +154,7 @@ export default {
 <style lang="less" scoped>
 @import './../../assets/css/constants.less';
 .learning-wrapper {
-  margin-top: @header-comp-height;
+  // margin-top: @header-comp-height;
 }
 .learning-content {
   margin-bottom: 84px;

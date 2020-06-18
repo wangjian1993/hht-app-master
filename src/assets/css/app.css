@@ -246,12 +246,6 @@ textarea::-webkit-input-placeholder {
   box-sizing: border-box;
 }
 
-/* .van-picker-column__item{
-	height: 36px !important;
-}
-.van-picker-column__wrapper {
-  line-height: 56px !important;
-} */
 .loadingding {
   position: fixed;
   left: 50%;
@@ -274,11 +268,10 @@ textarea::-webkit-input-placeholder {
 }
 
 .borderBottm {
-  /* height: 8px;
-	background: #000000; */
   margin: 22px 0;
   border-bottom: 8px #fafafa solid;
 }
+
 @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
   body {
     padding-bottom: constant(safe-area-inset-bottom);
@@ -331,31 +324,26 @@ textarea::-webkit-input-placeholder {
 
   .iphonex-bd-top {
     border-top: 44px solid transparent;
-    /* border-top: 44px solid #00f; */
   }
 
   .iphonex-bd-bottom {
-    border-bottom: 34px solid transparent;
+    border-bottom: 84px solid transparent !important;
   }
 
   /* iphoneX special topbar height */
   .iphonex-course-header {
     height: 44px !important;
-    /* background-color: #ff0000; */
   }
 
   .iphonex-course-box-tab {
     height: 27px !important;
-    /* background-color: #00ffff; */
   }
   .iphonex-course-tab-item {
     height: 0px !important;
-    /* background-color: #ccc; */
   }
 
   .iphonex-course-tab-item-div {
     margin-top: 0px !important;
-    /* background-color: #fff000; */
   }
 
   .iphonex-course-card {
@@ -370,5 +358,5 @@ textarea::-webkit-input-placeholder {
   padding-top: 44px;
 }
 .mbot {
-  margin-bottom: 40px;
+  margin-bottom: 84px;
 }

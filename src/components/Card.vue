@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="card-wrapper iphonex-bd-bottom">
     <div class="course-card" @click="onRedirect" v-show="listWith.length">
       <div class="course-card-box">
         <div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import * as CONSTANTS from '@/constants/index'
 export default {
   props: {
     list: '',
@@ -75,7 +76,7 @@ export default {
     detailsRouter(id) {
       // this.$router.push({ name: 'course/details', query: { id: id } })
 
-      this.$store.dispatch('redirect', {
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/details',
         query: {
           id,
@@ -83,7 +84,6 @@ export default {
       })
     },
     onRedirect() {
-      alert('onRedirect: ')
       if (!this.userId) return this.$toast('请登录火火兔APP')
       // this.$router.push({ name: 'wisdom-course/introduction' })
       this.$store.dispatch('redirect', {
@@ -96,6 +96,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.card-wrapper {
+  border-bottom: 44px solid transparent;
+}
 .course-card {
   width: 349px;
   background-color: #fff;
@@ -103,6 +106,9 @@ export default {
   border-radius: 8px;
   margin: 0 auto;
   margin-bottom: 20px;
+}
+.course-card:last-child {
+  margin-bottom: 0px;
 }
 .course-card-box {
   width: 317px;

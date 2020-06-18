@@ -1,6 +1,6 @@
 <template>
   <div class="wisdom-course-introduction-wrapper">
-    <v-header title=""></v-header>
+    <!-- <v-header title=""></v-header> -->
     <div class="apply-img">
       <img src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png" />
     </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import * as CONSTANTS from '@/constants/index'
 import { mapState } from 'vuex'
 import BabaList from '@/components/BabyList.vue'
 import Header from '@/components/Header.vue'
@@ -47,12 +48,7 @@ export default {
   methods: {
     async onUserApply() {
       if (this.memberInfoVip == 0) {
-        this.$router.push({
-          name: 'index',
-          query: {
-            isHeader: 1,
-          },
-        })
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, { path: '/' })
         return this.$toast('请先开通会员')
       }
 
@@ -98,7 +94,11 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$toast.success('取消成功')
-        this.$router.push({ name: 'course/index' })
+        // this.$router.push({ name: 'course/index' })
+
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+          path: '/course/smart-course',
+        })
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
@@ -148,7 +148,10 @@ export default {
         this.$store.dispatch('defaultBaby', data)
         this.$toast('报名成功')
         this.isSignup = true
-        this.$router.push({ name: 'course/apply', query: { id: 1 } })
+
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+          path: '/course/apply',
+        })
         this.babyBox = !this.babyBox
       } catch (err) {
         console.log(err)
@@ -168,7 +171,7 @@ export default {
 .apply-img {
   width: 100%;
   height: 100%;
-  margin-top: @header-comp-height;
+  // margin-top: @header-comp-height;
   margin-bottom: 84px;
   img {
     width: 100%;

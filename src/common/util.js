@@ -78,3 +78,18 @@ export function debounce (func, delay) {
     }, delay);
   };
 }
+
+export function getQueryStringValue(key) {
+	let data = {}
+
+	let src = window.location.href
+	let index = src.indexOf('?')
+	if (index === -1) return data[key]
+	let dataStr = src.substring(src.indexOf('?') + 1)
+	let dataArray = dataStr.split('&')
+	for (let i = 0; i < dataArray.length; i++) {
+		let param = dataArray[i].split('=')
+		data[param[0]] = param[1]
+	}
+	return data[key]
+}

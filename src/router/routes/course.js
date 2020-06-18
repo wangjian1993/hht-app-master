@@ -4,7 +4,7 @@ export default [
     name: 'course/index',
     component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
     meta: {
-      keepAlive: false,
+      keepAlive: false
     },
   },
   { //智慧早教
@@ -84,7 +84,7 @@ export default [
         name: "wisdom-course/introduction",
         component: () => import("@/views/WisdomCourse/Introduction"),
         meta: {
-          title: "报名页面",
+          title: "智慧早教",
         },
       },
       {

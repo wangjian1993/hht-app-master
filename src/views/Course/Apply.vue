@@ -1,6 +1,5 @@
 <template>
   <div class="course-apply-wrapper">
-    <v-header title=""></v-header>
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
@@ -20,11 +19,11 @@
           <span>加入微信群</span>
         </div>
       </div>
-      <!-- <div class="details-btn" @click="routerHome"><p>确定</p></div> -->
+      <!-- <div class="details-btn" @click="onRedirectHome"><p>确定</p></div> -->
     </div>
 
     <div class="details-btn">
-      <p @click="routerHome">完成</p>
+      <p @click="onRedirectHome">完成</p>
     </div>
   </div>
 </template>
@@ -39,8 +38,10 @@ export default {
     }
   },
   methods: {
-    routerHome() {
-      this.$router.push({ name: 'course/index' })
+    onRedirectHome() {
+      this.$store.dispatch('redirect', {
+        path: '/course/smart-course',
+      })
     },
   },
   components: {

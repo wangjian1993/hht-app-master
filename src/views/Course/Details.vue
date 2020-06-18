@@ -1,12 +1,10 @@
 <template>
   <div class="app">
-    <v-header title="" v-show="isLoading"></v-header>
-
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
 
-    <div class="content iphonex-bd-top-bg" v-show="isLoading">
+    <div class="content" v-show="isLoading">
       <div class="course-box-top">
         <img :src="detailsList.coverImage" alt="" />
       </div>
@@ -72,7 +70,7 @@
       </div>
       <div
         class="details-btn1"
-        @click="delCoures"
+        @click="onDelCourse"
         v-if="detailsList.learningState == 20"
       >
         <p>从我的课程中删除</p>
@@ -82,9 +80,11 @@
 </template>
 
 <script>
+import * as CONSTANTS from '@/constants/index'
 import Header from '@/components/Header.vue'
 import DetailsIntro from '@/components/DetailsIntro.vue'
 import DetailsList from '@/components/DetailsList.vue'
+import { getQueryStringValue } from '@/common/util'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -108,6 +108,12 @@ export default {
     courseList() {
       if (!this.detailsList && !this.detailsList.courseList) return []
       return this.detailsList.courseList
+    },
+    //课程包ID
+    coursePackageId() {
+      let isDev = window.location.href.indexOf('localhost:') > -1
+      if (isDev) return this.$route.query.id
+      return getQueryStringValue('id')
     },
   },
   created() {
@@ -141,12 +147,7 @@ export default {
       if (courseLength > 10) return this.showOverloadCourseModal()
 
       if (this.memberInfoVip == 0) {
-        this.$router.push({
-          name: 'index',
-          query: {
-            isHeader: 1,
-          },
-        })
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, { path: '/' })
         return this.$toast('请先开通会员')
       }
 
@@ -156,14 +157,15 @@ export default {
       this.$toast.loading({ message: '报名中...', forbidClick: true })
 
       try {
-        const { data } = await this.$axios.courseApply(
-          this.$route.query.id,
-          this.babyid
-        )
+        const id = this.coursePackageId
+        const { data } = await this.$axios.courseApply(id, this.babyid)
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$toast('报名成功')
-        this.$router.push({ name: 'course/apply', query: { id: 1 } })
+
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+          path: '/course/apply',
+        })
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
@@ -188,10 +190,8 @@ export default {
     // 课程包详情
     async getAsyncCourseDetails() {
       try {
-        const { data } = await this.$axios.getCourseDetails(
-          this.$route.query.id,
-          this.babyid
-        )
+        const id = this.coursePackageId
+        const { data } = await this.$axios.getCourseDetails(id, this.babyid)
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.detailsList = resData
@@ -202,7 +202,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    delCoures() {
+    onDelCourse() {
       this.$dialog
         .confirm({
           title: '删除课程',
@@ -214,12 +214,16 @@ export default {
             message: '删除中...',
             forbidClick: true,
           })
+          const id = this.coursePackageId
           this.$axios
-            .getCourseDel(this.$route.query.id, this.babyid)
+            .getCourseDel(id, this.babyid)
             .then((res) => {
               if (res.data.code == 1) {
                 this.$toast.success('删除成功')
-                this.$router.push({ name: 'course/index' })
+
+                this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+                  path: '/course/smart-course',
+                })
               }
             })
             .catch((err) => {
@@ -255,5 +259,211 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/css/courseDetails.less';
+// @import "./constants.less";
+
+.content {
+  width: 100%;
+  background: #fff;
+}
+
+.course-box-top {
+  width: 100%;
+  height: 187px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.course-card-details {
+  width: 100%;
+  background: #fff;
+  padding-top: 22px;
+
+  .course-card {
+    width: 349px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .course-card-box {
+    width: 100%;
+    // height: 123px;
+    margin: 0 auto;
+    position: relative;
+
+    .card-name {
+      // font-size: 20px;
+      // color: rgba(0, 0, 0, 0.8);
+      font-family: 'SourceHanSansCN-Medium';
+      font-size: 20px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: rgba(0, 0, 0, 0.8);
+    }
+
+    .card-name-subhead {
+      font-size: 15px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    .card-lable {
+      display: flex;
+      margin-top: 10px;
+      font-family: 'SourceHanSansCN-Normal';
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: #ff6666;
+
+      span {
+        display: inline-block;
+        background-color: rgba(255, 138, 102, 0.08);
+        border-radius: 12px;
+        color: #ff8a66;
+        font-size: 13px;
+        padding: 0px 8px;
+        margin-right: 11px;
+      }
+    }
+
+    .card-time {
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      p {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        // background-color: #fff000;
+
+        img {
+          width: 15px;
+          height: 15px;
+          margin-right: 6px;
+        }
+
+        &:nth-of-type(2) {
+          margin-left: 16px;
+        }
+
+        &:nth-of-type(3) {
+          margin-left: 16px;
+        }
+      }
+    }
+  }
+}
+
+.details-tab {
+  width: 100%;
+  padding-top: 50px;
+  margin-bottom: 84px;
+  background: #fff;
+
+  .details-tab-itme {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    font-family: 'SourceHanSansCN-Bold';
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+
+    p {
+      width: 50%;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+  }
+}
+
+.details-tab-itme p.tabAction {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.tab-content {
+  margin-top: 20px;
+}
+
+.details-btn {
+  width: 100%;
+  height: 84px;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  text-align: center;
+  margin-top: 28px;
+  padding-top: 14px;
+  border-top: solid 1px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+
+  p {
+    width: 345px;
+    height: 48px;
+    line-height: 48px;
+    background-image: linear-gradient(90deg, #ff6666 0%, #ff9043 100%);
+    border-radius: 24px;
+    font-size: 17px;
+    color: #ffffff;
+    margin: 0 auto;
+  }
+}
+
+.details-btn1 {
+  width: 100%;
+  height: 84px;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  text-align: center;
+  // margin-top: 28px;
+  padding-top: 14px;
+  // margin-bottom: 34px;
+  background-color: #fff;
+  border-top: solid 1px rgba(0, 0, 0, 0.08);
+
+  p {
+    width: 345px;
+    height: 48px;
+    line-height: 48px;
+    background: #fff;
+    border-radius: 24px;
+    border: solid 1px rgba(0, 0, 0, 0.4);
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0 auto;
+  }
+}
+
+.mbot {
+  margin-bottom: 40px;
+}
+
+.header {
+  width: 100%;
+  height: 44px;
+  line-height: 44px;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: center;
+
+  p {
+    width: 100%;
+    height: 44px;
+    background: #006699;
+    line-height: 44px;
+  }
+}
 </style>

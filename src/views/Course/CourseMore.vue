@@ -5,7 +5,7 @@
     </div>
     <div class="content" v-show="isLoading">
       <div class="course-data">
-        <v-header-icon></v-header-icon>
+        <!-- <v-header-icon></v-header-icon> -->
         <div class="header"></div>
         <v-data></v-data>
       </div>

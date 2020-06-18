@@ -4,23 +4,13 @@
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
 
-    <div class="content">
-      <div class="course-content mbot">
-        <div class="course-card">
-          <div @click="onLoad()">测试服刷新</div>
-          <v-card :list="lsit" :eduData="educationData"></v-card>
-        </div>
-      </div>
-    </div>
+    <div @click="onLoad">测试服刷新</div>
+    <v-card :list="lsit" :eduData="educationData"></v-card>
   </div>
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
-import CourseList from '@/components/CourseList.vue'
-import CradList from '@/components/CardList.vue'
 import Card from '@/components/Card.vue'
-import PullDown from '@/components/Loadmore/PullDown.vue'
 
 export default {
   data() {
@@ -101,39 +91,17 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    // courstTab(index) {
-    //   this.isLoading = false
-    //   this.courseTab = index
-    //   setTimeout(() => {
-    //     this.isLoading = true
-    //   }, 200)
-    // },
-    // courseTabCLick(index) {
-    //   this.courseUserTab = index
-    //   if (index == 2) {
-    //     this.status = 30
-    //   } else {
-    //     this.status = 0
-    //   }
-    // },
-    courseMore() {
-      this.$router.push({ name: 'course/courseMore' })
-    },
   },
   components: {
-    'v-header': Header,
     'v-card': Card,
-    'v-course-list': CourseList,
-    'v-card-list': CradList,
-    'v-pull-down': PullDown,
   },
 }
 </script>
 
 <style lang="less" scoped>
+@import './../../assets/css/constants.less';
 .course-index-wrapper {
   width: 100%;
-  height: 100%;
 }
 
 .content {
@@ -154,15 +122,12 @@ export default {
   top: 0;
   left: 0;
   transform: translate3d(0, 0, 0);
-  // position: absolute;
-  // background-color: #ff0000;
 
   .course-box-tab {
     width: 100%;
     height: 64px;
     z-index: 3000;
     background: #ffffff;
-    // background-color: #00ffff;
 
     .course-tab-item {
       width: 60%;
@@ -175,7 +140,6 @@ export default {
         width: 50%;
         line-height: 1;
         margin-top: 37px;
-        // background-color: #fff000;
 
         p {
           width: 100%;
@@ -207,13 +171,8 @@ export default {
   color: rgba(0, 0, 0, 0.3);
 }
 
-.course-content {
-  // padding-top: 64px;
-}
-
 .course-card {
   width: 100%;
-  // padding-top: 16px;
   background: transparent;
 }
 

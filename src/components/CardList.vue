@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import * as CONSTANTS from '@/constants/index'
 import { mapState } from 'vuex'
 export default {
   props: {
@@ -90,16 +91,23 @@ export default {
       event.currentTarget.src = '../assets/image/course/qsy@2x.png'
     },
     goLearning(id) {
-      if (this.isLearning) {
-        this.$router.push({ name: 'course/learning', query: { id: id } })
-      }
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+        path: '/course/learning',
+        query: {
+          id,
+        },
+      })
     },
     onRedirect() {
-      this.$router.push({
-        name: 'wisdom-course/index',
-        query: {
-          isHeader: 1,
-        },
+      // this.$router.push({
+      //   name: 'wisdom-course/index',
+      //   query: {
+      //     isHeader: 1,
+      //   },
+      // })
+
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+        path: '/wisdom-course/index',
       })
     },
   },

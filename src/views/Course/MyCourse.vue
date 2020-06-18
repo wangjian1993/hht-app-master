@@ -1,76 +1,68 @@
 <template>
-  <div class="course-index-wrapper">
+  <div class="course-index-wrapper iphonex-bd-bottom">
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
 
-    <div class="content">
-      <div class="course-content mbot">
-        <div>
-          <div
-            class="course-user-top"
-            @click="deviseText()"
-            v-if="isDeviseText"
+    <div class="course-index-content">
+      <div class="course-user-top" @click="deviseText()" v-if="isDeviseText">
+        <p>绑定故事机开机，即可播放今日课程哦！</p>
+        <span
+          ><img src="../../assets/image/course/icon_popup_close@2x.png"
+        /></span>
+      </div>
+      <div class="course-user-day">
+        <div class="course-day-title">
+          <p>今日学习</p>
+          <span @click="onShowMore" v-if="userList.length != 0">
+            查看更多
+            <van-icon name="arrow" />
+          </span>
+        </div>
+        <div class="course-list">
+          <v-course-list
+            :isShow="isShow"
+            :courseData="userList"
+            :eduData="educationData"
           >
-            <p>绑定故事机开机，即可播放今日课程哦！</p>
-            <span
-              ><img src="../../assets/image/course/icon_popup_close@2x.png"
-            /></span>
-          </div>
-          <div class="course-user-day">
-            <div class="course-day-title">
-              <p>今日学习</p>
-              <span @click="courseMore" v-if="userList.length != 0">
-                查看更多
-                <van-icon name="arrow" />
-              </span>
+            <div class="more-img" v-if="userList.length != 0">
+              <img
+                src="../../assets/image/course/icon_device_spreadoutblue@2x.png"
+                @click="onShowMore"
+              />
             </div>
-            <div class="course-list">
-              <v-course-list
-                :isShow="isShow"
-                :courseData="userList"
-                :eduData="educationData"
-              >
-                <div class="more-img" v-if="userList.length != 0">
-                  <img
-                    src="../../assets/image/course/icon_device_spreadoutblue@2x.png"
-                    @click="courseMore"
-                  />
-                </div>
-              </v-course-list>
-            </div>
-          </div>
-          <div class="course-user-all mbot">
-            <div class="course-day-title"><p>已报名课程</p></div>
-            <div class="course-user-tab">
-              <p
-                :class="courseUserTab == 1 ? 'tabActive' : ''"
-                @click="courseTabCLick(1)"
-              >
-                学习中
-              </p>
-              <p
-                :class="courseUserTab == 2 ? 'tabActive' : ''"
-                @click="courseTabCLick(2)"
-              >
-                已完成
-              </p>
-            </div>
-            <div
-              class="course-user-null"
-              v-if="userList.length == 0 && !educationData"
-            >
-              <p>没有正在学习课程噢，快去添加吧～</p>
-              <span @click="addCourse">添加课程</span>
-            </div>
-            <div class="course-user-list" v-else>
-              <v-card-list
-                :status="status"
-                :audioData="userList"
-                :isLearning="learning"
-              ></v-card-list>
-            </div>
-          </div>
+          </v-course-list>
+        </div>
+      </div>
+      <div class="course-user-all">
+        <div class="course-day-title"><p>已报名课程</p></div>
+        <div class="course-user-tab">
+          <p
+            :class="courseUserTab == 1 ? 'tabActive' : ''"
+            @click="courseTabCLick(1)"
+          >
+            学习中
+          </p>
+          <p
+            :class="courseUserTab == 2 ? 'tabActive' : ''"
+            @click="courseTabCLick(2)"
+          >
+            已完成
+          </p>
+        </div>
+        <div
+          class="course-user-null"
+          v-if="userList.length == 0 && !educationData"
+        >
+          <p>没有正在学习课程噢，快去添加吧～</p>
+          <span @click="addCourse">添加课程</span>
+        </div>
+        <div class="course-user-list" v-else>
+          <v-card-list
+            :status="status"
+            :audioData="userList"
+            :isLearning="learning"
+          ></v-card-list>
         </div>
       </div>
     </div>
@@ -78,6 +70,7 @@
 </template>
 
 <script>
+import * as CONSTANTS from '@/constants/index'
 import Header from '@/components/Header.vue'
 import CourseList from '@/components/CourseList.vue'
 import CradList from '@/components/CardList.vue'
@@ -178,8 +171,11 @@ export default {
         this.status = 0
       }
     },
-    courseMore() {
-      this.$router.push({ name: 'course/courseMore' })
+    onShowMore() {
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+        path: '/course/course-more',
+      })
+      // this.$router.push({ name: 'course/courseMore' })
     },
   },
   components: {
@@ -197,25 +193,12 @@ export default {
 
 .course-index-wrapper {
   width: 100%;
-  height: 100%;
+  // background-color: #ff0000;
+  border-bottom: 44px solid transparent;
 }
 
 .content {
   width: 100%;
-}
-
-.course-inactive-tab {
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.course-content {
-  // padding-top: 64px;
-}
-
-.course-card {
-  width: 100%;
-  // padding-top: 16px;
-  background: transparent;
 }
 
 .course-user-top {
@@ -260,6 +243,7 @@ export default {
 .course-user-all {
   width: 345px;
   margin: 20px auto;
+  margin-bottom: 0;
 
   .course-day-title {
     width: 100%;

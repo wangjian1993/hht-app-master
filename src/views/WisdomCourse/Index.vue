@@ -1,6 +1,6 @@
 <template>
   <div class="wisdom-course-index-wrapper">
-    <v-header title=""></v-header>
+    <!-- <v-header title=""></v-header> -->
 
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading>
@@ -510,8 +510,10 @@ export default {
 <style lang="less" scoped>
 @import './../../assets/css/constants.less';
 .wisdom-course-index-content {
-  margin-top: @header-comp-height;
+  // margin-top: @header-comp-height;
+  margin-bottom: @fixed-bottom-bar;
   height: 100%;
+  // background-color: #ff0000;
 
   & > p:first-of-type {
     width: 345px;
@@ -778,7 +780,7 @@ export default {
 }
 .bottom-bar {
   width: 100%;
-  height: 84px;
+  height: @fixed-bottom-bar;
   text-align: center;
   position: fixed;
   bottom: 0;
