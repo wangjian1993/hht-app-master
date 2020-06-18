@@ -6,7 +6,7 @@
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
 
-    <div class="content mbot iphonex-bd-top-bg" v-show="isLoading">
+    <div class="content iphonex-bd-top-bg" v-show="isLoading">
       <div class="course-box-top">
         <img :src="detailsList.coverImage" alt="" />
       </div>
@@ -94,14 +94,15 @@ export default {
       tabAction: 1,
       detailsList: [],
       babyid: 0,
+      babyList: [], //宝宝list
     }
   },
   computed: {
-    ...mapState(['memberInfoVip', 'userCourseList']),
+    ...mapState(['memberInfoVip', 'userCourseList', 'system']),
     //学习人数: 初始值+课程实际报名人数*3
     participants() {
       const list = this.detailsList
-      return list.participantOpsCount + list.particiPants * 3
+      return list.participantOpsCount + list.particiPants
     },
     //当前课程包的课程
     courseList() {
@@ -117,20 +118,41 @@ export default {
     detalsTab(index) {
       this.tabAction = index
     },
+    //获取该用户所有的宝宝list
+    async getBabyList() {
+      try {
+        const { data } = await this.$axios.getBabyList()
+        if (!data.success) throw new Error(data.info)
+        this.babyList = data.data
+      } catch (err) {
+        console.log(err)
+      }
+    },
     //添加课程
     async onAddCourse() {
       const signupCourseLen = this.courseList.length
-      const willCourseLen = this.userCourseList.length
+      const willCourse = this.userCourseList.filter(
+        (item) => item.status * 1 !== 20
+      )
+      const willCourseLen = willCourse.length
       const courseLength = signupCourseLen * 1 + willCourseLen * 1
 
       // 添加课程限制
       if (courseLength > 10) return this.showOverloadCourseModal()
 
       if (this.memberInfoVip == 0) {
-        this.$router.push({ name: 'index' })
+        this.$router.push({
+          name: 'index',
+          query: {
+            isHeader: 1,
+          },
+        })
         return this.$toast('请先开通会员')
       }
 
+      // 验证宝宝id是否有效
+      await this.getBabyList()
+      if (!this.babyList.length) return this.showLackBabyModal()
       this.$toast.loading({ message: '报名中...', forbidClick: true })
 
       try {
@@ -146,6 +168,22 @@ export default {
         console.log(err)
         this.$toast.fail(err.message)
       }
+    },
+    async showLackBabyModal() {
+      const dialog = await this.$createDialog(
+        () => import('@/views/Course/LackBabyModal.vue'),
+        {
+          destroyOnClose: true,
+          on: {
+            close: (v) => {
+              dialog.close()
+              if (this.system == 'ios')
+                return window.webkit.messageHandlers.addBabys.postMessage(null)
+              else return window.android.addBabys('addBabys', '')
+            },
+          },
+        }
+      )
     },
     // 课程包详情
     async getAsyncCourseDetails() {

@@ -10,14 +10,20 @@
           </div>
         </li>
         <li
-          v-for="item in courseList"
+          v-for="item in courseListWith"
           :key="item.id"
           @click="goLearning(item.id)"
         >
           <div class="item-img"><img :src="item.coverImage" /></div>
           <div class="item-name">
             <p>{{ item.name }}</p>
-            <p>{{ item.audiosCount }}首 / {{ item.classHourCount }}课时</p>
+            <p>
+              共{{ item.classHourCount }}课时<span v-if="isFinishCourse">
+                / 已学{{ item.finishedClassHoursLen }}课时</span
+              >
+            </p>
+
+            <!-- <p>{{ item.audiosCount }}首 / {{ item.classHourCount }}课时</p> -->
           </div>
         </li>
       </ul>
@@ -35,6 +41,9 @@ export default {
   },
   computed: {
     ...mapState(['isEdu']),
+    isFinishCourse() {
+      return this.status * 1 !== 30
+    },
     courseData: function() {
       return this.audioData.filter((item, index) => {
         console.log(this.status)
@@ -54,6 +63,18 @@ export default {
         return {
           ...item,
           audiosCount,
+        }
+      })
+    },
+    //classHours + 已完成课时length
+    courseListWith() {
+      return this.courseList.map((item) => {
+        let { classHours } = item
+        let finishedClassHours = classHours.filter((i) => i.status * 1)
+
+        return {
+          ...item,
+          finishedClassHoursLen: finishedClassHours.length,
         }
       })
     },

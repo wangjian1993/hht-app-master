@@ -10,14 +10,14 @@ import './assets/css/app.css' //公共css
 import './assets/css/font.css' //公共css
 import 'lib-flexible/flexible'
 import store from './store/index'
-// import Vconsole from 'vconsole'
+import Vconsole from 'vconsole'
 import ALLFILTERS from "@/filters/index";
 
-// const vConsole = new Vconsole()
+const vConsole = new Vconsole()
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 Vue.use(createDialog);
-// Vue.use(vConsole)
+Vue.use(vConsole)
 
 //global filters
 Object.keys(ALLFILTERS).forEach(key => Vue.filter(key, ALLFILTERS[key]))
@@ -50,6 +50,8 @@ import {
   CollapseItem,
   Skeleton,
   Empty,
+  Row,
+  Col
 } from 'vant'
 Vue.use(Tab)
   .use(Tabs)
@@ -74,6 +76,8 @@ Vue.use(Tab)
   .use(CollapseItem)
   .use(Skeleton)
   .use(Empty)
+  .use(Row)
+  .use(Col)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 new Vue({

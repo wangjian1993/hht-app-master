@@ -469,6 +469,37 @@ export default {
 			}
 		});
 	},
+	/*
+	 * 取消智慧早教
+	 */
+	getCourseCancel (params) {
+		const {userId, babyId, courseId} = params;
+		return fetch({
+			url: aliloUrl + "course/cancel",
+			method: "POST",
+			params: {
+				babyId,
+				userId,
+				courseId
+			}
+		});
+	},
+	/*
+	 * 课程重修
+	 */
+	getRetakeCourse (params) {
+		const {userId, babyId, courseId,courseGroupId} = params;
+		return fetch({
+			url: aliloUrl + "course-group/reSingup",
+			method: "POST",
+			params: {
+				babyId,
+				userId,
+				courseId,
+				courseGroupId
+			}
+		});
+	},
 	getXMLYVip(uid,day){
 		return fetch({
 			url: aliloUrl + "xmly-vip/grant-code",

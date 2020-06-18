@@ -65,3 +65,16 @@ export function getDayTime() {
 	var d = dd.getDate();
 	return y + '-' + m + '-' + d;
 }
+
+// 防抖
+export function debounce (func, delay) {
+  return function (args) {
+    let _args = args,
+      that = this;
+    clearTimeout(func.id);
+
+    func.id = setTimeout(() => {
+      func.call(that, _args);
+    }, delay);
+  };
+}

@@ -61,8 +61,12 @@ export default {
       width: 15%;
       height: @header-comp-height;
       padding-left: 16px;
-      display: flex;
-      align-items: center;
+      // display: flex;
+      // align-items: center;
+      // background-color: #ff0000;
+      & > i {
+        margin-top: 32px;
+      }
     }
     .header-text {
       width: 70%;

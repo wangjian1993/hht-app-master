@@ -1,121 +1,78 @@
 <template>
-  <div class="app">
-    <v-header-icon v-if="isHeader == 1"></v-header-icon>
+  <div class="wisdom-course-index-wrapper">
+    <v-header title=""></v-header>
 
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading>
     </div>
 
-    <div class="content" v-show="isLoading">
-      <div class="apply-content">
-        <div class="header">
-          <div class="header-title">
-            <div class="header-img">
-              <img
-                :src="defaultBaby.head"
-                alt=""
-                v-if="defaultBaby.head != ''"
-              />
-              <img
-                v-else-if="defaultBaby.sex == 1"
-                src="../../assets/image/my_avatar_boy@3x.png"
-              />
-              <img v-else src="../../assets/image/my_avatar_girl@3x.png" />
-            </div>
-            <div class="header-name">
-              <p>
-                <span>{{ nameSplip(defaultBaby.nickName) }}</span>
-                <img
-                  v-if="defaultBaby.sex == 1"
-                  src="../../assets/image/my_navbar_boy@3x.png"
-                  alt=""
-                />
-                <img
-                  v-else
-                  src="../../assets/image/my_navbar_girl@3x.png"
-                  alt=""
-                />
-                <img
-                  v-if="memberInfoVip == 1"
-                  src="../../assets/image/my_vip_icon@3x.png"
-                  alt=""
-                />
-              </p>
-              <p>{{ getGrowAge(defaultBaby.birthday) }}</p>
-            </div>
-          </div>
-          <div class="header-ranking" @click="setRouter('ranking')">
-            宝宝排名
-          </div>
-        </div>
-        <v-data></v-data>
-        <div class="sign-day">
-          <div class="day">
-            <p>
-              智慧早教第
-              <span>{{ applyTime || 0 }}</span>
-              天计划
-            </p>
-            <p>目标30min</p>
-          </div>
-          <p class="day-sum">累计坚持{{ sumDay }}天</p>
-        </div>
+    <div class="wisdom-course-index-content" v-show="isLoading">
+      <p>火火兔智慧早教</p>
 
-        <div class="music-btn" @click="education()"><p>开始上课</p></div>
-        <div class="course-key">
-          <v-title :title="title[0]"></v-title>
-          <div class="key-list">
-            <ul v-if="keyArray.length != 0">
-              <li v-for="item in keyArray" :key="item">
-                <span>{{ item }}</span>
-              </li>
-            </ul>
-            <div v-else class="content-null"><p>暂无关键词</p></div>
-          </div>
+      <div class="sign-day">
+        <div class="day">
+          <p>
+            智慧早教第
+            <span>{{ applyTime || 0 }}</span>
+            天计划
+          </p>
+          <p>目标30min</p>
         </div>
-        <div class="course-emphasis">
-          <v-title :title="title[1]"></v-title>
-          <div class="key-list" v-if="isPie">
-            <v-pie :pieData="keyList"></v-pie>
-          </div>
-          <div v-else class="content-null"><p>暂无强化重点</p></div>
-        </div>
-        <div class="course-period">
-          <v-title
-            :title="title[2]"
-            :age="countAge(babyYear, babyMonth)"
-          ></v-title>
-          <div class="period-list" v-if="periodList.length != 0">
-            <ul>
-              <li v-for="(item, index) in periodList" :key="index">
-                <div class="period-img">
-                  <img :src="item.level1_logo" />
-                </div>
-                <div class="period-name">
-                  <p class="an-multi-ellipsis">{{ item.level1 }}</p>
-                  <p class="van-multi-ellipsis--l2">{{ item.level2 }}</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div v-else class="content-null"><p>暂无关键期</p></div>
-        </div>
-
-        <!-- <div class="apply-btn" @click="onUserApply"><p>立刻报名</p></div> -->
+        <p class="day-sum"><i></i>累计坚持{{ sumDay }}天</p>
       </div>
 
-      <!-- 浮窗 -->
-      <v-suspend></v-suspend>
-      <v-babaList
-        v-if="babyBox"
-        @setBabyId="setBabyId"
-        @cloneBox="cloneBox"
-      ></v-babaList>
-      <v-emptybaby-modal
-        v-if="isEmptyBabyModal"
-        @close="closeEmptyModal"
-      ></v-emptybaby-modal>
+      <div class="learning-wacth">
+        <img src="../../assets/image/course/icon_weixin@2x.png" alt="" />
+        <p>点击加入微信专业交流群</p>
+        <span>加入</span>
+      </div>
+
+      <!-- 今日课程关键词 -->
+      <div class="course-key">
+        <v-title :title="title[0]"></v-title>
+        <div class="key-list">
+          <ul v-if="keyArray.length != 0">
+            <li v-for="item in keyArray" :key="item">
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+          <div v-else class="content-null"><p>暂无关键词</p></div>
+        </div>
+      </div>
+
+      <!-- 今日强化重点 -->
+      <div class="course-emphasis">
+        <v-title :title="title[1]"></v-title>
+        <div class="key-list" v-if="isPie">
+          <v-pie :pieData="keyList"></v-pie>
+        </div>
+        <div v-else class="content-null"><p>暂无强化重点</p></div>
+      </div>
+
+      <!-- 宝宝关键期 -->
+      <div class="course-period">
+        <v-title
+          :title="title[2]"
+          :age="countAge(babyYear, babyMonth)"
+        ></v-title>
+        <div class="period-list" v-if="periodList.length != 0">
+          <ul>
+            <li v-for="(item, index) in periodList" :key="index">
+              <div class="period-img">
+                <img :src="item.level1_logo" />
+              </div>
+              <div class="period-name">
+                <p class="an-multi-ellipsis">{{ item.level1 }}</p>
+                <p class="van-multi-ellipsis--l2">{{ item.level2 }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div v-else class="content-null"><p>暂无关键期</p></div>
+      </div>
     </div>
+
+    <van-row class="bottom-bar"><p @click="onDelCourse">删除课程</p></van-row>
   </div>
 </template>
 
@@ -123,16 +80,13 @@
 import Title from '@/components/Title.vue'
 import Data from '@/components/Data.vue'
 import Pie from '@/components/Pie.vue'
-import Suspend from '@/components/Suspend.vue'
-import BabaList from '@/components/BabyList.vue'
-import EmptyBabyModal from '@/components/EmptyBabyModal.vue'
-import HeaderIcon from '@/components/HeaderIcon.vue'
+import Header from '@/components/Header.vue'
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 export default {
   data() {
     return {
       isLoading: false,
-      title: ['今日知识点', '今日强化点', '宝宝关键期'],
+      title: ['今日课程关键词', '今日强化重点', '宝宝关键期'],
       age: '0个月',
       periodList: [],
       currentTime: null,
@@ -166,48 +120,14 @@ export default {
   },
   created() {
     this.isHeader = this.$route.query.header
-    // let baby = JSON.parse(localStorage.getItem('babyInfo'))
-    // this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby
+    let baby = JSON.parse(localStorage.getItem('babyInfo'))
+    this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby
 
     if (localStorage.getItem('cid') == null) return this.getActivity()
     this.getSumTime()
     this.current()
   },
   methods: {
-    goReport() {
-      this.$router.push({ name: 'report' })
-    },
-    loca() {
-      location.reload()
-    },
-    setRouter(val) {
-      this.$router.push({ name: val })
-    },
-
-    closeEmptyModal(isConfirm) {
-      this.isEmptyBabyModal = false
-      this.isHeader = this.$route.query.header
-      if (!isConfirm) return
-
-      if (this.system == 'ios')
-        return window.webkit.messageHandlers.addBabys.postMessage(null)
-      else return window.android.addBabys('addBabys', '')
-    },
-    cloneBox() {
-      this.babyBox = false
-    },
-    nameSplip(name) {
-      try {
-        if (name.length > 10) {
-          return name.slice(0, 10) + '...'
-        } else {
-          return name
-        }
-      } catch (e) {
-        console.log('宝宝名称', name)
-        //TODO handle the exception
-      }
-    },
     async getBabyList() {
       try {
         const { data } = await this.$axios.getBabyList()
@@ -286,7 +206,6 @@ export default {
           .replace('月', '-')
           .replace('日', '')
       } catch (e) {
-        //TODO handle the exception
         time = this.currentTime
       }
       var now = new Date()
@@ -445,10 +364,8 @@ export default {
               this.isSignupWisdom = true
             } catch (e) {
               console.log(e)
-              //TODO handle the exception
             }
           } else {
-            // console.log('还没有报名====')
             localStorage.removeItem('babyInfo')
             localStorage.removeItem('babyId')
             this.isLoading = true
@@ -462,7 +379,12 @@ export default {
     },
     async onUserApply() {
       if (this.memberInfoVip == 0) {
-        this.$router.push({ name: 'index' })
+        this.$router.push({
+          name: 'index',
+          query: {
+            isHeader: 1,
+          },
+        })
         this.$toast('请先开通会员')
         return
       }
@@ -475,6 +397,33 @@ export default {
     async onRedirectModal() {
       this.isHeader = 0 //隐藏header-icon
       this.isEmptyBabyModal = true
+    },
+    // 取消报名
+    async onDelCourse() {
+      let cid = window.localStorage.getItem('cid')
+      let user = window.localStorage.getItem('user')
+      let courseBaby = window.localStorage.getItem('courseBaby')
+      cid = JSON.parse(cid)
+      user = JSON.parse(user)
+      courseBaby = JSON.parse(courseBaby)
+
+      try {
+        const params = {
+          userId: user,
+          babyId: courseBaby,
+          courseId: cid,
+        }
+        const { data } = await this.$axios.getCourseCancel(params)
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        this.$toast.success('取消成功')
+        this.$router.push({
+          name: 'course/index',
+        })
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
     },
     computedTime(time) {
       //传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
@@ -505,7 +454,7 @@ export default {
       this.$axios
         .getDayCourse(this.currentTime)
         .then((res) => {
-          console.log('点击====')
+          // console.log('点击====')
           let array = {
             title: '智慧早教第' + this.applyTime + '天',
             coursePackId: 0,
@@ -525,7 +474,7 @@ export default {
               array.course.push(obj)
               // array.push(obj);
             })
-            console.log('array', array)
+            // console.log('array', array)
             try {
               this.$toast('获取早教课程成功')
               if (this.system == 'ios') {
@@ -546,45 +495,311 @@ export default {
           this.$toast.fail(err)
         })
     },
+    // onDelCourse() {
+    //   this.$toast('deleting')
+    // },
   },
   components: {
-    'v-data': Data,
     'v-title': Title,
     'v-pie': Pie,
-    'v-suspend': Suspend,
-    'v-babaList': BabaList,
-    'v-header-icon': HeaderIcon,
-    'v-emptybaby-modal': EmptyBabyModal,
+    'v-header': Header,
   },
 }
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/css/education.less';
-.apply-img {
-  width: 100%;
+@import './../../assets/css/constants.less';
+.wisdom-course-index-content {
+  margin-top: @header-comp-height;
   height: 100%;
-  img {
-    width: 100%;
-    height: 100%;
+
+  & > p:first-of-type {
+    width: 345px;
+    margin: 0 auto;
+    margin-top: 6px;
+    font-family: 'SourceHanSansCN-Medium';
+    font-size: 22px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.8);
   }
 }
-.apply-btn {
+
+.header {
   width: 100%;
+  height: 118px;
+  background: url(../../assets/image/vip_smartedu_topimg1@3x.png) no-repeat;
+  background-size: 100%;
+  position: relative;
+  // z-index: 2000;
+  .header-ranking {
+    position: absolute;
+    width: 64px;
+    height: 20px;
+    right: 0;
+    top: 23px;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+    background-image: linear-gradient(5deg, #ffa39f 0%, #ff7a7a 100%);
+    border-radius: 12px 0 0px 12px;
+  }
+  .header-title {
+    width: 90%;
+    display: flex;
+    padding-top: 16px;
+    margin: 0 auto;
+    .header-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 50%;
+      }
+    }
+    .header-name {
+      padding-left: 12px;
+      p {
+        height: 50%;
+        display: flex;
+        align-items: center;
+        &:nth-of-type(1) {
+          font-family: 'SourceHanSansCN-Medium';
+          font-size: 17px;
+          color: rgba(0, 0, 0, 0.7);
+          img {
+            &:nth-of-type(1) {
+              width: 14px;
+              height: 14px;
+              margin: 0 5px;
+            }
+            &:nth-of-type(2) {
+              width: 16px;
+              height: 15px;
+            }
+          }
+        }
+        &:nth-of-type(2) {
+          font-family: 'SourceHanSansCN-Regular';
+          font-size: 12px;
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+}
+.sign-day {
+  width: 345px;
+  margin: 11px auto;
+  .day {
+    display: flex;
+    position: relative;
+    height: 30px;
+
+    p {
+      color: rgba(0, 0, 0, 0.8);
+      height: 24px;
+      line-height: 30px;
+
+      font-family: 'SourceHanSansCN-Regular';
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: rgba(0, 0, 0, 0.6);
+
+      &:nth-of-type(1) {
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.8);
+        span {
+          font-size: 24px;
+          color: #ff8a66;
+        }
+      }
+      &:nth-of-type(2) {
+        position: absolute;
+        right: 0;
+
+        font-family: 'SourceHanSansCN-Regular';
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+  .day-sum {
+    margin-top: 16px;
+    font-family: 'SourceHanSansCN-Normal';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.8);
+    & > i {
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      font-style: normal;
+      background-color: #ff8a66;
+      margin-right: 4px;
+      border-radius: 50%;
+    }
+  }
+}
+
+.learning-wacth {
+  width: 94%;
+  margin: 0 auto;
+  margin-top: 28px;
+  padding: 0 20px;
+  display: flex;
+  height: 63px;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px 3px rgba(76, 76, 76, 0.06);
+  border-radius: 8px;
+  img {
+    width: 35px;
+    height: 28px;
+  }
+  p {
+    // font-size: 16px;
+    // color: rgba(0, 0, 0, 0.8);
+    padding-left: 18px;
+
+    font-family: 'SourceHanSansCN-Normal';
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.8);
+  }
+  span {
+    margin-left: auto;
+    display: inline-block;
+    width: 60px;
+    height: 25px;
+    border-radius: 24px;
+    // border: solid 1px #ff6666;
+    // font-size: 12px;
+    // color: #ff6666;
+    text-align: center;
+    line-height: 25px;
+    vertical-align: middle;
+    background-color: #4dc42a;
+
+    font-family: 'SourceHanSansCN-Regular';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #ffffff;
+  }
+}
+
+.music-btn {
+  width: 345px;
+  height: 48px;
+  background-image: linear-gradient(90deg, #ff6666 0%, #ff9043 100%);
+  border-radius: 24px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    color: #ffffff;
+    font-size: 17px;
+  }
+}
+.key-list {
+  width: 95%;
+  margin: 0 auto;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 12px;
+      margin: 6px 10px;
+      span {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
+        padding: 5px 7px 4px 9px;
+      }
+    }
+  }
+}
+.course-period {
+  margin-bottom: 40px;
+}
+.period-list {
+  width: 345px;
+  margin: 0 auto;
+  ul {
+    width: 100%;
+    li {
+      width: 100%;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      .period-img {
+        width: 48px;
+        height: 48px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .period-name {
+        p {
+          color: rgba(0, 0, 0, 0.8);
+          &:nth-of-type(1) {
+            font-size: 16px;
+          }
+          &:nth-of-type(2) {
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.3);
+          }
+        }
+      }
+      &:last-child {
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
+.bottom-bar {
+  width: 100%;
+  height: 84px;
   text-align: center;
   position: fixed;
-  bottom: 5%;
+  bottom: 0;
   left: 0;
   text-align: center;
-  p {
-    width: 311px;
+  background-color: #fff;
+  & > p {
+    width: 345px;
     height: 48px;
     line-height: 48px;
-    background-color: #ff9f80;
+    margin: 14px 15px;
+    // font-family: 'SourceHanSansCN-Medium';
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
     border-radius: 24px;
+    border: solid 1px rgba(0, 0, 0, 0.4);
+    // opacity: 0.5;
+    font-family: 'SourceHanSansCN-Medium';
     font-size: 17px;
-    color: #fff;
-    margin: 0 auto;
+    color: rgba(0, 0, 0, 0.6);
   }
 }
 </style>

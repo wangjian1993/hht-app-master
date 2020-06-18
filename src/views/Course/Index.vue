@@ -33,8 +33,8 @@
       </div>
       <div class="course-content mbot iphonex-bd-top iphonex-course-content">
         <div class="course-card mbot iphonex-course-card" v-if="courseTab == 1">
-          <v-card :list="lsit" :eduData="educationData"></v-card>
           <div @click="onLoad()">测试服刷新</div>
+          <v-card :list="lsit" :eduData="educationData"></v-card>
         </div>
         <div v-if="courseTab == 2">
           <div
@@ -132,7 +132,6 @@ export default {
   },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
-
     this.getSignupTime()
     this.getCourseAll()
   },
@@ -163,7 +162,6 @@ export default {
         this.educationData = false
         this.$store.dispatch('setEduFlag', false)
         console.log(err)
-        this.$toast.fail(err.message)
       }
     },
     async getCourseAll() {

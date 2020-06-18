@@ -4,7 +4,7 @@ export default [
     name: 'course/index',
     component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
     },
   },
   { //课程包登录页面
@@ -12,7 +12,7 @@ export default [
     name: 'course-login',
     component: () => import( /* webpackChunkName: "login" */ '@/views/Login/CourseLogin.vue'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
     },
   },
   { //详情
@@ -28,7 +28,7 @@ export default [
     name: 'course/add-course',
     component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/AddCourse.vue'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
     }
   },
   { //报名详情
@@ -36,7 +36,7 @@ export default [
     name: 'course/apply',
     component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Apply.vue'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
     }
   },
   { //今日课程更多
@@ -44,7 +44,7 @@ export default [
     name: 'course/courseMore',
     component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/CourseMore.vue'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
     }
   },
   { //学习中详情

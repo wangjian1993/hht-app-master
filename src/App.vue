@@ -69,6 +69,7 @@ export default {
   -webkit-text-size-adjust: 100%;
   font-size: 62.5%;
   background: #fff;
+  // background-color: #00ffff;
 }
 .slide-right-enter-active,
 .slide-right-leave-active,

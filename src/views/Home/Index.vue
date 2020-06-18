@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <v-header-icon v-if="isHeader == 1"></v-header-icon>
     <!-- <v-header :title="title" v-if="isHeader == 1"></v-header> -->
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading>
@@ -297,6 +298,7 @@
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 import Header from '@/components/Header.vue'
 import Global from '@/common/global.js'
+import HeaderIcon from '@/components/HeaderIcon.vue'
 export default {
   data() {
     return {
@@ -311,7 +313,7 @@ export default {
       buyArray: [],
       buyOneArray: [],
       activeName: '0',
-      isHeader: 1,
+      isHeader: 0,
       message: 'dilidilibao',
       userID: null,
       title: '会员中心',
@@ -347,6 +349,13 @@ export default {
     },
   },
   created() {
+    const { isHeader } = this.$route.query
+    this.isHeader = isHeader
+
+    console.warn('isHeader')
+    console.log(isHeader)
+    console.log('\n')
+
     //判断是否有用户id
     this.userID = localStorage.getItem('user')
     if (this.userID == null) {
@@ -612,6 +621,7 @@ export default {
   },
   components: {
     'v-header': Header,
+    'v-header-icon': HeaderIcon,
   },
   watch: {
     a(val, oldVal) {

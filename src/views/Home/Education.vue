@@ -105,10 +105,7 @@
       </div>
       <div class="noapply-content" v-else>
         <div class="apply-img">
-          <img
-            src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png"
-            alt=""
-          />
+          <img src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png" />
         </div>
         <div class="apply-btn" @click="onUserApply"><p>立刻报名</p></div>
       </div>

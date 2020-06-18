@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="course-card" @click="onRedirect" v-show="list.length">
+    <div class="course-card" @click="onRedirect" v-show="listWith.length">
       <div class="course-card-box">
         <div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
         <div class="card-name"><p>智慧早教课程</p></div>
@@ -14,7 +14,7 @@
     <div
       class="course-card"
       @click="detailsRouter(item.id)"
-      v-for="(item, index) in list"
+      v-for="item in listWith"
       :key="item.id"
     >
       <div class="course-card-box">
@@ -23,7 +23,7 @@
           <p>{{ item.name }}</p>
         </div>
         <div class="card-name-subhead">
-          <p>{{ item.description || '暂无描述' }}</p>
+          <p>{{ item.subName || '暂无描述' }}</p>
         </div>
         <div class="card-time">
           <p>
@@ -31,7 +31,7 @@
             共{{ item.classHour }}课时
           </p>
           <p>
-            <span>{{ item.particiPants }}人</span>正在上课
+            <span>{{ item.participantsWith }}人</span>正在上课
           </p>
         </div>
         <div class="course-state">
@@ -55,6 +55,18 @@ export default {
     return {
       userId: null,
     }
+  },
+  computed: {
+    listWith() {
+      return this.list.map((item) => {
+        const participantsWith =
+          item.participantOpsCount * 1 + item.particiPants
+        return {
+          ...item,
+          participantsWith,
+        }
+      })
+    },
   },
   created() {
     this.userId = localStorage.getItem('courseBaby')

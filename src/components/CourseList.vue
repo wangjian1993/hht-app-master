@@ -1,6 +1,6 @@
 <template>
   <div class="course-list-wrapper">
-    <div class="empty" v-if="courseData.length == 0 && !isEdu">
+    <div class="empty" v-if="courseListWith.length == 0 && !isEdu">
       <van-empty
         class="custom-image"
         :image="emptyImg"
@@ -22,11 +22,11 @@
           <div class="list-name">
             <p>
               {{ item.name }}
-              <span v-if="item.status == 20">已完成</span>
+              <!-- <span v-if="item.status == 20">已完成</span> -->
             </p>
             <p>
               第{{ item.classHoursIdx }}/<span>{{ item.classHourCount }}</span
-              >课时 | <span>{{ item.avgDuration }}</span
+              >课时 | <span>约{{ item.curDuration }}</span
               >分钟
             </p>
           </div>
@@ -52,17 +52,32 @@ export default {
     return {
       emptyImg: require('../assets/image/course/qsy@2x.png'),
       babyid: 0,
+      isLockSchooltime: false,
     }
   },
   computed: {
     ...mapState(['isEdu', 'system']),
+    courseListWith() {
+      return this.courseData.map((item) => {
+        const { currentHourDuration } = item
+        const curDuration = Math.ceil((currentHourDuration * 1) / 60)
+
+        return {
+          ...item,
+          curDuration,
+        }
+      })
+    },
     dataFilter: function() {
-      return this.courseData.filter((item, index) =>
+      return this.courseListWith.filter((item, index) =>
         this.isShow ? index < 3 : item
       )
     },
+    dataWith() {
+      return this.dataFilter.filter((item) => item.status * 1 !== 20)
+    },
     dataWithIndex() {
-      return this.dataFilter.map((item) => {
+      return this.dataWith.map((item) => {
         let classHoursIdx
         const list = item.classHours
         const isReadyState = list.every((val) => val.status * 1 === 0)
@@ -85,13 +100,16 @@ export default {
   },
   methods: {
     schooltime(item, type) {
+      if (this.isLockSchooltime) return
+      this.isLockSchooltime = true
+      // 普通课程
       if (type == 0) {
         this.$axios
           .getCourseData(item.courseGroupId, item.id, this.babyid)
           .then((res) => {
             if (res.data.code == 1) {
               let array = {
-                title: '智慧早教第0天',
+                title: item.name,
                 coursePackId: item.courseGroupId,
                 courseId: item.id,
                 babyId: this.babyid,
@@ -106,6 +124,7 @@ export default {
             this.$toast.fail(err)
           })
       } else if (type == 1) {
+        // 智慧早教
         let currentTime = getDayTime()
         this.$axios
           .getDayCourse(currentTime)
@@ -141,9 +160,10 @@ export default {
         }
         array.course.push(obj)
       })
-      // console.log(array)
       try {
         this.$toast('获取课程成功')
+        this.isLockSchooltime = false
+
         if (this.system == 'ios') {
           window.webkit.messageHandlers.course_play.postMessage(array)
         } else if (this.system == 'android') {
@@ -154,8 +174,9 @@ export default {
       }
     },
     //获取正在学习中的课时index
-    getLearningItemIdx(list, prop, conditional) {
-      const idx = list.findIndex((val) => val[prop] * 1 === conditional * 1)
+    getLearningItemIdx(list = [], prop, conditional) {
+      let statusList = list.map((item) => item.status * 1)
+      let idx = statusList.lastIndexOf(20)
       return list[idx * 1 + 1]['index']
     },
   },

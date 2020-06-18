@@ -43,10 +43,7 @@ export default {
   computed: {
     ...mapState(['userCourseList', 'isEdu']),
   },
-  created() {
-    // console.log('啊哈哈哈')
-    // console.log('111', this.userCourseList)
-  },
+  created() {},
   components: {
     'v-data': Data,
     'v-course-list': CourseList,

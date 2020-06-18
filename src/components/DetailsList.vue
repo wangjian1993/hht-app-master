@@ -9,7 +9,7 @@
       <p class="list-content-title">
         <span @click="EbbinghausClick"
           >艾宾浩斯曲线学习计划
-          <img src="../assets/image/course/icon_tips@2x.png" alt=""
+          <img src="../assets/image/course/icon_tips@2x.png"
         /></span>
       </p>
       <div class="list-box">
@@ -24,9 +24,10 @@
               }}课时</span
             >
             <span
-              >新学{{ titleItem.newLearning | convertCNNum }}首 | 复习{{
-                titleItem.review | convertCNNum
-              }}首</span
+              >新学{{ titleItem.newLearning | convertCNNum }}首
+              <i v-if="titleItem.review"
+                >| 复习{{ titleItem.review | convertCNNum }}首</i
+              ></span
             >
           </div>
           <li v-for="listItem in titleItem.audios" :key="listItem.name">
@@ -116,17 +117,18 @@ export default {
         return parseFloat(parseInt(num / 10000) + '.' + decimal) + '万'
       }
     },
-    EbbinghausClick() {
-      this.$dialog
-        .alert({
-          title: '什么是艾宾浩斯曲线',
-          message:
-            '描述了人类大脑对新事物遗忘的规律。人体大脑对新事物遗忘的循序渐进的直观描述，人们可以从遗忘曲线中掌握遗忘规律并加以利用，从而提升自我记忆能力。课程根据大脑的遗忘曲线规律安排学习新课程和复习课程。',
-          confirmButtonText: '我知道了',
-        })
-        .then(() => {
-          // on close
-        })
+    async EbbinghausClick() {
+      const dialog = await this.$createDialog(
+        () => import('@/views/Course/EbbinghausModal.vue'),
+        {
+          destroyOnClose: true,
+          on: {
+            close: (v) => {
+              dialog.close()
+            },
+          },
+        }
+      )
     },
   },
   components: {},
@@ -142,7 +144,6 @@ export default {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
-
     font-family: 'SourceHanSansCN-Regular';
     font-size: 12px;
     font-weight: normal;
@@ -151,10 +152,14 @@ export default {
     color: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
+
+    // background-color: #ff0000;
     img {
       width: 14px;
       height: 14px;
       margin-left: 4px;
+      position: relative;
+      top: -1px;
     }
   }
   .list-box {
@@ -189,6 +194,11 @@ export default {
             margin-left: auto;
             font-size: 12px;
             color: rgba(0, 0, 0, 0.3);
+            text-align: right;
+            & > i {
+              font-style: normal;
+              // background-color: #ff0000;
+            }
           }
         }
       }

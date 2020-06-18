@@ -1,11 +1,11 @@
 <template>
-  <div class="app">
+  <div class="learning-wrapper">
     <v-header title=""></v-header>
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
-    <div class="content iphonex-bd-top" v-show="isLoading">
-      <div class=" mbot ptop learning-top">
+    <div class="learning-content iphonex-bd-top" v-show="isLoading">
+      <div class=" mbot learning-top">
         <p>{{ courseData.name }}</p>
         <p>
           共 <span>{{ courseData.classHourCount }}</span> 课时 | 每节课约
@@ -26,10 +26,7 @@
           :courseCount="courseData.classHourCount"
         ></v-title>
         <div class="list-box">
-          <ul
-            v-for="(titleItem, index) in courseData.classHours"
-            :key="titleItem.id"
-          >
+          <ul v-for="titleItem in courseData.classHours" :key="titleItem.id">
             <div class="list-item-title">
               <p>
                 <span
@@ -66,6 +63,10 @@
         </div>
       </div>
     </div>
+
+    <div class="retake-course-btn" v-if="isShowRetakeBtn">
+      <p @click="onRetakeCourse">重新加入学习</p>
+    </div>
   </div>
 </template>
 <script>
@@ -83,37 +84,15 @@ export default {
       babyid: 0,
     }
   },
-  computed: {},
+  computed: {
+    isShowRetakeBtn() {
+      return this.courseData && this.courseData.status * 1 === 20
+    },
+  },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
     this.getCourseDeta(this.$route.query.id)
   },
-  // filters: {
-  //   convertCNNum(v) {
-  //     switch (v * 1) {
-  //       case 1:
-  //         return '一'
-  //       case 2:
-  //         return '两'
-  //       case 3:
-  //         return '三'
-  //       case 4:
-  //         return '四'
-  //       case 5:
-  //         return '五'
-  //       case 6:
-  //         return '六'
-  //       case 7:
-  //         return '七'
-  //       case 8:
-  //         return '八'
-  //       case 9:
-  //         return '九'
-  //       default:
-  //         return v
-  //     }
-  //   },
-  // },
   methods: {
     getCourseDeta(id) {
       this.$axios
@@ -135,6 +114,30 @@ export default {
     time(val) {
       return timeCycle(val)
     },
+    //重修
+    async onRetakeCourse() {
+      const { id, courseGroupId } = this.courseData
+      let babyId = localStorage.getItem('courseBaby')
+      let userId = localStorage.getItem('user')
+      babyId = JSON.parse(babyId)
+      userId = JSON.parse(userId)
+      try {
+        const params = {
+          babyId,
+          userId,
+          courseId: id,
+          courseGroupId,
+        }
+        const { data } = await this.$axios.getRetakeCourse(params)
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        this.$toast.success('重新报名成功')
+        this.$router.push({ name: 'course/index' })
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
+    },
   },
   components: {
     'v-header': Header,
@@ -144,6 +147,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import './../../assets/css/constants.less';
+.learning-wrapper {
+  margin-top: @header-comp-height;
+}
+.learning-content {
+  margin-bottom: 84px;
+}
 .learning-top {
   width: 345px;
   margin-top: 5px;
@@ -305,5 +315,33 @@ export default {
 }
 .mbot {
   margin-bottom: 40px;
+}
+
+.retake-course-btn {
+  width: 100%;
+  height: 84px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  background-color: #fff;
+
+  p {
+    width: 345px;
+    height: 48px;
+    line-height: 48px;
+    margin: 14px 15px;
+    // font-family: 'SourceHanSansCN-Medium';
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    border-radius: 24px;
+    border: solid 1px rgba(0, 0, 0, 0.4);
+    // opacity: 0.5;
+    font-family: 'SourceHanSansCN-Medium';
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.6);
+  }
 }
 </style>
