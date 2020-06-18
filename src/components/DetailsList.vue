@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="details-list-wrapper">
     <van-tabs @click="tabClick" class="details-list-tab" color="#ff6666">
       <van-tab v-for="item in dataWith" :key="item.id" :title="item.name">
       </van-tab>
@@ -136,6 +136,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import './../assets/css/constants.less';
+.details-list-wrapper {
+  // background-color: #ff0000;
+}
 .list-content {
   width: 345px;
   margin: 0 auto;
@@ -152,8 +156,6 @@ export default {
     color: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
-
-    // background-color: #ff0000;
     img {
       width: 14px;
       height: 14px;

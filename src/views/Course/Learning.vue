@@ -1,6 +1,5 @@
 <template>
   <div class="learning-wrapper">
-    <!-- <v-header title=""></v-header> -->
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>

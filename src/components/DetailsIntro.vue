@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="details-intro-wrapper">
     <div class="intro-img"><img :src="list.introduce" alt="" /></div>
     <div class="intro-list">
       <v-title :title="title"></v-title>
@@ -68,6 +68,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.details-intro-wrapper {
+  // background-color: #ff0000;
+}
 .intro-itme {
   width: 345px;
   margin: 0 auto;
@@ -84,7 +87,7 @@ export default {
 .intro-list {
   // background-color: #fff000;
   margin-top: 40px;
-  margin-bottom: 28px;
+  // margin-bottom: 28px;
 }
 .list {
   width: 345px;

@@ -1,10 +1,10 @@
 <template>
-  <div class="app">
+  <div class="details-wrapper">
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
 
-    <div class="content" v-show="isLoading">
+    <div class="details-content" v-show="isLoading">
       <div class="course-box-top">
         <img :src="detailsList.coverImage" alt="" />
       </div>
@@ -259,9 +259,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// @import "./constants.less";
-
-.content {
+@import './../../assets/css/constants.less';
+.details-wrapper {
+  // background-color: #ff0000;
+  // margin-bottom: @fixed-bottom-bar;
+  border-bottom: @fixed-bottom-bar solid transparent;
+}
+.details-content {
   width: 100%;
   background: #fff;
 }
@@ -365,7 +369,7 @@ export default {
 .details-tab {
   width: 100%;
   padding-top: 50px;
-  margin-bottom: 84px;
+  // margin-bottom: 84px;
   background: #fff;
 
   .details-tab-itme {
