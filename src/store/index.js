@@ -3,7 +3,7 @@ import vuex from 'vuex';
 import state from './state.js';
 import * as getters from './getters.js';
 import mutations from './mutations.js';
-import actions from './actions.js';
+import actions from '@/store/actions/index.js';
 import createLogger from 'vuex/dist/logger'; // 修改日志
 
 vue.use(vuex);

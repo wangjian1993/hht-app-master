@@ -73,11 +73,22 @@ export default {
   },
   methods: {
     detailsRouter(id) {
-      this.$router.push({ name: 'course/details', query: { id: id } })
+      // this.$router.push({ name: 'course/details', query: { id: id } })
+
+      this.$store.dispatch('redirect', {
+        path: '/course/details',
+        query: {
+          id,
+        },
+      })
     },
     onRedirect() {
+      alert('onRedirect: ')
       if (!this.userId) return this.$toast('请登录火火兔APP')
-      this.$router.push({ name: 'wisdom-course/introduction' })
+      // this.$router.push({ name: 'wisdom-course/introduction' })
+      this.$store.dispatch('redirect', {
+        path: '/wisdom-course/introduction',
+      })
     },
   },
   components: {},

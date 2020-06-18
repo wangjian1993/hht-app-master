@@ -7,6 +7,22 @@ export default [
       keepAlive: false,
     },
   },
+  { //智慧早教
+    path: '/course/smart-course',
+    name: 'course/smart-course',
+    component: () => import( /* webpackChunkName: "home" */ '@/views/Course/SmartCourse.vue'),
+    meta: {
+      keepAlive: false,
+    },
+  },
+  { //我的课程
+    path: '/course/my-course',
+    name: 'course/my-course',
+    component: () => import( /* webpackChunkName: "home" */ '@/views/Course/MyCourse.vue'),
+    meta: {
+      keepAlive: false,
+    },
+  },
   { //课程包登录页面
     path: '/course-login',
     name: 'course-login',
