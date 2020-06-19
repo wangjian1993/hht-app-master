@@ -83,9 +83,7 @@ export default {
   data() {
     return {}
   },
-  created() {
-    // console.log('this.isEdu', this.isEdu)
-  },
+  created() {},
   methods: {
     moveErrorImg: function(event) {
       event.currentTarget.src = '../assets/image/course/qsy@2x.png'
@@ -99,13 +97,6 @@ export default {
       })
     },
     onRedirect() {
-      // this.$router.push({
-      //   name: 'wisdom-course/index',
-      //   query: {
-      //     isHeader: 1,
-      //   },
-      // })
-
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/wisdom-course/index',
       })

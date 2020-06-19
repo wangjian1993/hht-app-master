@@ -69,7 +69,7 @@ export default {
 <style lang="less" scoped>
 .baby-box {
   width: 300px;
-  height: 600px;
+  // height: 600px;
   .baby-list {
     width: 100%;
     .baby-titel {
@@ -78,6 +78,11 @@ export default {
       font-size: 14px;
       color: rgba(0, 0, 0, 0.4);
       padding: 15px 0;
+    }
+
+    & > div:first-of-type {
+      max-height: 308px;
+      overflow-y: auto;
     }
     li {
       width: 95%;

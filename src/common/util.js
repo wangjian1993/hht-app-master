@@ -93,3 +93,17 @@ export function getQueryStringValue(key) {
 	}
 	return data[key]
 }
+
+export function computedTime(time) {
+	//传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
+	let t = time.split(' ')
+	// console.log('t===', t)
+	let oldTimeFormat = new Date(t[0])
+	let nowDate = new Date()
+	if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
+		let times = nowDate.getTime() - oldTimeFormat.getTime()
+		let days = parseInt(times / (60 * 60 * 24 * 1000))
+		console.log('days', days)
+		return days + 1
+	}
+}

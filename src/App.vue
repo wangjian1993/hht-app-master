@@ -12,6 +12,7 @@
 </template>
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
+import * as CONSTANTS from '@/constants/index'
 export default {
   data() {
     return {
@@ -27,6 +28,13 @@ export default {
     }
     this.$store.dispatch('setUserInfoAction')
     this.$store.dispatch('getUserActivityInfo')
+
+    //我的课程-红点cookie
+    // setCookiesWithExpiresTime(
+    //   CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
+    //   {},
+    //   CONSTANTS.LABEL_COOKIE_EXPIRES
+    // )
   },
   methods: {
     getSystem() {
@@ -48,13 +56,13 @@ export default {
   watch: {
     $route(to, from) {
       // 切换动画
-      let isBack = this.$router.isBack // 监听路由变化时的状态为前进还是后退
-      if (isBack) {
-        this.transitionName = 'slide-left'
-      } else {
-        this.transitionName = 'slide-right'
-      }
-      this.$router.isBack = false
+      // let isBack = this.$router.isBack // 监听路由变化时的状态为前进还是后退
+      // if (isBack) {
+      //   this.transitionName = 'slide-left'
+      // } else {
+      //   this.transitionName = 'slide-right'
+      // }
+      // this.$router.isBack = false
     },
   },
   components: {},
@@ -71,28 +79,28 @@ export default {
   background: #fff;
   // background-color: #00ffff;
 }
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active,
-.slide-left-leave-active {
-  will-change: transform;
-  transition: all 500ms;
-  position: absolute;
-}
-.slide-right-enter {
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-}
-.slide-right-leave-active {
-  opacity: 0;
-  transform: translate3d(100%, 0, 0);
-}
-.slide-left-enter {
-  opacity: 0;
-  transform: translate3d(100%, 0, 0);
-}
-.slide-left-leave-active {
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-}
+// .slide-right-enter-active,
+// .slide-right-leave-active,
+// .slide-left-enter-active,
+// .slide-left-leave-active {
+//   will-change: transform;
+//   transition: all 500ms;
+//   position: absolute;
+// }
+// .slide-right-enter {
+//   opacity: 0;
+//   transform: translate3d(-100%, 0, 0);
+// }
+// .slide-right-leave-active {
+//   opacity: 0;
+//   transform: translate3d(100%, 0, 0);
+// }
+// .slide-left-enter {
+//   opacity: 0;
+//   transform: translate3d(100%, 0, 0);
+// }
+// .slide-left-leave-active {
+//   opacity: 0;
+//   transform: translate3d(-100%, 0, 0);
+// }
 </style>

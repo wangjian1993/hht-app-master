@@ -81,6 +81,7 @@ import Title from '@/components/Title.vue'
 import Data from '@/components/Data.vue'
 import Pie from '@/components/Pie.vue'
 import Header from '@/components/Header.vue'
+import { computedTime } from '@/common/util'
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 export default {
   data() {
@@ -346,7 +347,7 @@ export default {
         .then((res) => {
           if (res.data.code == 1) {
             try {
-              this.applyTime = this.computedTime(res.data.data.createTime)
+              this.applyTime = computedTime(res.data.data.createTime)
               let id = localStorage.getItem('babyId')
               this.babyId = res.data.data.babyId
               if (id != this.babyId) {
@@ -425,19 +426,19 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    computedTime(time) {
-      //传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
-      let t = time.split(' ')
-      console.log('t===', t)
-      let oldTimeFormat = new Date(t[0])
-      let nowDate = new Date()
-      if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
-        let times = nowDate.getTime() - oldTimeFormat.getTime()
-        let days = parseInt(times / (60 * 60 * 24 * 1000))
-        console.log('days', days)
-        return days + 1
-      }
-    },
+    // computedTime(time) {
+    //   //传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
+    //   let t = time.split(' ')
+    //   console.log('t===', t)
+    //   let oldTimeFormat = new Date(t[0])
+    //   let nowDate = new Date()
+    //   if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
+    //     let times = nowDate.getTime() - oldTimeFormat.getTime()
+    //     let days = parseInt(times / (60 * 60 * 24 * 1000))
+    //     console.log('days', days)
+    //     return days + 1
+    //   }
+    // },
     current() {
       var dd = new Date()
       var y = dd.getFullYear()

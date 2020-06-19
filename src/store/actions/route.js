@@ -1,4 +1,5 @@
 import * as types from '@/store/mutation-type.js'
+import * as CONSTANTS from "@/constants/index"
 import $axios from '@/api/index.js'
 import ROUTER from '@/router/index'
 import STORE from '@/store/index'
@@ -46,6 +47,32 @@ export default {
       window.webkit.messageHandlers.web_navigite.postMessage(params)
     } else {
       window.android.playCourse('web_navigite', JSON.stringify(params))
+    }
+  },
+
+  [CONSTANTS.DISPATCH_REDIRECT_HOME]: async ({ commit }, payload) => {
+    alert('go home');
+    const { path, query } = payload
+    const isDev = window.location.href.indexOf('localhost:') > -1
+    if (isDev) return ROUTER.push({ path, query })
+
+    let convertQuery
+    if (query) convertQuery = convertObj(query)
+    const params = query
+      ? { url: `${prefix}${path}?${convertQuery}` }
+      : { url: `${prefix}${path}` }
+
+    let system
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+      system = 'ios'
+    } else if (/(Android)/i.test(navigator.userAgent)) {
+      system = 'android'
+    }
+
+    if (system == 'ios') {
+      window.webkit.messageHandlers.web_nav_popToRoot.postMessage(null)
+    } else {
+      window.android.playCourse('web_nav_popToRoot', "")
     }
   },
 }

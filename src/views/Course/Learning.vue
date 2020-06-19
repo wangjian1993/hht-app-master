@@ -28,11 +28,7 @@
           <ul v-for="titleItem in courseData.classHours" :key="titleItem.id">
             <div class="list-item-title">
               <p>
-                <span
-                  >第{{
-                    titleItem.index | convertCNNum(titleItem.index, true)
-                  }}课时</span
-                >
+                <span>第{{ titleItem.index }}课时</span>
               </p>
               <p>
                 <span v-if="titleItem.newLearning"
@@ -134,7 +130,7 @@ export default {
         this.$toast.success('重新报名成功')
         // this.$router.push({ name: 'course/index' })
 
-        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
           path: '/course/smart-course',
         })
       } catch (err) {

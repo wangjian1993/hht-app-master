@@ -221,7 +221,7 @@ export default {
               if (res.data.code == 1) {
                 this.$toast.success('删除成功')
 
-                this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+                this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
                   path: '/course/smart-course',
                 })
               }

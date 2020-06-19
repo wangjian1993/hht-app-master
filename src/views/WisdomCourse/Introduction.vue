@@ -1,6 +1,5 @@
 <template>
   <div class="wisdom-course-introduction-wrapper">
-    <!-- <v-header title=""></v-header> -->
     <div class="apply-img">
       <img src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png" />
     </div>
@@ -8,7 +7,7 @@
       <p @click="onDelCourse">从我的课程中删除</p>
     </div>
 
-    <div class="apply-btn" v-else><p @click="onUserApply">立刻报名</p></div>
+    <div class="apply-btn" v-else><p @click="onUserApply">开启智慧早教</p></div>
     <v-babaList
       v-if="babyBox"
       @setBabyId="setBabyId"
@@ -21,12 +20,10 @@
 import * as CONSTANTS from '@/constants/index'
 import { mapState } from 'vuex'
 import BabaList from '@/components/BabyList.vue'
-import Header from '@/components/Header.vue'
 export default {
   props: {},
   components: {
     'v-babaList': BabaList,
-    'v-header': Header,
   },
   data() {
     return {
@@ -46,6 +43,7 @@ export default {
   filters: {},
   watch: {},
   methods: {
+    // 立刻报名
     async onUserApply() {
       if (this.memberInfoVip == 0) {
         this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, { path: '/' })
@@ -94,9 +92,8 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$toast.success('取消成功')
-        // this.$router.push({ name: 'course/index' })
 
-        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
           path: '/course/smart-course',
         })
       } catch (err) {
@@ -114,9 +111,9 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         const { babyId } = resData
-        let courseBaby = window.localStorage.getItem('courseBaby')
-        courseBaby = JSON.parse(courseBaby)
-        if (babyId * 1 === courseBaby * 1) this.isSignup = true
+        let signupBabyId = window.localStorage.getItem('babyId')
+        signupBabyId = JSON.parse(signupBabyId)
+        if (babyId * 1 === signupBabyId * 1) this.isSignup = true
       } catch (err) {
         console.log(err)
       }

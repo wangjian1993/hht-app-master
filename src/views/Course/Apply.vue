@@ -4,7 +4,6 @@
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
     <div class="course-apply-content iphonex-bd-top" v-show="isLoading">
-      <van-row></van-row>
       <div class="apply-img">
         <img src="../../assets/image/course/icon_chosen@2x.png" />
         <p>报名成功</p>
@@ -19,7 +18,6 @@
           <span>加入微信群</span>
         </div>
       </div>
-      <!-- <div class="details-btn" @click="onRedirectHome"><p>确定</p></div> -->
     </div>
 
     <div class="details-btn">
@@ -30,6 +28,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import * as CONSTANTS from '@/constants/index'
 export default {
   data() {
     return {
@@ -39,7 +38,7 @@ export default {
   },
   methods: {
     onRedirectHome() {
-      this.$store.dispatch('redirect', {
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
         path: '/course/smart-course',
       })
     },
@@ -54,7 +53,6 @@ export default {
 @import './../../assets/css/constants.less';
 
 .course-apply-wrapper {
-  // background-color: #ff0000;
   height: 100%;
 }
 
@@ -62,28 +60,20 @@ export default {
   margin-top: @header-comp-height;
   & > div:first-of-type {
     width: 100%;
-    height: 42px;
-    // background-color: #555;
   }
-  // padding-top: 47px;
-  // background-color: #fff000;
 }
 .apply-img {
   width: 100%;
   margin: 0 auto;
-  // margin-top: 42px;
+  margin-top: 53px;
   text-align: center;
-  // background-color: #fafafa;
   img {
     width: 26px;
     height: 26px;
   }
   p {
     &:nth-of-type(1) {
-      // font-size: 18px;
-      // color: rgba(0, 0, 0, 0.8);
       margin-top: 9px;
-
       font-family: 'SourceHanSansCN-Medium';
       font-size: 18px;
       font-weight: normal;
@@ -129,9 +119,6 @@ export default {
     margin-top: 22px;
     position: relative;
     p {
-      // font-size: 14px;
-      // color: rgba(0, 0, 0, 0.8);
-
       font-family: 'SourceHanSansCN-Normal';
       font-size: 14px;
       font-weight: normal;

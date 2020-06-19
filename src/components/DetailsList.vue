@@ -18,15 +18,11 @@
           :key="`${titleItem.courseId}-${titleItem.index}`"
         >
           <div class="list-item-title">
+            <span>第{{ titleItem.index }}课时</span>
             <span
-              >第{{
-                titleItem.index | convertCNNum(titleItem.index, true)
-              }}课时</span
-            >
-            <span
-              >新学{{ titleItem.newLearning | convertCNNum }}首
+              >新学{{ titleItem.newLearning }}首
               <i v-if="titleItem.review"
-                >| 复习{{ titleItem.review | convertCNNum }}首</i
+                >| 复习{{ titleItem.review }}首</i
               ></span
             >
           </div>

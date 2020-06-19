@@ -23,7 +23,7 @@
           <v-course-list
             :isShow="isShow"
             :courseData="userList"
-            :eduData="educationData"
+            :eduData="isShowSmartCourse"
           >
             <div class="more-img" v-if="userList.length != 0">
               <img
@@ -52,10 +52,10 @@
         </div>
         <div
           class="course-user-null"
-          v-if="userList.length == 0 && !educationData"
+          v-if="userList.length == 0 && !isShowSmartCourse"
         >
           <p>没有正在学习课程噢，快去添加吧～</p>
-          <span @click="addCourse">添加课程</span>
+          <span @click="onAddCourse">添加课程</span>
         </div>
         <div class="course-user-list" v-else>
           <v-card-list
@@ -86,7 +86,7 @@ export default {
       lsit: [],
       userList: [],
       learning: true,
-      educationData: false,
+      isShowSmartCourse: false,
       status: 0,
       isShow: true,
       babyid: 0,
@@ -106,8 +106,11 @@ export default {
     onLoad() {
       location.reload()
     },
-    addCourse() {
-      this.courseTab = 1
+    onAddCourse() {
+      // this.courseTab = 1
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
+        path: '/course/smart-course',
+      })
     },
     deviseText() {
       this.isDeviseText = !this.isDeviseText
@@ -119,10 +122,10 @@ export default {
         const { data } = await this.$axios.userApplyTime(cid)
         if (!data.success) throw new Error(data.info)
 
-        this.educationData = true
+        this.isShowSmartCourse = true
         this.$store.dispatch('setEduFlag', true)
       } catch (err) {
-        this.educationData = false
+        this.isShowSmartCourse = false
         this.$store.dispatch('setEduFlag', false)
         console.log(err)
       }
@@ -149,6 +152,10 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$store.dispatch('setUserCourse', resData)
+        console.warn('resData')
+        console.log(resData)
+        console.log('\n')
+
         this.userList = resData
         this.isLoading = true
       } catch (err) {
@@ -156,13 +163,13 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    courstTab(index) {
-      this.isLoading = false
-      this.courseTab = index
-      setTimeout(() => {
-        this.isLoading = true
-      }, 200)
-    },
+    // courstTab(index) {
+    //   this.isLoading = false
+    //   this.courseTab = index
+    //   setTimeout(() => {
+    //     this.isLoading = true
+    //   }, 200)
+    // },
     courseTabCLick(index) {
       this.courseUserTab = index
       if (index == 2) {
@@ -175,7 +182,6 @@ export default {
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/course-more',
       })
-      // this.$router.push({ name: 'course/courseMore' })
     },
   },
   components: {
@@ -189,11 +195,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// @import '../../assets/css/courseIndex.less';
-
 .course-index-wrapper {
   width: 100%;
-  // background-color: #ff0000;
   border-bottom: 44px solid transparent;
 }
 

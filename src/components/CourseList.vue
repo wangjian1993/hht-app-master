@@ -1,5 +1,6 @@
 <template>
   <div class="course-list-wrapper">
+    <!-- {{ courseData }} -->
     <div class="empty" v-if="courseListWith.length == 0 && !isEdu">
       <van-empty
         class="custom-image"
@@ -15,7 +16,7 @@
             <p>第<span>30</span>天计划 | 约<span>30</span>分钟</p>
           </div>
           <div class="list-btn" @click="schooltime('', 1)">
-            <span>上课</span>
+            <span>上课<i></i></span>
           </div>
         </li>
         <li v-for="item in dataWithIndex" :key="item.id">
@@ -31,7 +32,7 @@
             </p>
           </div>
           <div class="list-btn" @click="schooltime(item, 0)">
-            <span>上课</span>
+            <span>上课<i v-if="item.isShowReddot"></i></span>
           </div>
         </li>
       </ul>
@@ -42,7 +43,15 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getDayTime } from '../common/util.js'
+import { getDayTime, computedTime } from '@/common/util'
+import * as CONSTANTS from '@/constants/index'
+import {
+  getCookies,
+  setCookies,
+  initCookies,
+  setCookiesWithExpiresTime,
+} from '@/common/cookie'
+import Cookies from 'js-cookie'
 export default {
   props: {
     courseData: '',
@@ -53,6 +62,7 @@ export default {
       emptyImg: require('../assets/image/course/qsy@2x.png'),
       babyid: 0,
       isLockSchooltime: false,
+      // courseList: this.courseData,
     }
   },
   computed: {
@@ -95,11 +105,32 @@ export default {
       })
     },
   },
-  created() {
+  async created() {
+    // setCookiesWithExpiresTime(
+    //   CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
+    //   {},
+    //   CONSTANTS.LABEL_COOKIE_EXPIRES
+    // )
+    await this.getSumTime()
     this.babyid = localStorage.getItem('courseBaby')
   },
   methods: {
-    schooltime(item, type) {
+    async getSumTime() {
+      try {
+        const cid = localStorage.getItem('cid')
+        const { data } = await this.$axios.userApplyTime(cid)
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        const { createTime } = resData
+        this.applyTime = computedTime(createTime)
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
+    },
+    async schooltime(item, type) {
+      this.onSetReddot(item)
+      return
       if (this.isLockSchooltime) return
       this.isLockSchooltime = true
       // 普通课程
@@ -173,6 +204,11 @@ export default {
         this.$toast('获取课程失败')
       }
     },
+    //点击设置小红点
+    onSetReddot(item) {
+      item.isShowReddot = true
+      this.$forceUpdate()
+    },
     //获取正在学习中的课时index
     getLearningItemIdx(list = [], prop, conditional) {
       let statusList = list.map((item) => item.status * 1)
@@ -234,6 +270,21 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        // background-color: #ff0000;
+        & > span {
+          & > i {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-style: normal;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #fa3a3a;
+            border-radius: 50%;
+          }
+        }
       }
     }
 
