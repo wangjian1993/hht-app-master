@@ -15,8 +15,7 @@
           <div class="member-user-name">
             <p>
               <span>{{ setPhone(userInfo.phone) }}</span>
-            </p>
-            <!-- 	<p>{{ memberInfoVip == 1 ? '会员有效期至:' + memberInfoTime : '您还不是会员，快去开通火火兔会员吧~' }}</p> -->
+            </p>       
           </div>
           <div class="member-icon">
             <span>
@@ -70,7 +69,7 @@
         :class="memberInfoVip == 1 ? 'member-introduce-top' : ''"
       >
         <div class="member-header">
-          <p>VIP权益介绍</p>
+          <p>年卡会员权益</p>
           <!-- <p @click="setRouter('member-equity', true)">
 						查看全部
 						<van-icon name="arrow" />
@@ -96,11 +95,7 @@
       </div>
       <div class="member-exclusive">
         <div class="member-header">
-          <p>会员省钱</p>
-          <!-- <p @click="setRouter('more', true)">
-						查看全部
-						<van-icon name="arrow" />
-					</p> -->
+          <p>会员省钱</p>       
         </div>
         <div class="member-goods-list">
           <div
@@ -111,11 +106,7 @@
             v-if="index < 3"
           >
             <div class="list-item-img">
-              <img :src="item.img" alt="" />
-              <!-- <p class="list-item-img-sum">
-								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								共{{ item.childResCount }}首
-							</p> -->
+              <img :src="item.img" alt="" />       
             </div>
             <div class="member-exclusive-pic">
               <p class="goods-name van-ellipsis">{{ item.name }}</p>
@@ -150,35 +141,17 @@
             v-if="index < 3"
           >
             <div class="list-item-img">
-              <img :src="item.img" alt="" />
-              <!-- <p class="list-item-img-sum">
-								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								共{{ item.childResCount }}首
-							</p> -->
+              <img :src="item.img" alt="" />          
             </div>
             <div class="member-exclusive-pic">
-              <p class="goods-name van-multi-ellipsis--l2">{{ item.name }}</p>
-              <!-- <div class="goods-pic">
-								<p>
-									¥
-									<span>{{ item.currentprice }}</span>
-								</p>
-								<p>
-									¥
-									<span>{{ item.originalprice }}</span>
-								</p>
-							</div> -->
+              <p class="goods-name van-multi-ellipsis--l2">{{ item.name }}</p>     
             </div>
           </div>
         </div>
       </div>
       <div class="member-exclusive">
         <div class="member-header">
-          <p>VIP专享内容</p>
-          <!-- <p @click="setRouter('more', true)">
-						查看全部
-						<van-icon name="arrow" />
-					</p> -->
+          <p>会员专享内容</p>      
         </div>
         <div class="member-exclusive-list">
           <div
@@ -188,11 +161,7 @@
             @click="musicDaile(item.url)"
           >
             <div class="list-item-img">
-              <img :src="item.img" alt="" />
-              <!-- <p class="list-item-img-sum">
-								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
-								共{{ item.childResCount }}首
-							</p> -->
+              <img :src="item.img" alt="" />            
             </div>
             <div class="member-exclusive-pic">
               <p class="van-multi-ellipsis" :style="{ color: item.color }">
@@ -203,13 +172,13 @@
                   >原价¥{{ item.subheading }}</span
                 >
               </p>
-              <p :style="{ background: item.color }">会员畅听</p>
+              <span class="exclusive-btn" :style="{ background: item.color }">会员畅听</span>
             </div>
           </div>
         </div>
       </div>
       <div class="member-exclusive">
-        <div class="member-header"><p>VIP专享课程</p></div>
+        <div class="member-header"><p>会员专享课程</p></div>
         <div class="member-early" @click="setRouter('education', true)">
           <img src="../../assets/image/2.png" alt="" />
         </div>
@@ -220,7 +189,7 @@
       </div>
       <div class="member-introduce" v-if="activeActivityList.length != 0">
         <div class="member-header">
-          <p>VIP会员活动</p>
+          <p>会员专享活动</p>
           <p
             @click="setRouter('member-activity')"
             v-if="activeActivityList.length > 2"
@@ -241,7 +210,7 @@
         </div>
       </div>
       <div class="member-introduce">
-        <div class="member-header"><p>VIP专属客服</p></div>
+        <div class="member-header"><p>会员专享客服</p></div>
         <div class="member-service-list">
           <div class="member-service-list-item" @click="serviceBox()">
             <img src="../../assets/image/boy_customer@3x.png" alt="" />
@@ -258,7 +227,7 @@
         v-if="activeHelp.length != 0"
       >
         <div class="member-header">
-          <p>VIP帮助中心</p>
+          <p>会员专享客服</p>
           <p @click="setRouter('member-help', true)">
             查看全部
             <van-icon name="arrow" />
