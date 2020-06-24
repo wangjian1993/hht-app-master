@@ -6,8 +6,8 @@
 
 		<div class="content" v-show="isLoading">
 			<div class="apply-content" v-if="isSignupWisdom">
-				<!-- <div class="header">
-					<div class="header-title">
+				<div class="header">
+					<!-- <div class="header-title">
 						<div class="header-img">
 							<img v-if="defaultBaby.head != ''" :src="defaultBaby.head" alt="" />
 							<img v-else-if="defaultBaby.sex == 1" src="../../assets/image/my_avatar_boy@3x.png" />
@@ -22,9 +22,9 @@
 							</p>
 							<p>{{ getGrowAge(defaultBaby.birthday) }}</p>
 						</div>
-					</div>
+					</div> -->
 					<div class="header-ranking" @click="setRouter('ranking')">宝宝排名</div>
-				</div> -->
+				</div>
 				<v-data></v-data>
 				<div class="sign-day">
 					<div class="day">

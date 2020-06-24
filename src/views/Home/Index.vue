@@ -24,8 +24,8 @@
 			</div>
 			<div class="member-pay" v-if="memberInfoVip == 0">
 				<div class="member-header">
-					<p style="color: #fff;">VIP会员权益包</p>
-					<p @click="setRouter('membership', true)">使用兑换码</p>
+					<p style="color: #fff;padding: 0 15px;margin: 0 auto;">会员服务类型</p>
+					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('membership', true)">使用兑换码</p>
 				</div>
 				<div class="card-list">
 					<div
@@ -35,6 +35,7 @@
 						:key="item.id"
 						@click="cardClick(index, item.buyLink, item)"
 					>
+						<div class="card-limit" v-if="ToText(item.introduce) == '限时'">限时</div>
 						<p>{{ item.validityDays }}天</p>
 						<p>
 							¥
@@ -47,19 +48,13 @@
 					<div class="member-pay-btn-text" @click="memberBtn">
 						<p>
 							立即开通
-							<span>赠送早教机</span>
+							<span v-if="buyOnePic == '360'">赠送早教机</span>
 						</p>
 					</div>
 				</div>
 			</div>
 			<div class="member-introduce" :class="memberInfoVip == 1 ? 'member-introduce-top' : ''">
-				<div class="member-header">
-					<p>年卡会员权益</p>
-					<!-- <p @click="setRouter('member-equity', true)">
-						查看全部
-						<van-icon name="arrow" />
-					</p> -->
-				</div>
+				<div class="member-header" style="padding: 24px 15px 22px 15px;margin: 0 auto;"><p>年卡会员权益</p></div>
 				<div class="member-introduce-list">
 					<div class="member-introduce-list-box" v-for="(item, index) in equityList" v-if="index < 6" :key="index">
 						<img :src="item.pics" alt="" />
@@ -67,7 +62,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/2F7C245C-9828-4136-B77D-B1170092E48B.png" alt="" /></div>
+			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/lALPBGKoZ10Ob2t6zQKS_658_122.png" alt="" /></div>
 			<div class="member-exclusive">
 				<div class="member-header"><p>会员省钱</p></div>
 				<div class="member-goods-list">
@@ -91,7 +86,7 @@
 			</div>
 			<div class="member-exclusive">
 				<div class="member-header">
-					<p>火火兔x喜马拉雅专区</p>
+					<p>火火兔x喜马拉雅儿童专区</p>
 					<p @click="xmlay()">
 						查看全部
 						<van-icon name="arrow" />
@@ -145,7 +140,7 @@
 				</div>
 			</div>
 			<div class="member-introduce member-service">
-				<div class="member-header"><p>会员专享客服</p></div>
+				<div class="member-header" style="padding: 24px 12px 22px 12px;margin: 0 auto;"><p>会员专享客服</p></div>
 				<div class="member-service-list">
 					<div class="member-service-list-item" @click="serviceBox()">
 						<img src="../../assets/image/boy_customer@3x.png" alt="" />
@@ -195,7 +190,7 @@ import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
 import Header from '@/components/Header.vue';
 import Global from '@/common/global.js';
 import HeaderIcon from '@/components/HeaderIcon.vue';
-import * as CONSTANTS from '@/constants/index'
+import * as CONSTANTS from '@/constants/index';
 export default {
 	data() {
 		return {

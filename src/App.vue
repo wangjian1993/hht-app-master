@@ -72,7 +72,7 @@ export default {
 #app {
   width: 100%;
   // height: 100%;
-  font-family: 'SourceHanSansCN-Regular', Helvetica, STHeiTi, Arial, sans-serif;
+  font-family: 'SourceHanSansCN-Medium', Helvetica, STHeiTi, Arial, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   font-size: 62.5%;
@@ -103,4 +103,7 @@ export default {
 //   opacity: 0;
 //   transform: translate3d(-100%, 0, 0);
 // }
+.van-cell{
+	padding: 10px 0;
+}
 </style>

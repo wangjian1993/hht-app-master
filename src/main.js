@@ -51,7 +51,7 @@ import {
   Skeleton,
   Empty,
   Row,
-  Col
+  Col,
 } from 'vant'
 Vue.use(Tab)
   .use(Tabs)
