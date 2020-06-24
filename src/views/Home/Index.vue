@@ -54,7 +54,7 @@
 				</div>
 			</div>
 			<div class="member-introduce" :class="memberInfoVip == 1 ? 'member-introduce-top' : ''">
-				<div class="member-header" style="padding: 24px 15px 22px 15px;margin: 0 auto;"><p>年卡会员权益</p></div>
+				<div class="member-header" style="padding: 24px 15px 22px 15px;margin: 0 auto;"><p>会员权益</p></div>
 				<div class="member-introduce-list">
 					<div class="member-introduce-list-box" v-for="(item, index) in equityList" v-if="index < 6" :key="index">
 						<img :src="item.pics" alt="" />
