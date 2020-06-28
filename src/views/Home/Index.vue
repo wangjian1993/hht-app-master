@@ -23,8 +23,8 @@
 				</div>
 			</div>
 			<div class="member-pay" v-if="memberInfoVip == 0">
-				<div class="member-header">
-					<p style="color: #fff;padding: 0 15px;margin: 0 auto;">会员服务类型</p>
+				<div class="member-header" style="margin: 0 auto;padding: 24px 15px 22px 15px;">
+					<p style="color: #f7ece6;">会员服务类型</p>
 					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('membership', true)">使用兑换码</p>
 				</div>
 				<div class="card-list">
@@ -64,6 +64,23 @@
 			</div>
 			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/lALPBGKoZ10Ob2t6zQKS_658_122.png" alt="" /></div>
 			<div class="member-exclusive">
+				<div class="member-header">
+					<p>火火兔x喜马拉雅儿童专区</p>
+					<p @click="xmlay()">
+						查看全部
+						<van-icon name="arrow" />
+					</p>
+				</div>
+				<div class="member-goods-list">
+					<div class="member-goods-list-item" v-for="(item, index) in xmlyContent" :key="index" @click="xmlay(item.id, item.name, 0)" v-if="index < 3">
+						<div class="list-item-img"><img :src="item.img" alt="" /></div>
+						<div class="member-exclusive-pic">
+							<p class="goods-name van-multi-ellipsis--l2">{{ item.name }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="member-exclusive">
 				<div class="member-header"><p>会员省钱</p></div>
 				<div class="member-goods-list">
 					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true)" v-if="index < 3">
@@ -85,34 +102,17 @@
 				</div>
 			</div>
 			<div class="member-exclusive">
-				<div class="member-header">
-					<p>火火兔x喜马拉雅儿童专区</p>
-					<p @click="xmlay()">
-						查看全部
-						<van-icon name="arrow" />
-					</p>
-				</div>
-				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in xmlyContent" :key="index" @click="xmlay(item.id, item.name, 0)" v-if="index < 3">
-						<div class="list-item-img"><img :src="item.img" alt="" /></div>
-						<div class="member-exclusive-pic">
-							<p class="goods-name van-multi-ellipsis--l2">{{ item.name }}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="member-exclusive">
 				<div class="member-header"><p>会员专享内容</p></div>
 				<div class="member-exclusive-list">
 					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url)">
 						<div class="list-item-img"><img :src="item.img" alt="" /></div>
-						<div class="member-exclusive-pic">
+						<!-- <div class="member-exclusive-pic">
 							<p class="van-multi-ellipsis" :style="{ color: item.color }">{{ item.name }}</p>
-							<p>
-								<span :style="{ color: item.color }">原价¥{{ item.subheading }}</span>
+							<p :style="{ color: item.color }">
+								原价¥{{ item.subheading }}
 							</p>
 							<span class="exclusive-btn" :style="{ background: item.color }">会员畅听</span>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -154,7 +154,7 @@
 			</div>
 			<div class="member-introduce member-help-content" v-if="activeHelp.length != 0">
 				<div class="member-header">
-					<p>会员专享客服</p>
+					<p>会员帮助中心</p>
 					<p @click="setRouter('member-help', true)">
 						查看全部
 						<van-icon name="arrow" />
@@ -163,7 +163,7 @@
 				<div class="member-help-list">
 					<!-- <p v-for="(item, index) in helpList" :key="index">{{ index + 1 }}.{{ item.name }}</p> -->
 					<van-collapse v-model="activeName" accordion>
-						<van-collapse-item v-for="(item, index) in activeHelp" :key="index" :title="index + 1 + '.' + item.name" :name="index">
+						<van-collapse-item v-for="(item, index) in activeHelp" :key="index" :title="index + 1 + '.' + item.name" :name="index" :border="false">
 							<div v-html="item.content"></div>
 						</van-collapse-item>
 					</van-collapse>

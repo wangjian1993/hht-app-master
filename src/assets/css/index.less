@@ -32,7 +32,7 @@
 					align-items: center;
 					span {
 						color: #ffffff;
-						font-family: NotoSansHans-Medium;
+						font-family: 'SourceHanSansCN-Normal';
 						font-size: 18px;
 					}
 				}
@@ -82,6 +82,7 @@
 		display: flex;
 		align-items: center;
 		&:nth-of-type(1) {
+			font-family: 'SourceHanSansCN-Medium';
 			font-size: 17px;
 			color: rgba(0, 0, 0, 0.8);
 		}
@@ -122,6 +123,7 @@
 		text-align: center;
 		position: relative;
 		color: rgba(0, 0, 0, 0.8);
+		box-sizing: border-box;
 		.card-limit {
 			position: absolute;
 			top: 0;
@@ -132,6 +134,7 @@
 			border-radius: 6px 0 6px 0;
 			color: #fff;
 			line-height: 20px;
+			font-size: 12px;
 		}
 		p {
 			&:nth-of-type(1) {
@@ -141,6 +144,8 @@
 			}
 			&:nth-of-type(2) {
 				font-size: 13px;
+				padding-top: 13px;
+				font-family: 'SourceHanSansCN-Medium';
 				// color: rgba(0, 0, 0, 0.8);
 				span {
 					font-size: 28px;
@@ -151,6 +156,7 @@
 			&:nth-of-type(3) {
 				font-family: 'SourceHanSansCN-Normal';
 				padding: 0 5px;
+				padding-top: 8px;
 				margin: 0 auto;
 				font-size: 12px;
 				// color: rgba(0, 0, 0, 0.8);
@@ -160,6 +166,7 @@
 	.member-pay-btn {
 		width: 300px;
 		height: 46px;
+		font-family: 'SourceHanSansCN-Medium';
 		background-image: linear-gradient(90deg, #e1aa7f 0%, #f6d7c1 100%);
 		border-radius: 24px;
 		display: flex;
@@ -200,8 +207,9 @@
 	}
 }
 .member-pay-list.cardAction {
-	border: solid 2px #ba8156;
+	border: solid 1px #ba8156;
 	color: #bb7d57;
+	box-sizing: border-box;
 }
 .member-introduce,
 .member-exclusive {
@@ -220,17 +228,17 @@
 		.member-introduce-list-box {
 			width: 33.33%;
 			text-align: center;
-			margin-top: 16px;
 			img {
 				width: 54px;
 				height: 54px;
 				margin: 0 auto;
 			}
 			p {
+				font-family: 'SourceHanSansCN-Regular';
 				width: 100%;
 				font-size: 13px;
 				color: #63350d;
-				padding-top: 4px;
+				padding-top: 8px;
 				text-align: left;
 				margin: 0 auto;
 				text-align: center;
@@ -241,6 +249,9 @@
 			}
 		}
 	}
+}
+.member-introduce-list-box:nth-child(n + 4) {
+	margin-top: 16px;
 }
 .member-service {
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
@@ -296,15 +307,15 @@
 				font-size: 14px;
 				color: #000000;
 				opacity: 0.8;
+				font-family: 'SourceHanSansCN-Medium';
 				&:nth-of-type(1) {
 					font-size: 16px;
 				}
 				&:nth-of-type(2) {
+					margin-top: 5px;
 					color: rgba(0, 0, 0, 0.5);
 					font-size: 13px;
-					span {
-						text-decoration: line-through;
-					}
+					text-decoration: line-through;
 				}
 			}
 			.exclusive-btn {
@@ -343,10 +354,13 @@
 		color: #000000;
 		opacity: 0.8;
 		padding-top: 13px;
+		font-family: 'SourceHanSansCN-Medium';
 		&:nth-of-type(2) {
 			padding-top: 10px;
 			color: rgba(0, 0, 0, 0.5);
 			font-size: 13px;
+			padding-bottom: 24px;
+			font-family: 'SourceHanSansCN-Normal';
 		}
 	}
 }
@@ -354,6 +368,7 @@
 	width: 345px;
 	margin: 0 auto;
 	display: flex;
+	margin-bottom: 42px;
 	.member-activity-list-item {
 		flex: 2;
 		text-align: left;
@@ -364,6 +379,7 @@
 			border-radius: 8px;
 		}
 		p {
+			font-family: 'SourceHanSansCN-Medium';
 			width: 165px;
 			font-size: 15px;
 			color: rgba(0, 0, 0, 0.8);
@@ -391,6 +407,7 @@
 					display: inline-block;
 					// width: 100%;
 					&:nth-of-type(1) {
+						font-family: 'SourceHanSansCN-Regular';
 						font-size: 15px;
 						color: rgba(0, 0, 0, 0.8);
 					}
@@ -495,6 +512,7 @@
 			width: 102px;
 			margin: 0 auto;
 			.goods-name {
+				font-family: 'SourceHanSansCN-Medium';
 				color: rgba(0, 0, 0, 0.8);
 				font-size: 13px;
 				margin-top: 8px;
@@ -528,7 +546,7 @@
 .xmlyimg {
 	width: 345px;
 	margin: 0 auto;
-	padding: 24px 0 0px 0;
+	padding: 10px 0 0px 0;
 	img {
 		width: 100%;
 		height: 100%;
