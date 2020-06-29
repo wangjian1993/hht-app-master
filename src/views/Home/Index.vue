@@ -25,7 +25,7 @@
 			<div class="member-pay" v-if="memberInfoVip == 0">
 				<div class="member-header" style="margin: 0 auto;padding: 24px 15px 22px 15px;">
 					<p style="color: #f7ece6;">会员服务类型</p>
-					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('membership', true)">使用兑换码</p>
+					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('/membership', true)">使用兑换码</p>
 				</div>
 				<div class="card-list">
 					<div
@@ -41,7 +41,7 @@
 							¥
 							<span>{{ item.price }}</span>
 						</p>
-						<p>{{ item.expireTip }}</p>
+						<p class="van-multi-ellipsis--l2">{{ item.expireTip }}</p>
 					</div>
 				</div>
 				<div class="member-pay-btn">
@@ -125,13 +125,13 @@
 				</div>
 			</div>
 			<div class="member-introduce" v-if="activeActivityList.length != 0">
-				<div class="member-header">
+				<!-- <div class="member-header">
 					<p>会员专享活动</p>
 					<p @click="setRouter('member-activity')" v-if="activeActivityList.length > 2">
 						查看全部
 						<van-icon name="arrow" />
 					</p>
-				</div>
+				</div> -->
 				<div class="member-activity-list">
 					<div class="member-activity-list-item" v-for="(item, index) in activeActivityList" @click="activityRouter(item.links)">
 						<img :src="item.coverImage" alt="" />
@@ -155,7 +155,7 @@
 			<div class="member-introduce member-help-content" v-if="activeHelp.length != 0">
 				<div class="member-header">
 					<p>会员帮助中心</p>
-					<p @click="setRouter('member-help', true)">
+					<p @click="setRouter('/member-help', true)">
 						查看全部
 						<van-icon name="arrow" />
 					</p>
