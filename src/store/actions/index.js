@@ -80,14 +80,13 @@ export default {
 	}, data) {
 		try {
 			let user = window.android.getUserInfo();
-			let babyid = window.android.getCurrentBaby();
-			let babyData = JSON.parse(babyid);
-			if (Object.keys(babyData).length === 0 && babyData.constructor === Object) throw new Error('lack of babyId');
-			
-			localStorage.setItem("courseBaby", babyData.id)
 			let userData = JSON.parse(user);
 			localStorage.setItem("user", userData.id)
 			commit(types.SET_USERINFO, JSON.parse(user));
+			let babyid = window.android.getCurrentBaby();
+			let babyData = JSON.parse(babyid);
+			if (Object.keys(babyData).length === 0 && babyData.constructor === Object) throw new Error('lack of babyId');
+			localStorage.setItem("courseBaby", babyData.id)
 			$axios
 				.getBabyList(userData.id)
 				.then(res => {

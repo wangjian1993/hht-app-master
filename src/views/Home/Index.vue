@@ -12,6 +12,7 @@
 						<p>
 							<span>{{ setPhone(userInfo.phone) }}</span>
 						</p>
+						<p>{{ memberInfoVip == 1 ? memberInfoTime + '到期' : '您当前为开通火火兔会员' }}</p>
 					</div>
 					<div class="member-icon">
 						<span>
@@ -358,7 +359,7 @@ export default {
 				let data = {
 					url: url
 				};
-				console.log("跳转地址====",url)
+				console.log('跳转地址====', url);
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.web_navigite.postMessage(data);
 				} else {

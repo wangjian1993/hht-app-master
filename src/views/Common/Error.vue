@@ -5,11 +5,20 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';	
 export default {
   data() {
     return {
-
+		
     }
+  },
+  computed: {
+  	...mapState(['userInfo']),
+  },
+  created() {
+  	if(this.userInfo.phone != ''){
+		this.$router.push({ name: 'index' });
+	}
   },
   components: {
 

@@ -30,17 +30,17 @@
 					width: 100%;
 					display: flex;
 					align-items: center;
+					line-height: 2;
 					span {
 						color: #ffffff;
 						font-family: 'SourceHanSansCN-Normal';
 						font-size: 18px;
 					}
 				}
-
 				&:nth-of-type(2) {
+					font-family: 'SourceHanSansCN-Normal';
 					font-size: 12px;
-					color: #000000;
-					opacity: 0.5;
+					color: rgba(255, 255, 255, 0.8);
 				}
 			}
 		}
@@ -50,7 +50,7 @@
 			align-items: center;
 			justify-content: center;
 			height: 28px;
-			background-color: #f3dac6;
+			background-image: linear-gradient(90deg, #fae9dc 0%, #fdf6f0 100%);
 			border-radius: 14px;
 			padding: 0 8px;
 			span {
@@ -119,11 +119,11 @@
 		height: 123px;
 		background-color: #fff;
 		border-radius: 8px;
-		// border: 1px solid #000000;
+		border: 1px solid rgba(0, 0, 0, 0.2);
 		text-align: center;
 		position: relative;
 		color: rgba(0, 0, 0, 0.8);
-		// box-sizing: border-box;
+		box-sizing: border-box;
 		.card-limit {
 			position: absolute;
 			top: 0;
@@ -209,9 +209,9 @@
 	}
 }
 .member-pay-list.cardAction {
-	// border: 1px solid #ba8156;
+	border: 1px solid #ba8156;
 	color: #bb7d57;
-	// box-sizing: border-box;
+	box-sizing: border-box;
 }
 .member-introduce,
 .member-exclusive {
