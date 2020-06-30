@@ -18,7 +18,7 @@
 							<img src="../../assets/image/my_vip_icon@3x.png" v-if="memberInfoVip == 1" alt="" />
 							<img src="../../assets/image/my_vip_blkicon@3x.png" v-else alt="" />
 						</span>
-						<p>{{ memberInfoVip == 1 ? '尊享会员' : '未开通会员' }}</p>
+						<p>{{ memberInfoVip == 1 ? '尊贵会员' : '未开通会员' }}</p>
 					</div>
 				</div>
 			</div>
@@ -125,13 +125,17 @@
 				</div>
 			</div>
 			<div class="member-introduce" v-if="activeActivityList.length != 0">
-				<!-- <div class="member-header">
+				<div class="member-header">
 					<p>会员专享活动</p>
-					<p @click="setRouter('member-activity')" v-if="activeActivityList.length > 2">
+					<!-- <p @click="setRouter('member-activity')" v-if="activeActivityList.length > 2">
 						查看全部
 						<van-icon name="arrow" />
-					</p>
-				</div> -->
+					</p> -->
+				</div>
+				<div class="english-activity" @click="activityRouter('https://m.ximalaya.com/ort/router/presale/extraConsume/110?sharerId=147770569', '牛津树英语启蒙课程')">
+					<img src="../../assets/image/111110000.jpg" alt="" />
+					<p>牛津树英语启蒙课程</p>
+				</div>
 				<div class="member-activity-list">
 					<div class="member-activity-list-item" v-for="(item, index) in activeActivityList" @click="activityRouter(item.links)">
 						<img :src="item.coverImage" alt="" />
@@ -345,12 +349,29 @@ export default {
 				});
 		},
 		activityRouter(url) {
-			console.log(this.memberInfoVip);
 			if (this.memberInfoVip == 0) {
 				this.$toast('请先开通会员');
 				return;
 			}
-			location.href = url;
+			// location.href = url;
+			try {
+				let data = {
+					url: url
+				};
+				console.log("跳转地址====",url)
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.web_navigite.postMessage(data);
+				} else {
+					window.android.playCourse('web_navigite', JSON.stringify(data));
+				}
+			} catch (e) {
+				this.$toast('请更新新版火火兔APP');
+				//TODO handle the exception
+			}
+			// console.log('跳转地址', url);
+			// this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+			// 	path: url
+			// });
 		},
 		setPhone(tel) {
 			try {

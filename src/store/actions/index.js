@@ -95,8 +95,8 @@ export default {
 				})
 				.catch(err => console.error(err));
 		} catch (e) {
-			if (this.system == 'ios') return window.webkit.messageHandlers.addBabys.postMessage(null)
-      else return window.android.addBabys('addBabys', "")
+			// if (this.system == 'ios') return window.webkit.messageHandlers.addBabys.postMessage(null)
+   //    else return window.android.playCourse('addBabys',"");
 			//TODO handle the exception
 		}
 	},

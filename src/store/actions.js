@@ -52,9 +52,13 @@ export default {
 		commit
 	}, data) {
 		let user = window.android.getUserInfo();
-		let baby = window.android.getCurrentBaby();
 		commit(types.SET_USERINFO, user);
-		commit(types.SET_BABYINFO, baby);
+		try {
+			let baby = window.android.getCurrentBaby();
+			commit(types.SET_BABYINFO, baby);
+		} catch (e) {
+			//TODO handle the exception
+		}
 	},
 	/**
 	 * 获取系统版本
