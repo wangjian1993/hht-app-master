@@ -111,4 +111,7 @@ export default {
 .van-collapse-item--border::after{
 	border: none;
 }
+[class*=van-hairline]::after{
+	border: none;
+}
 </style>
