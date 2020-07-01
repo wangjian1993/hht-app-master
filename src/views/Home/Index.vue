@@ -12,7 +12,7 @@
 						<p>
 							<span>{{ setPhone(userInfo.phone) }}</span>
 						</p>
-						<p>{{ memberInfoVip == 1 ? memberInfoTime + '到期' : '您当前为开通火火兔会员' }}</p>
+						<p>{{ memberInfoVip == 1 ? memberInfoTime + '到期' : '您当前未开通火火兔会员' }}</p>
 					</div>
 					<div class="member-icon">
 						<span>
@@ -38,9 +38,10 @@
 					>
 						<div class="card-limit" v-if="ToText(item.introduce) == '限时'">限时</div>
 						<p>{{ item.validityDays }}天</p>
-						<p>
-							¥
+						<p class="card-pic">
+							<span>¥</span>
 							<span>{{ item.price }}</span>
+							<span>¥</span>
 						</p>
 						<p class="van-multi-ellipsis--l2">{{ item.expireTip }}</p>
 					</div>
@@ -174,7 +175,10 @@
 					</van-collapse>
 				</div>
 			</div>
-			<div class="member-buy" v-if="memberInfoVip == 0 && buyArray.length != 0">
+			<div class="footer">
+				<p>已经到底啦~</p>
+			</div>
+			<!-- <div class="member-buy" v-if="memberInfoVip == 0 && buyArray.length != 0">
 				<div class="member-buy-box">
 					<div class="member-buy-left">
 						<p>{{ buyArray.name }}</p>
@@ -185,7 +189,7 @@
 					</div>
 					<div class="member-buy-right"><p>立刻开通</p></div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>

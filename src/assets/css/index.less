@@ -75,7 +75,7 @@
 	width: 345px;
 	display: flex;
 	align-items: center;
-	padding: 24px 0px 22px 0px;
+	padding: 24px 0px 24px 0px;
 	margin: 0 auto;
 	p {
 		font-size: 17px;
@@ -106,7 +106,6 @@
 }
 .member-pay {
 	width: 345px;
-	height: 290px;
 	margin: 0 auto;
 	background-image: linear-gradient(180deg, #313544 0%, #313544 100%);
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
@@ -114,6 +113,7 @@
 	margin-top: -100px;
 	z-index: 2000;
 	position: relative;
+	padding-bottom: 26px;
 	.member-pay-list {
 		width: 100px;
 		height: 123px;
@@ -124,6 +124,7 @@
 		position: relative;
 		color: rgba(0, 0, 0, 0.8);
 		box-sizing: border-box;
+		margin-bottom: 10px;
 		.card-limit {
 			position: absolute;
 			top: 0;
@@ -143,15 +144,32 @@
 				padding: 25px 0 0 0;
 			}
 			&:nth-of-type(2) {
-				text-align: left;
-				font-size: 13px;
+				display: flex;
+				flex-direction: row;
+				align-items: flex-end;
 				padding-top: 13px;
-				padding-left: 13px;
 				font-family: 'SourceHanSansCN-Medium';
 				// color: rgba(0, 0, 0, 0.8);
 				span {
-					font-size: 28px;
-					font-weight: 600;
+					&:nth-of-type(1) {
+						flex-grow: 1;
+						flex-basis: 0;
+						font-size: 13px;
+						text-align: right;
+						// padding-right: 5px;
+					}
+					&:nth-of-type(2) {
+						text-align: center;
+						font-size: 28px;
+						padding: 0 5px;
+					}
+					&:nth-of-type(3) {
+						flex-grow: 1;
+						flex-basis: 0;
+						font-size: 13px;
+						color: transparent;
+					}
+
 					// color: rgba(0, 0, 0, 0.8);
 				}
 			}
@@ -174,7 +192,7 @@
 		display: flex;
 		align-items: center;
 		margin: 0 auto;
-		margin-top: 28px;
+		margin-top: 18px;
 		.member-pay-btn-text {
 			width: 100%;
 			margin: 0 auto;
@@ -216,7 +234,8 @@
 .member-introduce,
 .member-exclusive {
 	width: 345px;
-	margin: 12px auto;
+	margin: 0px auto;
+	padding: 12px 0;
 	background-color: #ffffff;
 	// box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
@@ -265,8 +284,17 @@
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
 }
-.member-help-content {
-	padding-bottom: 100px;
+.footer {
+	width: 345px;
+	margin:0 auto;
+	padding: 30px 0;
+	text-align: center;
+	p{
+		color: rgba(0, 0, 0, 0.3);
+		font-size: 13px;
+		font-family: "SourceHanSansCN-Regular";
+		padding-bottom: 30px;
+	}
 }
 .member-exclusive-list {
 	width: 339px;
@@ -361,7 +389,7 @@
 			padding-top: 10px;
 			color: rgba(0, 0, 0, 0.5);
 			font-size: 13px;
-			padding-bottom: 24px;
+			// padding-bottom: 24px;
 			font-family: 'SourceHanSansCN-Normal';
 		}
 	}

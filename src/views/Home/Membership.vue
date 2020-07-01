@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import * as CONSTANTS from '@/constants/index';	
 export default {
   data() {
     return {
@@ -71,7 +72,10 @@ export default {
           if (!res.data.success) {
             this.$toast(res.data.info)
           } else {
-            this.$toast.success('激活成功')
+            this.$toast.success('激活成功');
+			this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+				path: "/index"
+			});
           }
         })
         .catch((err) => {

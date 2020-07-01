@@ -108,4 +108,7 @@ export default {
 .van-collapse-item__content{
 	padding: 12px 0;
 }
+.van-collapse-item--border::after{
+	border: none;
+}
 </style>
