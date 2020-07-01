@@ -344,7 +344,7 @@ export default {
 			this.$axios
 				.sumTime(this.currentMouth)
 				.then(res => {
-					this.sumDay = res.data.data.clockDays;
+					this.sumDay = res.data.data.allClockDays || res.data.data.clockDays;
 				})
 				.catch(err => {});
 		},
