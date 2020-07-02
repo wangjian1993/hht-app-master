@@ -1,6 +1,21 @@
 .color-1 {
 	color: #fff;
 }
+.member-header-pd1{
+	padding: 46px 0 24px;
+}
+.member-header-pd2{
+	padding: 48px 0 24px;
+}
+.member-header-pd3{
+	padding: 49px 0 24px;
+}
+.member-header-pd4{
+	padding: 24px 12px 25px;
+}
+.member-header-pd5{
+	padding: 0px 0px 24px;
+}
 .member-user {
 	width: 100%;
 	max-width: 375px;
@@ -75,7 +90,6 @@
 	width: 345px;
 	display: flex;
 	align-items: center;
-	padding: 24px 0px 24px 0px;
 	margin: 0 auto;
 	p {
 		font-size: 17px;
@@ -110,7 +124,7 @@
 	background-image: linear-gradient(180deg, #313544 0%, #313544 100%);
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
-	margin-top: -100px;
+	margin-top: -95px;
 	z-index: 2000;
 	position: relative;
 	padding-bottom: 26px;
@@ -119,11 +133,11 @@
 		height: 123px;
 		background-color: #fff;
 		border-radius: 8px;
-		border: 1px solid rgba(0, 0, 0, 0.2);
+		// border: 0px solid rgba(0, 0, 0, 0.2);
 		text-align: center;
 		position: relative;
 		color: rgba(0, 0, 0, 0.8);
-		box-sizing: border-box;
+		box-sizing: content-box;
 		margin-bottom: 10px;
 		.card-limit {
 			position: absolute;
@@ -227,28 +241,27 @@
 	}
 }
 .member-pay-list.cardAction {
-	border: 1px solid #ba8156;
+	// border: 1px solid #ba8156;
 	color: #bb7d57;
-	box-sizing: border-box;
+	box-sizing: content-box;
 }
 .member-introduce,
 .member-exclusive {
 	width: 345px;
 	margin: 0px auto;
-	padding: 12px 0;
 	background-color: #ffffff;
 	// box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
 	// padding-bottom: 27px;
 	.member-introduce-list {
-		width: 100%;
+		margin: 0 auto;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 		padding-bottom: 27px;
+		text-align: center;
 		.member-introduce-list-box {
 			width: 33.33%;
-			text-align: center;
 			img {
 				width: 54px;
 				height: 54px;
@@ -260,9 +273,7 @@
 				font-size: 13px;
 				color: #63350d;
 				padding-top: 8px;
-				text-align: left;
 				margin: 0 auto;
-				text-align: center;
 				display: inline-block;
 				white-space: nowrap;
 				overflow: hidden;
@@ -274,11 +285,32 @@
 .member-introduce-list-box:nth-child(n + 4) {
 	margin-top: 16px;
 }
+.member-introduce-list-box:nth-child(3n + 1) {
+	text-align: left;
+}
+.member-introduce-list-box:nth-child(3n + 0) {
+	text-align: right;
+}
 .member-service {
+	margin-top: 42px;
+	margin-bottom: 42px;
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
+	// box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.6);
+}
+.member-introduce-list-box-active{
+	width: 289px;
+}
+.member-introduce-list-box-active1{
+	width: 317px;
+}
+.member-header-active{
+	padding: 24px 15px 22px 15px;margin: 0 auto;
+}
+.member-header-active1{
+	padding: 36px 7px 28px 7px;margin: 0 auto;
 }
 .member-introduce-top {
-	margin-top: -100px;
+	margin-top: -95px;
 	z-index: 2000;
 	position: relative;
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
@@ -286,14 +318,14 @@
 }
 .footer {
 	width: 345px;
-	margin:0px auto;
+	margin: 0px auto;
 	padding-bottom: 70px;
 	text-align: center;
-	p{
+	p {
 		color: rgba(0, 0, 0, 0.3);
 		font-size: 13px;
 		margin-top: 20px;
-		font-family: "SourceHanSansCN-Regular";
+		font-family: 'SourceHanSansCN-Regular';
 		padding-bottom: 70px;
 	}
 }
@@ -399,7 +431,6 @@
 	width: 345px;
 	margin: 0 auto;
 	display: flex;
-	margin-bottom: 42px;
 	justify-content: space-between;
 	.member-activity-list-item {
 		width: 165px;
@@ -577,7 +608,7 @@
 .xmlyimg {
 	width: 345px;
 	margin: 0 auto;
-	padding: 10px 0 0px 0;
+	padding: 15px 0 0px 0;
 	img {
 		width: 100%;
 		height: 100%;

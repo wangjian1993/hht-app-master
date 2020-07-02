@@ -56,8 +56,8 @@
 				</div>
 			</div>
 			<div class="member-introduce" :class="memberInfoVip == 1 ? 'member-introduce-top' : ''">
-				<div class="member-header" style="padding: 24px 15px 22px 15px;margin: 0 auto;"><p>会员权益</p></div>
-				<div class="member-introduce-list">
+				<div class="member-header" :class="memberInfoVip == 1 ? 'member-header-active' : 'member-header-active1'"><p>会员权益</p></div>
+				<div class="member-introduce-list" :class="memberInfoVip == 1 ? 'member-introduce-list-box-active' : 'member-introduce-list-box-active1'">
 					<div class="member-introduce-list-box" v-for="(item, index) in equityList" v-if="index < 6" :key="index">
 						<img :src="item.pics" alt="" />
 						<p>{{ item.name }}</p>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/lALPBGKoZ10Ob2t6zQKS_658_122.png" alt="" /></div>
 			<div class="member-exclusive">
-				<div class="member-header">
+				<div class="member-header member-header-pd1">
 					<p>火火兔x喜马拉雅儿童专区</p>
 					<p @click="xmlay()">
 						查看全部
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 			<div class="member-exclusive">
-				<div class="member-header"><p>会员省钱</p></div>
+				<div class="member-header member-header-pd1"><p>会员省钱</p></div>
 				<div class="member-goods-list">
 					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true)" v-if="index < 3">
 						<div class="list-item-img"><img :src="item.img" alt="" /></div>
@@ -104,7 +104,7 @@
 				</div>
 			</div>
 			<div class="member-exclusive">
-				<div class="member-header"><p>会员专享内容</p></div>
+				<div class="member-header member-header-pd2"><p>会员专享内容</p></div>
 				<div class="member-exclusive-list">
 					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url)">
 						<div class="list-item-img"><img :src="item.img" alt="" /></div>
@@ -119,7 +119,7 @@
 				</div>
 			</div>
 			<div class="member-exclusive">
-				<div class="member-header"><p>会员专享课程</p></div>
+				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
 				<div class="member-early" @click="setRouter('/education', true)"><img src="../../assets/image/2.png" alt="" /></div>
 				<div class="member-early-text">
 					<p>智慧早教课程</p>
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 			<div class="member-introduce" v-if="activeActivityList.length != 0">
-				<div class="member-header">
+				<div class="member-header member-header-pd2">
 					<p>会员专享活动</p>
 					<!-- <p @click="setRouter('member-activity')" v-if="activeActivityList.length > 2">
 						查看全部
@@ -146,7 +146,7 @@
 				</div>
 			</div>
 			<div class="member-introduce member-service">
-				<div class="member-header" style="padding: 24px 12px 22px 12px;margin: 0 auto;"><p>会员专享客服</p></div>
+				<div class="member-header member-header-pd4"><p>会员专享客服</p></div>
 				<div class="member-service-list">
 					<div class="member-service-list-item" @click="serviceBox()">
 						<img src="../../assets/image/boy_customer@3x.png" alt="" />
@@ -159,7 +159,7 @@
 				</div>
 			</div>
 			<div class="member-introduce member-help-content" v-if="activeHelp.length != 0">
-				<div class="member-header">
+				<div class="member-header member-header-pd5">
 					<p>会员帮助中心</p>
 					<p @click="setRouter('/member-help', true)">
 						查看全部

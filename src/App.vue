@@ -107,6 +107,10 @@ export default {
 }
 .van-collapse-item__content{
 	padding: 12px 0;
+	border: none;
+}
+.van-cell::after{
+	border: none;
 }
 .van-collapse-item--border::after{
 	border: none;
