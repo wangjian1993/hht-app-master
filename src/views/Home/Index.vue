@@ -4,7 +4,7 @@
 		<!-- <v-header :title="title" v-if="isHeader == 1"></v-header> -->
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><button @click="loca()">刷新</button></div>
+			<!-- <div><button @click="loca()">刷新</button></div> -->
 			<div class="member-user">
 				<div class="member-user-bg">
 					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
@@ -12,7 +12,7 @@
 						<p>
 							<span>{{ setPhone(userInfo.phone) }}</span>
 						</p>
-						<p>{{ memberInfoVip == 1 ? memberInfoTime + '到期' : '您当前未开通火火兔会员' }}</p>
+						<p>{{ memberInfoVip == 1 ? memberInfoTime + '到期' : '您还不是会员，快去开通吧～' }}</p>
 					</div>
 					<div class="member-icon">
 						<span>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/lALPBGKoZ10Ob2t6zQKS_658_122.png" alt="" /></div>
 			<div class="member-exclusive">
-				<div class="member-header member-header-pd1">
+				<div class="member-header member-header-pd6">
 					<p>火火兔x喜马拉雅儿童专区</p>
 					<p @click="xmlay()">
 						查看全部
@@ -417,7 +417,7 @@ export default {
 				return;
 			}
 			this.$axios
-				.getXMLYVip(this.userID, 7)
+				.getXMLYVip(this.userID, 30)
 				.then(res => {
 					if (res.data.code == 1) {
 						let msg;

@@ -101,12 +101,12 @@ export default {
 // }
 .van-cell {
 	font-family: 'SourceHanSansCN-Normal';
-	padding: 10px 0;
+	padding: 12px 0;
 	color: rgba(0, 0, 0, 0.8);
 	border: none;
 }
 .van-collapse-item__content{
-	padding: 12px 0;
+	padding: 0px 0;
 	border: none;
 }
 .van-cell::after{
