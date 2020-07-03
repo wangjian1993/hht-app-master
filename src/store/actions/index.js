@@ -57,8 +57,10 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				if (res.uid == "") return router.push({ name: 'course-login' });
-				
+				if (res.uid == "") return router.push({
+					name: 'course-login'
+				});
+
 				localStorage.setItem("user", res.uid)
 				commit(types.SET_USERINFO, res);
 				alert(2);
@@ -81,21 +83,25 @@ export default {
 		try {
 			let user = window.android.getUserInfo();
 			let userData = JSON.parse(user);
-			localStorage.setItem("user", userData.id)
+			console.log("安卓用户信息====", userData)
+			if (userData.uid == "") return router.push({
+				name: 'course-login'
+			});
+			localStorage.setItem("user", userData.uid)
 			commit(types.SET_USERINFO, JSON.parse(user));
 			let babyid = window.android.getCurrentBaby();
 			let babyData = JSON.parse(babyid);
 			if (Object.keys(babyData).length === 0 && babyData.constructor === Object) throw new Error('lack of babyId');
 			localStorage.setItem("courseBaby", babyData.id)
 			$axios
-				.getBabyList(userData.id)
+				.getBabyList(userData.uid)
 				.then(res => {
 					commit(types.SET_BABYINFO, res.data.data);
 				})
 				.catch(err => console.error(err));
 		} catch (e) {
 			// if (this.system == 'ios') return window.webkit.messageHandlers.addBabys.postMessage(null)
-   //    else return window.android.playCourse('addBabys',"");
+			//    else return window.android.playCourse('addBabys',"");
 			//TODO handle the exception
 		}
 	},

@@ -4,7 +4,7 @@ import $axios from '@/api/index.js'
 import ROUTER from '@/router/index'
 import STORE from '@/store/index'
 
-const prefix = 'http://twifi.alilo.com.cn/xiaohai/hht/temp/index.html#'
+const prefix = 'http://wifi.alilo.com.cn/xiaohai/hht/dist/index.html#'
 
 function convertObj(data) {
   var _result = []

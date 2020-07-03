@@ -26,7 +26,7 @@
 			<div class="member-pay" v-if="memberInfoVip == 0">
 				<div class="member-header" style="margin: 0 auto;padding: 24px 15px 22px 15px;">
 					<p style="color: #f7ece6;">会员服务类型</p>
-					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('/membership', true)">使用兑换码</p>
+					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('/membership',false)">使用兑换码</p>
 				</div>
 				<div class="card-list">
 					<div
@@ -284,9 +284,10 @@ export default {
 		 */
 		xmlay(id, name, type) {
 			let userid = localStorage.getItem('user');
-			console.log('id==', id);
-			console.log('name==', name);
-			console.log('type==', type);
+			if (localStorage.getItem("user") == undefined) {
+				this.$toast('请先在APP中登陆');
+				return;
+			}
 			try {
 				let data;
 				if (type == 0) {
@@ -316,6 +317,10 @@ export default {
 		 * 开通会员卡跳转有赞
 		 * */
 		memberBtn() {
+			if (localStorage.getItem("user") == undefined) {
+				this.$toast('请先在APP中登陆');
+				return;
+			}
 			try {
 				let data = {
 					url: this.buyLink
@@ -412,6 +417,10 @@ export default {
 			this.$router.push({ name: 'member-equity', query: { id: index } });
 		},
 		getXMLY() {
+			if (localStorage.getItem("user") == undefined) {
+				this.$toast('请先在APP中登陆');
+				return;
+			}
 			if (this.memberInfoVip == 0) {
 				this.$toast('请先开通会员');
 				return;
