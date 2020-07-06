@@ -26,7 +26,7 @@
 			<div class="member-pay" v-if="memberInfoVip == 0">
 				<div class="member-header" style="margin: 0 auto;padding: 24px 15px 22px 15px;">
 					<p style="color: #f7ece6;">会员服务类型</p>
-					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('/membership',false)">使用兑换码</p>
+					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('/membership', false)">使用兑换码</p>
 				</div>
 				<div class="card-list">
 					<div
@@ -85,7 +85,7 @@
 			<div class="member-exclusive">
 				<div class="member-header member-header-pd1"><p>会员省钱</p></div>
 				<div class="member-goods-list">
-					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, true)" v-if="index < 3">
+					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, false)" v-if="index < 3">
 						<div class="list-item-img"><img :src="item.img" alt="" /></div>
 						<div class="member-exclusive-pic">
 							<p class="goods-name van-ellipsis">{{ item.name }}</p>
@@ -120,7 +120,7 @@
 			</div>
 			<div class="member-exclusive">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
-				<div class="member-early" @click="setRouter('/education', true)"><img src="../../assets/image/2.png" alt="" /></div>
+				<div class="member-early" @click="setRouter('/education', true,true)"><img src="../../assets/image/2.png" alt="" /></div>
 				<div class="member-early-text">
 					<p>智慧早教课程</p>
 					<p>根据宝宝成长关键期，每日更新课程内容</p>
@@ -175,9 +175,7 @@
 					</van-collapse>
 				</div>
 			</div>
-			<div class="footer">
-				<p>已经到底啦~</p>
-			</div>
+			<div class="footer"><p>已经到底啦~</p></div>
 			<!-- <div class="member-buy" v-if="memberInfoVip == 0 && buyArray.length != 0">
 				<div class="member-buy-box">
 					<div class="member-buy-left">
@@ -252,14 +250,17 @@ export default {
 
 		//判断是否有用户id
 		this.userID = localStorage.getItem('user');
-		if (this.userID == null) {
-			this.$router.push({ name: 'error' });
-			return;
-		}
 		this.getVipAll();
 	},
 	mounted() {},
 	methods: {
+		onRedirect() {
+			if (this.system == 'ios') {
+				window.webkit.messageHandlers.web_login.postMessage(null);
+			} else {
+				window.android.playCourse('web_login', '');
+			}
+		},
 		// ...mapActions(['setUserInfoAction', 'setEquityAction']),
 		cardClick(index, url, data) {
 			this.cardIndex = index;
@@ -284,8 +285,9 @@ export default {
 		 */
 		xmlay(id, name, type) {
 			let userid = localStorage.getItem('user');
-			if (localStorage.getItem("user") == undefined) {
-				this.$toast('请先在APP中登陆');
+			if (localStorage.getItem('user') == '') {
+				this.$toast('请先登陆');
+				this.onRedirect();
 				return;
 			}
 			try {
@@ -317,8 +319,9 @@ export default {
 		 * 开通会员卡跳转有赞
 		 * */
 		memberBtn() {
-			if (localStorage.getItem("user") == undefined) {
-				this.$toast('请先在APP中登陆');
+			if (localStorage.getItem('user') == '') {
+				this.$toast('请先登陆');
+				this.onRedirect();
 				return;
 			}
 			try {
@@ -359,6 +362,11 @@ export default {
 				});
 		},
 		activityRouter(url) {
+			if (localStorage.getItem('user') == '') {
+				this.$toast('请先登陆');
+				this.onRedirect();
+				return;
+			}
 			if (this.memberInfoVip == 0) {
 				this.$toast('请先开通会员');
 				return;
@@ -403,7 +411,12 @@ export default {
 			}
 			this.$router.push({ name: 'purchase-help', query: { url: this.buyLink } });
 		},
-		setRouter(val, flag) {
+		setRouter(val, flag,islogon) {
+			if(islogon){
+				this.$toast('请先登陆');
+				this.onRedirect();
+				return;
+			}
 			if (this.memberInfoVip == 0 && !flag) {
 				this.$toast('请先开通会员');
 				return;
@@ -417,8 +430,9 @@ export default {
 			this.$router.push({ name: 'member-equity', query: { id: index } });
 		},
 		getXMLY() {
-			if (localStorage.getItem("user") == undefined) {
-				this.$toast('请先在APP中登陆');
+			if (localStorage.getItem('user') == '') {
+				this.$toast('请先登陆');
+				this.onRedirect();
 				return;
 			}
 			if (this.memberInfoVip == 0) {
@@ -502,6 +516,11 @@ export default {
 		},
 		//专属内容
 		musicDaile(url, isVip) {
+			if (localStorage.getItem('user') == '') {
+				this.$toast('请先登陆');
+				this.onRedirect();
+				return;
+			}
 			if (this.memberInfoVip == 0 && isVip) {
 				this.$toast('请先开通会员');
 				return;

@@ -57,9 +57,9 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				if (res.uid == "") return router.push({
-					name: 'course-login'
-				});
+				// if (res.uid == "") return router.push({
+				// 	name: 'course-login'
+				// });
 
 				localStorage.setItem("user", res.uid)
 				commit(types.SET_USERINFO, res);
@@ -84,9 +84,9 @@ export default {
 			let user = window.android.getUserInfo();
 			let userData = JSON.parse(user);
 			console.log("安卓用户信息====", userData)
-			if (userData.uid == "") return router.push({
-				name: 'course-login'
-			});
+			// if (userData.uid == "") return router.push({
+			// 	name: 'course-login'
+			// });
 			localStorage.setItem("user", userData.uid)
 			commit(types.SET_USERINFO, JSON.parse(user));
 			let babyid = window.android.getCurrentBaby();
