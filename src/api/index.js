@@ -138,7 +138,7 @@ export default {
 				courseId: CID || localStorage.getItem("cid"),
 				// currentDate: mouth,
 				pageNo: 1,
-				pageSize: 100
+				pageSize: 200
 			}
 		});
 	},
