@@ -26,7 +26,7 @@
 			<div class="member-pay" v-if="memberInfoVip == 0">
 				<div class="member-header" style="margin: 0 auto;padding: 24px 15px 22px 15px;">
 					<p style="color: #f7ece6;">会员服务类型</p>
-					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('/membership', false)">使用兑换码</p>
+					<p style="color: rgba(247, 236, 230, 0.5);" @click="setRouter('/membership', true, true)">使用兑换码</p>
 				</div>
 				<div class="card-list">
 					<div
@@ -120,7 +120,7 @@
 			</div>
 			<div class="member-exclusive">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
-				<div class="member-early" @click="setRouter('/education', true,true)"><img src="../../assets/image/2.png" alt="" /></div>
+				<div class="member-early" @click="setRouter('/education', true, true)"><img src="../../assets/image/2.png" alt="" /></div>
 				<div class="member-early-text">
 					<p>智慧早教课程</p>
 					<p>根据宝宝成长关键期，每日更新课程内容</p>
@@ -176,18 +176,6 @@
 				</div>
 			</div>
 			<div class="footer"><p>已经到底啦~</p></div>
-			<!-- <div class="member-buy" v-if="memberInfoVip == 0 && buyArray.length != 0">
-				<div class="member-buy-box">
-					<div class="member-buy-left">
-						<p>{{ buyArray.name }}</p>
-						<p>
-							<span>¥ {{ buyArray.price }}</span>
-							{{ buyArray.giftName }}
-						</p>
-					</div>
-					<div class="member-buy-right"><p>立刻开通</p></div>
-				</div>
-			</div> -->
 		</div>
 	</div>
 </template>
@@ -411,8 +399,13 @@ export default {
 			}
 			this.$router.push({ name: 'purchase-help', query: { url: this.buyLink } });
 		},
-		setRouter(val, flag,islogon) {
-			if(islogon){
+		/*
+		 * @val :跳转地址
+		 * flag: 非会员是否能进入
+		 * islogin :是否需要登录
+		 */
+		setRouter(val, flag, islogin) {
+			if (localStorage.getItem('user') == '' && islogin) {
 				this.$toast('请先登陆');
 				this.onRedirect();
 				return;
