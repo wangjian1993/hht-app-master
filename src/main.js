@@ -10,14 +10,14 @@ import './assets/css/app.css' //公共css
 import './assets/css/font.css' //公共css
 import 'lib-flexible/flexible'
 import store from './store/index'
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 import ALLFILTERS from "@/filters/index";
 
-const vConsole = new Vconsole()
+// const vConsole = new Vconsole()
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 Vue.use(createDialog);
-Vue.use(vConsole)
+// Vue.use(vConsole)
 var fundebug = require("fundebug-javascript");
 fundebug.apikey = "6d1a5d9d00dc7c115627e4e2d262123af47ceed86c85c8fa81fb08d9b5648859";
 require('fundebug-revideo');
