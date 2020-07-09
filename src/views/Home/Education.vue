@@ -1,17 +1,15 @@
 <template>
 	<div class="app">
-		<v-header-icon v-if="isHeader == 1"></v-header-icon>
-
-		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
-
+		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div class="apply-content" v-if="isSignupWisdom">
+			<!-- <div><p @click="loca()">刷新</p></div> -->
+			<div class="apply-content" v-if="isApply">
 				<div class="header">
-					<!-- <div class="header-title">
+					<div class="header-title">
 						<div class="header-img">
-							<img v-if="defaultBaby.head != ''" :src="defaultBaby.head" alt="" />
-							<img v-else-if="defaultBaby.sex == 1" src="../../assets/image/my_avatar_boy@3x.png" />
-							<img v-else src="../../assets/image/my_avatar_girl@3x.png" />
+							<img :src="defaultBaby.head" alt="" v-if="defaultBaby.head != ''" />
+							<img v-else-if="defaultBaby.sex == 1" src="../../assets/image/my_avatar_boy@3x.png" alt="" />
+							<img v-else src="../../assets/image/my_avatar_girl@3x.png" alt="" />
 						</div>
 						<div class="header-name">
 							<p>
@@ -22,7 +20,7 @@
 							</p>
 							<p>{{ getGrowAge(defaultBaby.birthday) }}</p>
 						</div>
-					</div> -->
+					</div>
 					<div class="header-ranking" @click="setRouter('ranking')">宝宝排名</div>
 				</div>
 				<v-data></v-data>
@@ -33,17 +31,17 @@
 							<span>{{ applyTime || 0 }}</span>
 							天计划
 						</p>
-						<p>目标{{ targetTime(babyYear, babyMonth) }}min</p>
+						<p>目标30min</p>
 					</div>
 					<p class="day-sum">累计坚持{{ sumDay }}天</p>
 				</div>
-
+				<!-- <p @click="goReport">报告</p> -->
 				<div class="music-btn" @click="education()"><p>开始上课</p></div>
 				<div class="course-key">
 					<v-title :title="title[0]"></v-title>
 					<div class="key-list">
 						<ul v-if="keyArray.length != 0">
-							<li v-for="item in keyArray" :key="item">
+							<li v-for="item in keyArray">
 								<span>{{ item }}</span>
 							</li>
 						</ul>
@@ -60,7 +58,7 @@
 					<div class="period-list" v-if="periodList.length != 0">
 						<ul>
 							<li v-for="(item, index) in periodList" :key="index">
-								<div class="period-img"><img :src="item.level1_logo" /></div>
+								<div class="period-img"><img :src="item.level1_logo" alt="" /></div>
 								<div class="period-name">
 									<p class="an-multi-ellipsis">{{ item.level1 }}</p>
 									<p class="van-multi-ellipsis--l2">{{ item.level2 }}</p>
@@ -70,18 +68,13 @@
 					</div>
 					<div v-else class="content-null"><p>暂无关键期</p></div>
 				</div>
-
-				<div class="apply-btn" @click="onUserApply"><p>立刻报名</p></div>
 			</div>
 			<div class="noapply-content" v-else>
-				<div class="apply-img"><img src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png" /></div>
-				<div class="apply-btn" @click="onUserApply"><p>立刻报名</p></div>
+				<div class="apply-img"><img src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png" alt="" /></div>
+				<div class="apply-btn" @click="userApply"><p>立刻报名</p></div>
 			</div>
-
-			<!-- 浮窗 -->
 			<v-suspend></v-suspend>
 			<v-babaList v-if="babyBox" @setBabyId="setBabyId" @cloneBox="cloneBox"></v-babaList>
-			<v-emptybaby-modal v-if="isEmptyBabyModal" @close="closeEmptyModal"></v-emptybaby-modal>
 		</div>
 	</div>
 </template>
@@ -92,8 +85,6 @@ import Data from '@/components/Data.vue';
 import Pie from '@/components/Pie.vue';
 import Suspend from '@/components/Suspend.vue';
 import BabaList from '@/components/BabyList.vue';
-import EmptyBabyModal from '@/components/EmptyBabyModal.vue';
-import HeaderIcon from '@/components/HeaderIcon.vue';
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
 export default {
 	data() {
@@ -111,28 +102,28 @@ export default {
 			applyTime: 0,
 			babyYear: 0,
 			babyMonth: 0,
-			isSignupWisdom: false,
+			isApply: false,
 			babyBox: false,
-			isEmptyBabyModal: false,
 			babyArray: [],
 			babyId: 0,
 			defaultBabyArray: [],
-			defaultBaby: [],
-			isHeader: 0,
-			babyList: [] //babies of current user
+			defaultBaby: []
 		};
 	},
 	computed: {
 		...mapState(['system', 'babyInfo', 'memberInfoTime', 'memberInfoVip', 'userBaby'])
 	},
 	created() {
-		this.isHeader = this.$route.query.header;
 		let baby = JSON.parse(localStorage.getItem('babyInfo'));
 		this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby;
-
-		if (localStorage.getItem('cid') == null) return this.getActivity();
+		if (localStorage.getItem('cid') == null) {
+			console.log('没有cid========');
+			this.getActivity();
+			return;
+		}
 		this.getSumTime();
 		this.current();
+		window._czc.push(['_trackEvent', '火火兔APP', '打开页面', '智慧早教']);
 	},
 	methods: {
 		goReport() {
@@ -142,16 +133,8 @@ export default {
 			location.reload();
 		},
 		setRouter(val) {
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教排行榜']);
 			this.$router.push({ name: val });
-		},
-
-		closeEmptyModal(isConfirm) {
-			this.isEmptyBabyModal = false;
-			this.isHeader = this.$route.query.header;
-			if (!isConfirm) return;
-
-			if (this.system == 'ios') return window.webkit.messageHandlers.addBabys.postMessage(null);
-			else return window.android.addBabys('addBabys', '');
 		},
 		cloneBox() {
 			this.babyBox = false;
@@ -168,15 +151,6 @@ export default {
 				//TODO handle the exception
 			}
 		},
-		async getBabyList() {
-			try {
-				const { data } = await this.$axios.getBabyList();
-				if (!data.success) throw new Error(data.info);
-				this.babyList = data.data;
-			} catch (err) {
-				console.log(err);
-			}
-		},
 		getActivity() {
 			this.$axios
 				.userActivityInfo()
@@ -185,36 +159,32 @@ export default {
 					this.getSumTime();
 					this.current();
 				})
-				.catch(err => {
-					console.error(err);
-					this.$toast.fail(err);
-				});
+				.catch(err => {});
 		},
-		async setBabyId(list) {
-			this.babyArray = list;
-
+		setBabyId(data) {
+			this.babyArray = data;
+			// console.log('报名的宝宝==========', this.babyArray);
 			this.$toast.loading({
 				message: '报名中...',
 				forbidClick: true
 			});
-
-			try {
-				const { id } = list;
-				const { data } = await this.$axios.userApply(id);
-				if (!data.success) throw new Error(data.info);
-				// const resData = data.data;
-
-				self.defaultBabyArray = data;
-				this.$store.dispatch('defaultBaby', data);
-				this.$toast('报名成功');
-				this.getUserDayCourse();
-				this.getSumTime();
-				this.isSignupWisdom = true;
-				this.babyBox = !this.babyBox;
-			} catch (err) {
-				console.log(err);
-				this.$toast.fail(err.message);
-			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教报名']);
+			// console.log('报名id=========', data.id);
+			this.$axios
+				.userApply(data.id)
+				.then(res => {
+					if (res.data.code == 1) {
+						self.defaultBabyArray = data;
+						this.$store.dispatch('defaultBaby', data);
+						this.$toast('报名成功');
+						this.getUserDayCourse();
+						this.getSumTime();
+						this.isApply = true;
+						this.babyBox = !this.babyBox;
+						return true;
+					}
+				})
+				.catch(err => {});
 		},
 		countAge(year, month) {
 			var sum = year * 12 + month;
@@ -235,9 +205,6 @@ export default {
 				return '5-6岁';
 			}
 		},
-		/*
-		 * 每日目标时长
-		 */
 		targetTime(year, month) {
 			var sum = year * 12 + month;
 			// console.log('nianling,', sum);
@@ -257,9 +224,36 @@ export default {
 				return '120';
 			}
 		},
-		/**
-		 * 计算宝宝年龄
-		 * */
+		//计算宝宝多少天
+		getBirthSlot(date) {
+			var time;
+			try {
+				time = date
+					.replace('年', '-')
+					.replace('月', '-')
+					.replace('日', '');
+			} catch (e) {
+				//TODO handle the exception
+				time = this.currentTime;
+			}
+			this.getGrowAge(time);
+			console.log('宝宝年龄111111111111', time);
+			let birthDay = new Date(time);
+			let nowDate = new Date();
+			let date1 = Date.parse(birthDay);
+			let date2 = Date.parse(nowDate);
+			let day = Math.floor((date2 - date1) / (60 * 60 * 1000 * 24));
+			let age = '';
+			let year = Math.floor(day / 365);
+			let y = day % 365;
+			let month = Math.floor(y / 30);
+			let d = Math.floor((day % 365) % 30);
+			age += year + '岁' + month + '月' + d + '天';
+			this.babyYear = year;
+			this.babyMonth = month;
+			console.log('宝宝年龄==============', age);
+			return age;
+		},
 		getGrowAge(birthday) {
 			var time;
 			try {
@@ -318,7 +312,8 @@ export default {
 			}
 
 			var dateStr = gapYear + '岁' + (gapMonth < 10 ? '0' + gapMonth : gapMonth) + '月' + (gapDay < 10 ? '0' + gapDay : gapDay) + '天';
-			// console.log('dateStr....', dateStr)
+			this.babyYear = gapYear;
+			this.babyMonth = gapMonth;
 			return dateStr;
 		},
 		getDaysOfMonth(dateStr) {
@@ -339,7 +334,7 @@ export default {
 		isLeapYear(year) {
 			return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 		},
-		async getUserDayCourse() {
+		getUserDayCourse() {
 			let self = this;
 			this.$axios
 				.getDayKey(this.currentTime)
@@ -358,35 +353,19 @@ export default {
 					self.keyArray = arr.split('、');
 					self.isPie = true;
 				})
-				.catch(err => {
-					console.error(err);
-					this.$toast.fail(err);
-				});
-
-			await this.getAsyncBabyPeriod();
-			await this.getAsyncSumTime();
-		},
-		async getAsyncSumTime() {
-			try {
-				const { data } = await this.$axios.sumTime(this.currentMouth);
-				if (!data.success) throw new Error(data.info);
-				const resData = data.data;
-				this.sumDay = resData.clockDays;
-			} catch (err) {
-				console.log(err);
-				this.$toast.fail(err.message);
-			}
-		},
-		async getAsyncBabyPeriod() {
-			try {
-				const { data } = await this.$axios.getBabyPeriod(this.currentTime);
-				if (!data.success) throw new Error(data.info);
-				const resData = data.data;
-				this.periodList = resData.list;
-			} catch (err) {
-				console.log(err);
-				this.$toast.fail(err.message);
-			}
+				.catch(err => {});
+			this.$axios
+				.getBabyPeriod(this.currentTime)
+				.then(res => {
+					this.periodList = res.data.data.list;
+				})
+				.catch(err => {});
+			this.$axios
+				.sumTime(this.currentMouth)
+				.then(res => {
+					this.sumDay = res.data.data.allClockDays || res.data.data.clockDays;
+				})
+				.catch(err => {});
 		},
 		getSumTime() {
 			let self = this;
@@ -394,55 +373,48 @@ export default {
 				.userApplyTime(localStorage.getItem('cid'))
 				.then(res => {
 					if (res.data.code == 1) {
+						console.log('已经报名=====');
 						try {
 							this.applyTime = this.computedTime(res.data.data.createTime);
 							let id = localStorage.getItem('babyId');
 							this.babyId = res.data.data.babyId;
 							if (id != this.babyId) {
+								console.log('新宝宝======');
 								localStorage.setItem('babyId', res.data.data.babyId);
 							}
 							let array = this.babyInfo;
+							console.log('array=======', array);
 							array.forEach(function(item, index) {
 								if (res.data.data.babyId == item.id) {
 									self.defaultBaby = item;
+									console.log('self.defaultBaby==========', self.defaultBaby);
 									self.$store.dispatch('defaultBaby', item);
 								}
 							});
 							this.getUserDayCourse();
 							this.isLoading = true;
-							this.isSignupWisdom = true;
+							this.isApply = true;
 						} catch (e) {
 							console.log(e);
 							//TODO handle the exception
 						}
 					} else {
-						// console.log('还没有报名====')
+						console.log('还没有报名====');
 						localStorage.removeItem('babyInfo');
 						localStorage.removeItem('babyId');
 						this.isLoading = true;
-						this.isSignupWisdom = false;
+						this.isApply = false;
 					}
 				})
-				.catch(err => {
-					console.error(err);
-					this.$toast.fail(err);
-				});
+				.catch(err => {});
 		},
-		async onUserApply() {
+		userApply() {
 			if (this.memberInfoVip == 0) {
 				this.$router.push({ name: 'index' });
 				this.$toast('请先开通会员');
 				return;
 			}
-
-			//filter: 未添加宝贝
-			await this.getBabyList();
-			if (!this.babyList.length) return this.onRedirectModal();
 			this.babyBox = true;
-		},
-		async onRedirectModal() {
-			this.isHeader = 0; //隐藏header-icon
-			this.isEmptyBabyModal = true;
 		},
 		computedTime(time) {
 			//传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
@@ -450,7 +422,10 @@ export default {
 			console.log('t===', t);
 			let oldTimeFormat = new Date(t[0]);
 			let nowDate = new Date();
+			console.log('oldTimeFormat', oldTimeFormat);
+			console.log('nowDate', nowDate);
 			if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
+				console.log('111111111');
 				let times = nowDate.getTime() - oldTimeFormat.getTime();
 				let days = parseInt(times / (60 * 60 * 24 * 1000));
 				console.log('days', days);
@@ -481,7 +456,6 @@ export default {
 						babyId: localStorage.getItem('babyId'),
 						course: []
 					};
-					// let array = [];
 					if (res.data.code == 1 && res.data.data.length != 0) {
 						let item = res.data.data;
 						item.forEach(function(data, index) {
@@ -491,9 +465,9 @@ export default {
 								name: data.name
 							};
 							array.course.push(obj);
-							// array.push(obj);
 						});
 						console.log('array', array);
+						window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教课程']);
 						try {
 							this.$toast('获取早教课程成功');
 							if (this.system == 'ios') {
@@ -509,10 +483,7 @@ export default {
 						this.$toast('今天放假一天(*^▽^*)');
 					}
 				})
-				.catch(err => {
-					console.error(err);
-					this.$toast.fail(err);
-				});
+				.catch(err => {});
 		}
 	},
 	components: {
@@ -520,9 +491,7 @@ export default {
 		'v-title': Title,
 		'v-pie': Pie,
 		'v-suspend': Suspend,
-		'v-babaList': BabaList,
-		'v-header-icon': HeaderIcon,
-		'v-emptybaby-modal': EmptyBabyModal
+		'v-babaList': BabaList
 	}
 };
 </script>
