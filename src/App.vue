@@ -50,15 +50,16 @@ export default {
 		}
 	},
 	watch: {
-		$route(to, from) {
-			// 切换动画
-			// let isBack = this.$router.isBack // 监听路由变化时的状态为前进还是后退
-			// if (isBack) {
-			//   this.transitionName = 'slide-left'
-			// } else {
-			//   this.transitionName = 'slide-right'
-			// }
-			// this.$router.isBack = false
+		$route() {
+			console.log('window._czc=====', window._czc);
+			if (window._czc) {
+				console.log(window._czc);
+				let location = window.location;
+				let contentUrl = location.pathname + location.hash;
+				let refererUrl = '/';
+				window._czc.push(['_trackPageview', contentUrl, refererUrl]);
+				// window._czc.push(﻿["_trackEvent",category,action,label,value,nodeid]);
+			}
 		}
 	},
 	components: {}
@@ -105,17 +106,17 @@ export default {
 	color: rgba(0, 0, 0, 0.8);
 	border: none;
 }
-.van-collapse-item__content{
+.van-collapse-item__content {
 	padding: 0px 0;
 	border: none;
 }
-.van-cell::after{
+.van-cell::after {
 	border: none;
 }
-.van-collapse-item--border::after{
+.van-collapse-item--border::after {
 	border: none;
 }
-[class*=van-hairline]::after{
+[class*='van-hairline']::after {
 	border: none;
 }
 </style>
