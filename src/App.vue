@@ -32,6 +32,12 @@ export default {
 		//   CONSTANTS.LABEL_COOKIE_EXPIRES
 		// )
 	},
+	mounted() {
+		const script = document.createElement('script');
+		script.src = 'https://s95.cnzz.com/z_stat.php?id=1278964945&web_id=1278964945';
+		script.language = 'JavaScript';
+		document.body.appendChild(script);
+	},
 	methods: {
 		getSystem() {
 			let ua = navigator.userAgent.toLowerCase();

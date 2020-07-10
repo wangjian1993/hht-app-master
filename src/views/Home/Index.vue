@@ -106,7 +106,7 @@
 			<div class="member-exclusive">
 				<div class="member-header member-header-pd2"><p>会员专享内容</p></div>
 				<div class="member-exclusive-list">
-					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url)">
+					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url, item.name)">
 						<div class="list-item-img"><img :src="item.img" alt="" /></div>
 						<!-- <div class="member-exclusive-pic">
 							<p class="van-multi-ellipsis" :style="{ color: item.color }">{{ item.name }}</p>
@@ -120,7 +120,7 @@
 			</div>
 			<div class="member-exclusive">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
-				<div class="member-early" @click="setRouter('/education', true, true)"><img src="../../assets/image/2.png" alt="" /></div>
+				<div class="member-early" @click="navigite('http://wifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')"><img src="../../assets/image/2.png" alt="" /></div>
 				<div class="member-early-text">
 					<p>智慧早教课程</p>
 					<p>根据宝宝成长关键期，每日更新课程内容</p>
@@ -231,7 +231,7 @@ export default {
 	created() {
 		const { isHeader } = this.$route.query;
 		this.isHeader = isHeader;
-
+		window._czc.push(['_trackEvent', '火火兔APP', '路由', '会员中心']);
 		console.warn('isHeader');
 		console.log(isHeader);
 		console.log('\n');
@@ -242,7 +242,33 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		navigite(url) {
+			if (localStorage.getItem('user') == '') {
+				this.$toast('请先登陆');
+				this.onRedirect();
+				return;
+			}
+			if (this.memberInfoVip == 0) {
+				this.$toast('请先开通会员');
+				return;
+			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教']);
+			try {
+				let data = {
+					url: url
+				};
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.web_navigite.postMessage(data);
+				} else {
+					window.android.playCourse('web_navigite', JSON.stringify(data));
+				}
+			} catch (e) {
+				this.$toast('请更新新版火火兔APP');
+				//TODO handle the exception
+			}
+		},
 		onRedirect() {
+			window._czc.push(['_trackEvent', '火火兔APP', '路由', '跳转登陆']);
 			if (this.system == 'ios') {
 				window.webkit.messageHandlers.web_login.postMessage(null);
 			} else {
@@ -278,6 +304,7 @@ export default {
 				this.onRedirect();
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '路由', '进入喜马拉雅', name]);
 			try {
 				let data;
 				if (type == 0) {
@@ -312,6 +339,7 @@ export default {
 				this.onRedirect();
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员', this.buyOnePic]);
 			try {
 				let data = {
 					url: this.buyLink
@@ -332,6 +360,7 @@ export default {
 				this.$toast('请先开通会员');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '客服']);
 			this.$dialog
 				.alert({
 					title: '客服',
@@ -397,6 +426,7 @@ export default {
 				this.$toast('请选择要开通的会员卡');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通一年会员']);
 			this.$router.push({ name: 'purchase-help', query: { url: this.buyLink } });
 		},
 		/*
@@ -414,12 +444,13 @@ export default {
 				this.$toast('请先开通会员');
 				return;
 			}
-			// this.$router.push({ name: val })
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '跳转页面']);
 			this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
 				path: val
 			});
 		},
 		helpClick(index) {
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '帮助更多']);
 			this.$router.push({ name: 'member-equity', query: { id: index } });
 		},
 		getXMLY() {
@@ -432,6 +463,7 @@ export default {
 				this.$toast('请先开通会员');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '领取喜马拉雅会员']);
 			this.$axios
 				.getXMLYVip(this.userID, 30)
 				.then(res => {
@@ -508,7 +540,7 @@ export default {
 			}, 300);
 		},
 		//专属内容
-		musicDaile(url, isVip) {
+		musicDaile(url, name) {
 			if (localStorage.getItem('user') == '') {
 				this.$toast('请先登陆');
 				this.onRedirect();
@@ -518,6 +550,7 @@ export default {
 				this.$toast('请先开通会员');
 				return;
 			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '专属内容', name]);
 			try {
 				let data = {
 					url: url
