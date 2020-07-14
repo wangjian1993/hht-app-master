@@ -132,7 +132,7 @@ export default {
   },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
-    this.getSignupTime()
+    this.label()
     this.getCourseAll()
   },
   activated() {

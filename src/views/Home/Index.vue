@@ -120,7 +120,9 @@
 			</div>
 			<div class="member-exclusive">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
-				<div class="member-early" @click="navigite('http://wifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')"><img src="../../assets/image/2.png" alt="" /></div>
+				<div class="member-early" @click="Education('http://wifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')">
+					<img src="../../assets/image/2.png" alt="" />
+				</div>
 				<div class="member-early-text">
 					<p>智慧早教课程</p>
 					<p>根据宝宝成长关键期，每日更新课程内容</p>
@@ -231,7 +233,7 @@ export default {
 	created() {
 		const { isHeader } = this.$route.query;
 		this.isHeader = isHeader;
-		window._czc.push(['_trackEvent', '火火兔APP', '路由', '会员中心']);
+		// window._czc.push(['_trackEvent', '火火兔APP', '路由', '会员中心']);
 		console.warn('isHeader');
 		console.log(isHeader);
 		console.log('\n');
@@ -242,6 +244,21 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		Education() {
+			let self = this;
+			this.$axios
+				.userApplyTime(localStorage.getItem('cid'))
+				.then(res => {
+					if (res.data.code == 1) {
+						console.log('已经报名=====');
+						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/index');
+					} else {
+						console.log('还没有报名====');
+						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/introduction');
+					}
+				})
+				.catch(err => {});
+		},
 		navigite(url) {
 			if (localStorage.getItem('user') == '') {
 				this.$toast('请先登陆');
