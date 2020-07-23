@@ -58,7 +58,7 @@
 			<div class="member-introduce" :class="memberInfoVip == 1 ? 'member-introduce-top' : ''">
 				<div class="member-header" :class="memberInfoVip == 1 ? 'member-header-active' : 'member-header-active1'"><p>会员权益</p></div>
 				<div class="member-introduce-list" :class="memberInfoVip == 1 ? 'member-introduce-list-box-active' : 'member-introduce-list-box-active1'">
-					<div class="member-introduce-list-box" v-for="(item, index) in equityList" v-if="index < 6" :key="index">
+					<div class="member-introduce-list-box" v-for="(item, index) in equityList" v-if="index < 6" :key="index" @click="goAnchor('#anchor-' + index)">
 						<img :src="item.pics" alt="" />
 						<p>{{ item.name }}</p>
 					</div>
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="member-exclusive">
+			<div class="member-exclusive" id="anchor-2">
 				<div class="member-header member-header-pd1"><p>会员省钱</p></div>
 				<div class="member-goods-list">
 					<div class="member-goods-list-item" v-for="(item, index) in vipGoods" :key="index" @click="musicDaile(item.url, false)" v-if="index < 3">
@@ -103,7 +103,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="member-exclusive">
+			<div class="member-exclusive" id="anchor-0">
 				<div class="member-header member-header-pd2"><p>会员专享内容</p></div>
 				<div class="member-exclusive-list">
 					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url, item.name)">
@@ -118,7 +118,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="member-exclusive">
+			<div class="member-exclusive" id="anchor-1">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
 				<div class="member-early" @click="Education('http://wifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')">
 					<img src="../../assets/image/2.png" alt="" />
@@ -128,7 +128,7 @@
 					<p>根据宝宝成长关键期，每日更新课程内容</p>
 				</div>
 			</div>
-			<div class="member-introduce" v-if="activeActivityList.length != 0">
+			<div class="member-introduce" id="anchor-3" v-if="activeActivityList.length != 0">
 				<div class="member-header member-header-pd2">
 					<p>会员专享活动</p>
 					<!-- <p @click="setRouter('member-activity')" v-if="activeActivityList.length > 2">
@@ -147,7 +147,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="member-introduce member-service">
+			<div class="member-introduce member-service" id="anchor-4">
 				<div class="member-header member-header-pd4"><p>会员专享客服</p></div>
 				<div class="member-service-list">
 					<div class="member-service-list-item" @click="serviceBox()">
@@ -160,7 +160,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="member-introduce member-help-content" v-if="activeHelp.length != 0">
+			<div class="member-introduce member-help-content" v-if="activeHelp.length != 0" id="anchor-5">
 				<div class="member-header member-header-pd5">
 					<p>会员帮助中心</p>
 					<p @click="setRouter('/member-help', true)">
@@ -244,6 +244,29 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		goAnchor(selector) {
+			let anchor = this.$el.querySelector(selector);
+			//document.documentElement.scrollTop = anchor.offsetTop;
+			let total = anchor.offsetTop;
+
+			// 平滑滚动，时长500ms，每10ms一跳，共50跳
+			// 获取当前滚动条与窗体顶部的距离
+			let distance = document.documentElement.scrollTop || document.body.scrollTop;
+			// 计算每一小段的距离
+			let step = total / 50;
+			(function smoothDown() {
+				if (distance < total) {
+					distance += step; // 移动一小段
+					document.body.scrollTop = distance;
+					document.documentElement.scrollTop = distance; // 设定每一次跳动的时间间隔为10ms
+					setTimeout(smoothDown, 10);
+				} else {
+					// 限制滚动停止时的距离
+					document.body.scrollTop = total;
+					document.documentElement.scrollTop = total;
+				}
+			})();
+		},
 		Education() {
 			let self = this;
 			this.$axios
@@ -356,19 +379,24 @@ export default {
 				this.onRedirect();
 				return;
 			}
+			console.log(this.buyOnePic);
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员', this.buyOnePic]);
-			try {
-				let data = {
-					url: this.buyLink
-				};
-				if (this.system == 'ios') {
-					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
-				} else {
-					window.android.playCourse('redirectToYZ', JSON.stringify(data));
+			if (this.buyOnePic != 360) {
+				try {
+					let data = {
+						url: this.buyLink
+					};
+					if (this.system == 'ios') {
+						window.webkit.messageHandlers.redirectToYZ.postMessage(data);
+					} else {
+						window.android.playCourse('redirectToYZ', JSON.stringify(data));
+					}
+				} catch (e) {
+					this.$toast('请更新新版火火兔APP');
+					//TODO handle the exception
 				}
-			} catch (e) {
-				this.$toast('请更新新版火火兔APP');
-				//TODO handle the exception
+			} else {
+				this.cardPayBtn();
 			}
 		},
 		//客服
@@ -443,8 +471,20 @@ export default {
 				this.$toast('请选择要开通的会员卡');
 				return;
 			}
-			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通一年会员']);
-			this.$router.push({ name: 'purchase-help', query: { url: this.buyLink } });
+			try {
+				let data = {
+					url: 'http://wifi.alilo.com.cn/xiaohai/hht/dist/index.html#/purchase-help?url=' + this.buyLink
+				};
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.web_navigite.postMessage(data);
+				} else {
+					window.android.playCourse('web_navigite', JSON.stringify(data));
+				}
+			} catch (e) {
+				console.log(e);
+				this.$toast('请更新新版火火兔APP');
+				//TODO handle the exception
+			}
 		},
 		/*
 		 * @val :跳转地址
@@ -563,10 +603,10 @@ export default {
 				this.onRedirect();
 				return;
 			}
-			if (this.memberInfoVip == 0 && isVip) {
-				this.$toast('请先开通会员');
-				return;
-			}
+			// if (this.memberInfoVip == 0) {
+			// 	this.$toast('请先开通会员');
+			// 	return;
+			// }
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '专属内容', name]);
 			try {
 				let data = {
