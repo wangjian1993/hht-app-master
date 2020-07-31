@@ -77,8 +77,6 @@ export default {
     }
 
     & > span:last-of-type {
-      margin-left: auto;
-
       font-family: 'SourceHanSansCN-Normal';
       font-size: 13px;
       font-weight: normal;

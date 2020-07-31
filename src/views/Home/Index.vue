@@ -4,7 +4,7 @@
 		<!-- <v-header :title="title" v-if="isHeader == 1"></v-header> -->
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<!-- <div><button @click="loca()">刷新</button></div> -->
+			<div><button @click="loca()">刷新</button></div>
 			<div class="member-user">
 				<div class="member-user-bg">
 					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
@@ -120,7 +120,7 @@
 			</div>
 			<div class="member-exclusive" id="anchor-1">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
-				<div class="member-early" @click="Education('http://wifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')">
+				<div class="member-early" @click="Education('http://twifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')">
 					<img src="../../assets/image/2.png" alt="" />
 				</div>
 				<div class="member-early-text">
@@ -171,7 +171,10 @@
 				<div class="member-help-list">
 					<!-- <p v-for="(item, index) in helpList" :key="index">{{ index + 1 }}.{{ item.name }}</p> -->
 					<van-collapse v-model="activeName" accordion>
-						<van-collapse-item v-for="(item, index) in activeHelp" :key="index" :title="index + 1 + '.' + item.name" :name="index" :border="false">
+						<van-collapse-item title="1.购买VIP年卡后如何领取早教机赠品？" name="1" :border="false">
+							<div @click="navigite('https://j.youzan.com/9Fm9NM')" style="color: #0088CC;">点此查看VIP年卡激活状态和领取早教机赠品</div>
+						</van-collapse-item>
+						<van-collapse-item v-for="(item, index) in activeHelp" :key="index" :title="index + 2 + '.' + item.name" :name="index + 2" :border="false">
 							<div v-html="item.content"></div>
 						</van-collapse-item>
 					</van-collapse>
@@ -274,10 +277,10 @@ export default {
 				.then(res => {
 					if (res.data.code == 1) {
 						console.log('已经报名=====');
-						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/index');
+						this.navigite('http://twifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/index');
 					} else {
 						console.log('还没有报名====');
-						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/introduction');
+						this.navigite('http://twifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/introduction');
 					}
 				})
 				.catch(err => {});
@@ -381,23 +384,23 @@ export default {
 			}
 			console.log(this.buyOnePic);
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员', this.buyOnePic]);
-			if (this.buyOnePic != 360) {
-				try {
-					let data = {
-						url: this.buyLink
-					};
-					if (this.system == 'ios') {
-						window.webkit.messageHandlers.redirectToYZ.postMessage(data);
-					} else {
-						window.android.playCourse('redirectToYZ', JSON.stringify(data));
-					}
-				} catch (e) {
-					this.$toast('请更新新版火火兔APP');
-					//TODO handle the exception
+			// if (this.buyOnePic != 360) {
+			try {
+				let data = {
+					url: this.buyLink
+				};
+				if (this.system == 'ios') {
+					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
+				} else {
+					window.android.playCourse('redirectToYZ', JSON.stringify(data));
 				}
-			} else {
-				this.cardPayBtn();
+			} catch (e) {
+				this.$toast('请更新新版火火兔APP');
+				//TODO handle the exception
 			}
+			// } else {
+			// 	this.cardPayBtn();
+			// }
 		},
 		//客服
 		serviceBox() {
@@ -462,7 +465,8 @@ export default {
 			}
 		},
 		loca() {
-			location.reload();
+			// location.reload();
+			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72248';
 			// this.$router.push({ name: 'course/index' });
 		},
 		cardPayBtn() {
@@ -473,7 +477,7 @@ export default {
 			}
 			try {
 				let data = {
-					url: 'http://wifi.alilo.com.cn/xiaohai/hht/dist/index.html#/purchase-help?url=' + this.buyLink
+					url: 'http://twifi.alilo.com.cn/xiaohai/hht/dist/index.html#/purchase-help?url=' + this.buyLink
 				};
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.web_navigite.postMessage(data);

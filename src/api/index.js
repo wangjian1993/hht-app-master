@@ -81,19 +81,19 @@ export function fetch(options) {
 	});
 }
 const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
-const aliloUrl = "http://api.cloud.alilo.com.cn/api/v4/";
+const aliloUrl = "http://api.tcloud.alilo.com.cn/api/v4/";
 // const aliloUrl = "http://hhtv3.api.zhishangsoft.com/api/v4/"
 //banner轮播图
 export default {
 	/**
 	 * 获取学习报告
 	 */
-	getUserReport(month) {
+	getUserReport(month, babyId) {
 		return fetch({
 			url: aliloUrl + "course/study-report",
 			method: "post",
 			params: {
-				babyId: localStorage.getItem("babyId"),
+				babyId: babyId,
 				courseId: CID,
 				month: month
 			}
@@ -104,7 +104,7 @@ export default {
 	 * */
 	userLogin() {
 		return fetch({
-			url: "http://api.tcloud.alilo.com.cn/api/v4/login/get-token",
+			url: "http://api.cloud.alilo.com.cn/api/v4/login/get-token",
 			method: "get",
 			params: {
 				appKey: "hht",
@@ -115,12 +115,12 @@ export default {
 	/*
 	 *累计学习时长
 	 */
-	sumTime(month) {
+	sumTime(month, babyId) {
 		return fetch({
 			url: aliloUrl + "course/study-total-time",
 			method: "POST",
 			params: {
-				babyId: localStorage.getItem("babyId"),
+				babyId: babyId,
 				courseId: localStorage.getItem("cid"),
 				month: month
 			}
@@ -215,7 +215,7 @@ export default {
 	/**
 	 * 权益介绍
 	 */
-	getVipEquity(id,userId) {
+	getVipEquity(id, userId) {
 		return fetch({
 			url: aliloUrl + "member-rights/search",
 			method: "POST",
@@ -472,8 +472,12 @@ export default {
 	/*
 	 * 取消智慧早教
 	 */
-	getCourseCancel (params) {
-		const {userId, babyId, courseId} = params;
+	getCourseCancel(params) {
+		const {
+			userId,
+			babyId,
+			courseId
+		} = params;
 		return fetch({
 			url: aliloUrl + "course/cancel",
 			method: "POST",
@@ -487,8 +491,13 @@ export default {
 	/*
 	 * 课程重修
 	 */
-	getRetakeCourse (params) {
-		const {userId, babyId, courseId,courseGroupId} = params;
+	getRetakeCourse(params) {
+		const {
+			userId,
+			babyId,
+			courseId,
+			courseGroupId
+		} = params;
 		return fetch({
 			url: aliloUrl + "course-group/reSingup",
 			method: "POST",
@@ -500,12 +509,12 @@ export default {
 			}
 		});
 	},
-	getXMLYVip(uid,day){
+	getXMLYVip(uid, day) {
 		return fetch({
 			url: aliloUrl + "xmly-vip/grant-code",
 			method: "POST",
 			params: {
-				userId:uid,
+				userId: uid,
 				termDay: day
 			}
 		});

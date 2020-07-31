@@ -56,6 +56,10 @@ export default {
 		try {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
+			window['getCurrentBaby'] = res => {
+				localStorage.setItem("courseBaby", res.babyId)
+				localStorage.setItem("babyId", res.babyId)
+			}
 			window['getUserInfo'] = res => {
 				// if (res.uid == "") return router.push({
 				// 	name: 'course-login'
@@ -67,12 +71,10 @@ export default {
 				$axios
 					.getBabyList(res.uid)
 					.then(res => {
-						alert(3)
 						commit(types.SET_BABYINFO, res.data.data);
 					})
 					.catch(err => console.error(err));
 			};
-			window['getCurrentBaby'] = res => localStorage.setItem("courseBaby", res.babyId)
 		} catch (e) {
 			console.log("请先登录app")
 		}
@@ -92,7 +94,8 @@ export default {
 			let babyid = window.android.getCurrentBaby();
 			let babyData = JSON.parse(babyid);
 			if (Object.keys(babyData).length === 0 && babyData.constructor === Object) throw new Error('lack of babyId');
-			localStorage.setItem("courseBaby", babyData.id)
+			localStorage.setItem("courseBaby", babyData.id);
+			localStorage.setItem("babyId", babyData.id);
 			$axios
 				.getBabyList(userData.uid)
 				.then(res => {
