@@ -5,6 +5,7 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<div><button @click="loca()">刷新</button></div>
+			<div><button @click="loca1()">刷新</button></div>
 			<div class="member-user">
 				<div class="member-user-bg">
 					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
@@ -466,7 +467,12 @@ export default {
 		},
 		loca() {
 			// location.reload();
-			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72248';
+			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72251&month=7';
+			// this.$router.push({ name: 'course/index' });
+		},
+		loca1() {
+			// location.reload();
+			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72251';
 			// this.$router.push({ name: 'course/index' });
 		},
 		cardPayBtn() {

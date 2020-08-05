@@ -68,7 +68,7 @@ export default {
 	},
 	created() {
 		this.babyId = this.$route.query.babyId;
-		this.month = this.today.getMonth() + 1;
+		this.month = this.$route.query.month || this.today.getMonth() + 1;
 		this.getUserReport();
 		this.getSumTime();
 	},
@@ -77,9 +77,9 @@ export default {
 			let radar = [];
 			let radarVal = [{ value: [] }];
 			this.$axios
-				.getUserReport(this.month,this.babyId)
+				.getUserReport(this.month, this.babyId)
 				.then(res => {
-					if(res.data.code == 1){
+					if (res.data.code == 1) {
 						this.peportList = res.data.data.list;
 						let list = res.data.data.list;
 						let radarObj = {};
@@ -94,7 +94,7 @@ export default {
 						this.radarList1 = radar;
 						this.radarList2 = radarVal;
 						this.isLoading = true;
-					}else {
+					} else {
 						this.$toast(res.data.info);
 					}
 				})
@@ -104,7 +104,7 @@ export default {
 		},
 		getSumTime() {
 			this.$axios
-				.sumTime(this.month,this.babyId)
+				.sumTime(this.month, this.babyId)
 				.then(res => {
 					let list = [];
 					this.sumDay = res.data.data.clockDays;
@@ -191,7 +191,7 @@ export default {
 				font-size: 24px;
 				color: #ff8a66;
 			}
-			&:nth-of-type(2){
+			&:nth-of-type(2) {
 				padding-top: 10px;
 			}
 		}
