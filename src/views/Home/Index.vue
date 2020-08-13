@@ -201,6 +201,7 @@ export default {
 			cardList: [],
 			cardIndex: 0,
 			buyLink: null,
+			hwUrl:null,
 			buyOnePic: null,
 			buyArray: [],
 			buyOneArray: [],
@@ -320,9 +321,11 @@ export default {
 		},
 		// ...mapActions(['setUserInfoAction', 'setEquityAction']),
 		cardClick(index, url, data) {
+			console.log(":data",data)
 			this.cardIndex = index;
 			this.buyLink = url;
 			this.buyArray = data;
+			this.hwUrl =data.youzanProductNumber
 			this.buyOneArray = data;
 			this.buyOnePic = data.price;
 			this.$store.dispatch('setEquityAction', this.buyOneArray.id);
@@ -387,8 +390,10 @@ export default {
 			// if (this.buyOnePic != 360) {
 			try {
 				let data = {
-					url: this.buyLink
+					url: this.buyLink,
+					hwUrl:this.hwUrl
 				};
+				console.log(data)
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
 				} else {
@@ -588,6 +593,7 @@ export default {
 				.then(res => {
 					this.cardList = res.data.data.list;
 					this.buyLink = this.cardList[0].buyLink;
+					this.hwUrl =this.cardList[0].youzanProductNumber
 					this.buyOnePic = this.cardList[0].price;
 					this.buyOneArray = this.cardList[0];
 					this.$store.dispatch('setEquityAction', this.buyOneArray.id);

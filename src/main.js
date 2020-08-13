@@ -55,6 +55,8 @@ import {
 	Empty,
 	Row,
 	Col,
+	AddressEdit,
+	Area
 } from 'vant'
 Vue.use(Tab)
 	.use(Tabs)
@@ -81,6 +83,8 @@ Vue.use(Tab)
 	.use(Empty)
 	.use(Row)
 	.use(Col)
+	.use(AddressEdit)
+	.use(Area)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 new Vue({

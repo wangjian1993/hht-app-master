@@ -95,7 +95,14 @@ export default [
       keepAlive: true,
     }
   },
-  
+  { //专享内容
+    path: '/add-site',
+    name: 'add-site',
+    component: () => import( /* webpackChunkName: "more" */ '@/views/Home/AddSite.vue'),
+    meta: {
+      keepAlive: true,
+    }
+  },
   { //学习中详情
     path: '/error',
     name: 'error',
