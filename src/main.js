@@ -16,8 +16,8 @@ Vue.use(VueClipboard);
 Vue.use(createDialog);
 // 开发环境下面使用vConsole进行调试
 // if (process.env.NODE_ENV === 'development') {
-const VConsole = require('vconsole')
-new VConsole()
+	const VConsole = require('vconsole')
+	new VConsole()
 // }
 var fundebug = require("fundebug-javascript");
 fundebug.apikey = "6d1a5d9d00dc7c115627e4e2d262123af47ceed86c85c8fa81fb08d9b5648859";
@@ -55,6 +55,8 @@ import {
 	Empty,
 	Row,
 	Col,
+	AddressEdit,
+	Area
 } from 'vant'
 Vue.use(Tab)
 	.use(Tabs)
@@ -81,6 +83,8 @@ Vue.use(Tab)
 	.use(Empty)
 	.use(Row)
 	.use(Col)
+	.use(AddressEdit)
+	.use(Area)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 new Vue({

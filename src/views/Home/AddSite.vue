@@ -1,0 +1,79 @@
+<template>
+	<div class="app">
+		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
+		<div class="content" v-show="isLoading">
+			<div class="site-img"><img src="../../assets/image/111110000.jpg" alt="" /></div>
+			<div class="site"><van-address-edit :area-list="areaList" :tel-maxlength="11" :area-columns-placeholder="['省', '市', '区']" @save="onSave" /></div>
+		</div>
+	</div>
+</template>
+
+<script>
+import areaList from '../../assets/js/area';
+export default {
+	data() {
+		return {
+			isLoading: true,
+			areaList
+		};
+	},
+	created() {},
+	computed: {},
+	methods: {
+		onSave(content) {
+			console.log(content);
+			this.$toast.loading({
+				message: '添加中...',
+				forbidClick: true
+			});
+			let data = {
+				userId: localStorage.getItem('user'),
+				name: content.name,
+				phone: content.tel,
+				address: content.province + content.city + content.county + content.addressDetail
+			};
+			this.$axios
+				.addSite(data)
+				.then(res => {
+					if (res.data.code == 1) {
+						this.$toast.success('添加成功');
+						try {
+							let data = {
+								url: this.$route.query.buyLink,
+								hwUrl: 'vip_' + this.$route.query.hwUrl,
+								productType: 0,
+								addressId: res.data.data,
+								isHW: true
+							};
+							console.log(data);
+							window.android.playCourse('redirectToYZ', JSON.stringify(data));
+						} catch (e) {
+							this.$toast('请更新新版火火兔APP');
+							//TODO handle the exception
+						}
+					}
+				})
+				.catch(err => {
+					console.error(err);
+					this.$toast.fail(err);
+				});
+		}
+	},
+	components: {}
+};
+</script>
+
+<style lang="less" scoped>
+.content {
+	width: 100%;
+	margin: 0 auto;
+}
+.site-img {
+	width: 375px;
+	margin: 0 auto;
+	img {
+		width: 100%;
+		height: 100%;
+	}
+}
+</style>

@@ -4,8 +4,7 @@
 		<!-- <v-header :title="title" v-if="isHeader == 1"></v-header> -->
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><button @click="loca()">刷新</button></div>
-			<div><button @click="loca1()">刷新</button></div>
+			<!-- <div><button @click="loca()">刷新</button></div> -->
 			<div class="member-user">
 				<div class="member-user-bg">
 					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
@@ -202,6 +201,7 @@ export default {
 			cardList: [],
 			cardIndex: 0,
 			buyLink: null,
+			hwUrl: null,
 			buyOnePic: null,
 			buyArray: [],
 			buyOneArray: [],
@@ -212,7 +212,8 @@ export default {
 			title: '会员中心',
 			vipGoods: Global.vipGoods,
 			vipContent: Global.vipContent,
-			xmlyContent: Global.xmlyContent
+			xmlyContent: Global.xmlyContent,
+			isSite: false
 		};
 	},
 	computed: {
@@ -238,10 +239,8 @@ export default {
 		const { isHeader } = this.$route.query;
 		this.isHeader = isHeader;
 		// window._czc.push(['_trackEvent', '火火兔APP', '路由', '会员中心']);
-		console.warn('isHeader');
-		console.log(isHeader);
-		console.log('\n');
-
+		this.isSite = window.android.isHWChannel();
+		console.log('this.isSite ', this.isSite);
 		//判断是否有用户id
 		this.userID = localStorage.getItem('user');
 		this.getVipAll();
@@ -321,9 +320,11 @@ export default {
 		},
 		// ...mapActions(['setUserInfoAction', 'setEquityAction']),
 		cardClick(index, url, data) {
+			console.log(':data', data);
 			this.cardIndex = index;
 			this.buyLink = url;
 			this.buyArray = data;
+			this.hwUrl = data.youzanProductNumber;
 			this.buyOneArray = data;
 			this.buyOnePic = data.price;
 			this.$store.dispatch('setEquityAction', this.buyOneArray.id);
@@ -385,23 +386,27 @@ export default {
 			}
 			console.log(this.buyOnePic);
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员', this.buyOnePic]);
-			// if (this.buyOnePic != 360) {
-			try {
-				let data = {
-					url: this.buyLink
-				};
-				if (this.system == 'ios') {
-					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
-				} else {
-					window.android.playCourse('redirectToYZ', JSON.stringify(data));
+			if (this.buyOnePic == 360 && this.isSite) {
+				this.cardPayBtn();
+			} else {
+				try {
+					let data = {
+						url: this.buyLink,
+						hwUrl: 'vip_' + this.hwUrl,
+						productType: 0,
+						isHW: true
+					};
+					console.log(data);
+					if (this.system == 'ios') {
+						window.webkit.messageHandlers.redirectToYZ.postMessage(data);
+					} else {
+						window.android.playCourse('redirectToYZ', JSON.stringify(data));
+					}
+				} catch (e) {
+					this.$toast('请更新新版火火兔APP');
+					//TODO handle the exception
 				}
-			} catch (e) {
-				this.$toast('请更新新版火火兔APP');
-				//TODO handle the exception
 			}
-			// } else {
-			// 	this.cardPayBtn();
-			// }
 		},
 		//客服
 		serviceBox() {
@@ -467,28 +472,16 @@ export default {
 		},
 		loca() {
 			// location.reload();
-			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72251&month=7';
-			// this.$router.push({ name: 'course/index' });
-		},
-		loca1() {
-			// location.reload();
-			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72251';
+			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72248';
 			// this.$router.push({ name: 'course/index' });
 		},
 		cardPayBtn() {
-			console.log('调用支付===========', this.babyInfo);
-			if (this.buyLink == null) {
-				this.$toast('请选择要开通的会员卡');
-				return;
-			}
 			try {
 				let data = {
-					url: 'http://twifi.alilo.com.cn/xiaohai/hht/dist/index.html#/purchase-help?url=' + this.buyLink
+					url: 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/add-site?buyLink=' + this.buyLink + '&hwUrl=' + this.hwUrl
 				};
-				if (this.system == 'ios') {
-					window.webkit.messageHandlers.web_navigite.postMessage(data);
-				} else {
-					window.android.playCourse('web_navigite', JSON.stringify(data));
+				if (this.system == 'android') {
+					this.$router.push({ name: 'add-site', query: { buyLink: this.buyLink, hwUrl: this.hwUrl } });
 				}
 			} catch (e) {
 				console.log(e);
@@ -594,6 +587,7 @@ export default {
 				.then(res => {
 					this.cardList = res.data.data.list;
 					this.buyLink = this.cardList[0].buyLink;
+					this.hwUrl = this.cardList[0].youzanProductNumber;
 					this.buyOnePic = this.cardList[0].price;
 					this.buyOneArray = this.cardList[0];
 					this.$store.dispatch('setEquityAction', this.buyOneArray.id);
@@ -617,10 +611,12 @@ export default {
 			// 	this.$toast('请先开通会员');
 			// 	return;
 			// }
+			console.log(url);
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '专属内容', name]);
 			try {
 				let data = {
-					url: url
+					url: url,
+					isHW: false
 				};
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.audioPause.postMessage(null);
@@ -630,6 +626,7 @@ export default {
 				}
 			} catch (e) {
 				this.$toast('请更新新版火火兔APP');
+				console.log(e);
 				//TODO handle the exception
 			}
 		},

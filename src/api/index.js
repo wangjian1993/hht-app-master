@@ -81,7 +81,7 @@ export function fetch(options) {
 	});
 }
 const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
-const aliloUrl = "http://api.dcloud.alilo.com.cn/api/v4/";
+const aliloUrl = "http://api.tcloud.alilo.com.cn/api/v4/";
 // const aliloUrl = "http://hhtv3.api.zhishangsoft.com/api/v4/"
 //banner轮播图
 export default {
@@ -518,5 +518,12 @@ export default {
 				termDay: day
 			}
 		});
-	}
+	},
+	addSite(site) {
+		return fetch({
+			url: aliloUrl + "huawei/address/add",
+			method: "PUT",
+			params: site
+		});
+	},
 };
