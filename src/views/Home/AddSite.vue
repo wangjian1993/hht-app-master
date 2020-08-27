@@ -3,7 +3,7 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<div class="site-img"><img src="../../assets/image/111110000.jpg" alt="" /></div>
-			<div class="site"><van-address-edit :area-list="areaList" :tel-maxlength="11" :area-columns-placeholder="['省', '市', '区']" @save="onSave" /></div>
+			<div class="site" id="site"><van-address-edit :area-list="areaList" :tel-maxlength="11" :area-columns-placeholder="['省', '市', '区']" @save="onSave" /></div>
 		</div>
 	</div>
 </template>
@@ -17,7 +17,13 @@ export default {
 			areaList
 		};
 	},
-	created() {},
+	created() {
+		try {
+			window.android.controlRefresh(false);
+		} catch (e) {
+			//TODO handle the exception
+		}
+	},
 	computed: {},
 	methods: {
 		onSave(content) {

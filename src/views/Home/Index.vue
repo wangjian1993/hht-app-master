@@ -120,7 +120,7 @@
 			</div>
 			<div class="member-exclusive" id="anchor-1">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
-				<div class="member-early" @click="Education('http://twifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')">
+				<div class="member-early" @click="Education('http://wifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')">
 					<img src="../../assets/image/2.png" alt="" />
 				</div>
 				<div class="member-early-text">
@@ -277,10 +277,10 @@ export default {
 				.then(res => {
 					if (res.data.code == 1) {
 						console.log('已经报名=====');
-						this.navigite('http://twifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/index');
+						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/index');
 					} else {
 						console.log('还没有报名====');
-						this.navigite('http://twifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/introduction');
+						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/introduction');
 					}
 				})
 				.catch(err => {});
@@ -472,13 +472,13 @@ export default {
 		},
 		loca() {
 			// location.reload();
-			location.href = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72248';
+			location.href = 'http://wifi.alilo.com.cn/xiaohai/hht/app/index.html#/report?babyId=72248';
 			// this.$router.push({ name: 'course/index' });
 		},
 		cardPayBtn() {
 			try {
 				let data = {
-					url: 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html#/add-site?buyLink=' + this.buyLink + '&hwUrl=' + this.hwUrl
+					url: 'http://wifi.alilo.com.cn/xiaohai/hht/app/index.html#/add-site?buyLink=' + this.buyLink + '&hwUrl=' + this.hwUrl
 				};
 				if (this.system == 'android') {
 					this.$router.push({ name: 'add-site', query: { buyLink: this.buyLink, hwUrl: this.hwUrl } });
