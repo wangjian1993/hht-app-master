@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MEMBERSHIPROUTE from "./routes/membership";
-import COURSEROUTE from "./routes/course";
+import APPPAGE from "./routes/apppage.js";
 Vue.use(Router)
 
 
@@ -11,15 +11,13 @@ const router = new Router({
 	base: process.env.BASE_URL,
 	routes: [
 		...MEMBERSHIPROUTE,
-		...COURSEROUTE,
-		
+		...APPPAGE
 	]
 })
 
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.title) document.title = to.meta.title;
-  next();
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.title) document.title = to.meta.title;
+//   next();
+// });
 
 export default router;

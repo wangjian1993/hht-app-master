@@ -145,5 +145,10 @@ export default {
 		commit
 	}, data) {
 		commit(types.SET_ISEDU, data);
+	},
+	setPoetryMore({
+		commit
+	}, data) {
+		commit(types.SET_POETRYMORE, data);
 	}
 };

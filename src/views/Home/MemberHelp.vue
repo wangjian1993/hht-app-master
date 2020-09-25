@@ -3,10 +3,10 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<van-collapse v-model="activeName" accordion>
-				<van-collapse-item title="购买VIP年卡后如何领取早教机赠品？" name="1" :border="false">
+				<!-- <van-collapse-item title="购买VIP年卡后如何领取早教机赠品？" name="1" :border="false">
 					<div @click="navigite('https://j.youzan.com/9Fm9NM')"  style="color: #0088CC;">点此查看VIP年卡激活状态和领取早教机赠品</div>
-				</van-collapse-item>
-				<van-collapse-item v-for="(item, index) in helpList" :key="index" :title="item.name" :name="index + 2"><div v-html="item.content"></div></van-collapse-item>
+				</van-collapse-item> -->
+				<van-collapse-item v-for="(item, index) in helpList" :key="index" :title="item.name" :name="index + 1"><div v-html="item.content"></div></van-collapse-item>
 			</van-collapse>
 		</div>
 	</div>

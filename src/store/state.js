@@ -10,7 +10,8 @@ const state = {
 	courseDetails:[],
 	userCourseList:[],
 	isEdu:false,
-	isDetails:0
+	isDetails:0,
+	poetryMore:[]
 };
 
 export default state;

@@ -42,7 +42,11 @@ const mutations = {
 		// console.log("state.userCourseList", state.userCourseList)
 	},
 	[types.SET_ISEDU](state, data) {
-		state.isEdu =data;
+		state.isEdu = data;
+	},
+	[types.SET_POETRYMORE](state, data) {
+		state.poetryMore = data;
+		localStorage.setItem("albumMore",JSON.stringify(data))
 	}
 }
 export default mutations

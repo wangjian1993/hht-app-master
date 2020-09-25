@@ -373,142 +373,6 @@ export default {
 	},
 
 	/*课包----------------------------------------------*/
-	/**
-	 * 获取全部课程包
-	 * */
-	getCoursePack(id) {
-		return fetch({
-			url: aliloUrl + "course-group/get-all",
-			method: "POST",
-			params: {
-				channelId: CLId,
-				babyId: id
-			}
-		});
-	},
-	/**
-	 * 获取课程表详情
-	 * id:课程包id
-	 * */
-	getCourseDetails(id, babyid) {
-		return fetch({
-			url: aliloUrl + "course-group/details",
-			method: "POST",
-			params: {
-				channelId: CLId,
-				courseGroupId: id,
-				babyId: babyid
-			}
-		});
-	},
-	/**
-	 * 获取包报名
-	 * id:课程包id
-	 * */
-	courseApply(id, babyid) {
-		return fetch({
-			url: aliloUrl + "course-group/singup",
-			method: "POST",
-			params: {
-				userId: localStorage.getItem("user"),
-				courseGroupId: id,
-				babyId: babyid
-			}
-		});
-	},
-	/*
-	 * 获取宝宝课程
-	 */
-	getUserCourse(babyid) {
-		return fetch({
-			url: aliloUrl + "course-group/my-courses",
-			method: "POST",
-			params: {
-				babyId: babyid
-			}
-		});
-	},
-	/*
-	 * 获取上课课程
-	 */
-	getCourseData(id, courseId, babyid) {
-		return fetch({
-			url: aliloUrl + "course-group/get-by-app",
-			method: "POST",
-			params: {
-				babyId: babyid,
-				courseGroupId: id,
-				courseId: courseId,
-			}
-		});
-	},
-	/*
-	 * 删除课程包
-	 */
-	getCourseDel(id, babyid) {
-		return fetch({
-			url: aliloUrl + "course-group/singout",
-			method: "POST",
-			params: {
-				babyId: babyid,
-				courseGroupId: id,
-			}
-		});
-	},
-	/*
-	 * 课程详情
-	 */
-	getCourseDeta(id, babyid) {
-		return fetch({
-			url: aliloUrl + "course-group/course-details",
-			method: "POST",
-			params: {
-				babyId: babyid,
-				channelId: CLId,
-				courseId: id
-			}
-		});
-	},
-	/*
-	 * 取消智慧早教
-	 */
-	getCourseCancel(params) {
-		const {
-			userId,
-			babyId,
-			courseId
-		} = params;
-		return fetch({
-			url: aliloUrl + "course/cancel",
-			method: "POST",
-			params: {
-				babyId,
-				userId,
-				courseId
-			}
-		});
-	},
-	/*
-	 * 课程重修
-	 */
-	getRetakeCourse(params) {
-		const {
-			userId,
-			babyId,
-			courseId,
-			courseGroupId
-		} = params;
-		return fetch({
-			url: aliloUrl + "course-group/reSingup",
-			method: "POST",
-			params: {
-				babyId,
-				userId,
-				courseId,
-				courseGroupId
-			}
-		});
-	},
 	getXMLYVip(uid, day) {
 		return fetch({
 			url: aliloUrl + "xmly-vip/grant-code",
@@ -526,4 +390,11 @@ export default {
 			params: site
 		});
 	},
+	getAppPage(data){
+		return fetch({
+			url: aliloUrl + "page-manage/get-page",
+			method: "POST",
+			params: data
+		});
+	}
 };

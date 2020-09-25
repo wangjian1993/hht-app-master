@@ -1,9 +1,9 @@
 <template>
 	<div id="app" class="hhtApp">
 		<transition :name="transitionName">
-			<keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
+			<keep-alive><router-view v-if="$route.meta.keepAlive" v-wechat-title='$route.meta.title'></router-view></keep-alive>
 		</transition>
-		<transition :name="transitionName"><router-view v-if="!$route.meta.keepAlive"></router-view></transition>
+		<transition :name="transitionName"><router-view v-if="!$route.meta.keepAlive" v-wechat-title='$route.meta.title'></router-view></transition>
 	</div>
 </template>
 <script>
@@ -24,13 +24,6 @@ export default {
 		}
 		this.$store.dispatch('setUserInfoAction');
 		this.$store.dispatch('getUserActivityInfo');
-
-		//我的课程-红点cookie
-		// setCookiesWithExpiresTime(
-		//   CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
-		//   {},
-		//   CONSTANTS.LABEL_COOKIE_EXPIRES
-		// )
 	},
 	mounted() {
 		const script = document.createElement('script');
@@ -57,14 +50,12 @@ export default {
 	},
 	watch: {
 		$route() {
-			console.log('window._czc=====', window._czc);
 			if (window._czc) {
 				console.log(window._czc);
 				let location = window.location;
 				let contentUrl = location.pathname + location.hash;
 				let refererUrl = '/';
 				window._czc.push(['_trackPageview', contentUrl, refererUrl]);
-				// window._czc.push(﻿["_trackEvent",category,action,label,value,nodeid]);
 			}
 		}
 	},

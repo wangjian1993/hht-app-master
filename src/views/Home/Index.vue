@@ -1,10 +1,7 @@
 <template>
 	<div class="app">
-		<v-header-icon v-if="isHeader == 1"></v-header-icon>
-		<!-- <v-header :title="title" v-if="isHeader == 1"></v-header> -->
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<!-- <div><button @click="loca()">刷新</button></div> -->
 			<div class="member-user">
 				<div class="member-user-bg">
 					<div class="member-user-img"><img src="../../assets/image/icon_headportrait@3x.png" alt="" /></div>
@@ -108,19 +105,12 @@
 				<div class="member-exclusive-list">
 					<div class="member-exclusive-list-item" v-for="(item, index) in vipContent" :key="index" @click="musicDaile(item.url, item.name)">
 						<div class="list-item-img"><img :src="item.img" alt="" /></div>
-						<!-- <div class="member-exclusive-pic">
-							<p class="van-multi-ellipsis" :style="{ color: item.color }">{{ item.name }}</p>
-							<p :style="{ color: item.color }">
-								原价¥{{ item.subheading }}
-							</p>
-							<span class="exclusive-btn" :style="{ background: item.color }">会员畅听</span>
-						</div> -->
 					</div>
 				</div>
 			</div>
 			<div class="member-exclusive" id="anchor-1">
 				<div class="member-header member-header-pd3"><p>会员专享课程</p></div>
-				<div class="member-early" @click="Education('http://wifi.alilo.com.cn/xiaohai/hht/app_temp/index.html#/wisdom-course/index')">
+				<div class="member-early" @click="Education()">
 					<img src="../../assets/image/2.png" alt="" />
 				</div>
 				<div class="member-early-text">
@@ -129,13 +119,7 @@
 				</div>
 			</div>
 			<div class="member-introduce" id="anchor-3" v-if="activeActivityList.length != 0">
-				<div class="member-header member-header-pd2">
-					<p>会员专享活动</p>
-					<!-- <p @click="setRouter('member-activity')" v-if="activeActivityList.length > 2">
-						查看全部
-						<van-icon name="arrow" />
-					</p> -->
-				</div>
+				<div class="member-header member-header-pd2"><p>会员专享活动</p></div>
 				<div class="english-activity" @click="activityRouter('https://m.ximalaya.com/ort/router/presale/extraConsume/110?sharerId=147770569', '牛津树英语启蒙课程')">
 					<img src="../../assets/image/111110000.jpg" alt="" />
 					<p>牛津树英语启蒙课程</p>
@@ -169,12 +153,11 @@
 					</p>
 				</div>
 				<div class="member-help-list">
-					<!-- <p v-for="(item, index) in helpList" :key="index">{{ index + 1 }}.{{ item.name }}</p> -->
 					<van-collapse v-model="activeName" accordion>
-						<van-collapse-item title="1.购买VIP年卡后如何领取早教机赠品？" name="1" :border="false">
+						<!-- <van-collapse-item title="1.购买VIP年卡后如何领取早教机赠品？" name="1" :border="false">
 							<div @click="navigite('https://j.youzan.com/9Fm9NM')" style="color: #0088CC;">点此查看VIP年卡激活状态和领取早教机赠品</div>
-						</van-collapse-item>
-						<van-collapse-item v-for="(item, index) in activeHelp" :key="index" :title="index + 2 + '.' + item.name" :name="index + 2" :border="false">
+						</van-collapse-item> -->
+						<van-collapse-item v-for="(item, index) in activeHelp" :key="index" :title="index + 1 + '.' + item.name" :name="index + 1" :border="false">
 							<div v-html="item.content"></div>
 						</van-collapse-item>
 					</van-collapse>
@@ -190,6 +173,7 @@ import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
 import Header from '@/components/Header.vue';
 import Global from '@/common/global.js';
 import HeaderIcon from '@/components/HeaderIcon.vue';
+import debug from '@/components/debug.vue';
 import * as CONSTANTS from '@/constants/index';
 export default {
 	data() {
@@ -238,9 +222,19 @@ export default {
 	created() {
 		const { isHeader } = this.$route.query;
 		this.isHeader = isHeader;
-		// window._czc.push(['_trackEvent', '火火兔APP', '路由', '会员中心']);
-		this.isSite = window.android.isHWChannel();
-		console.log('this.isSite ', this.isSite);
+		// if (this.system == 'ios' && localStorage.getItem('user') == '') {
+		// 	this.$toast('请先登陆');
+		// 	window.webkit.messageHandlers.web_login.postMessage(null);
+		// 	return;
+		// }
+		try {
+			if (this.system == 'android') {
+				this.isSite = window.android.isHWChannel();
+				console.log('this.isSite ', this.isSite);
+			}
+		} catch (e) {
+			//TODO handle the exception
+		}
 		//判断是否有用户id
 		this.userID = localStorage.getItem('user');
 		this.getVipAll();
@@ -251,7 +245,6 @@ export default {
 			let anchor = this.$el.querySelector(selector);
 			//document.documentElement.scrollTop = anchor.offsetTop;
 			let total = anchor.offsetTop;
-
 			// 平滑滚动，时长500ms，每10ms一跳，共50跳
 			// 获取当前滚动条与窗体顶部的距离
 			let distance = document.documentElement.scrollTop || document.body.scrollTop;
@@ -276,10 +269,13 @@ export default {
 				.userApplyTime(localStorage.getItem('cid'))
 				.then(res => {
 					if (res.data.code == 1) {
-						console.log('已经报名=====');
-						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/index');
+						console.log('已经报名=====', res.data);
+						if (localStorage.getItem('babyId') == res.data.babyId) {
+							this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/index');
+						} else {
+							this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/course/smart-course');
+						}
 					} else {
-						console.log('还没有报名====');
 						this.navigite('http://wifi.alilo.com.cn/xiaohai/hht/course/index.html#/wisdom-course/introduction');
 					}
 				})
@@ -386,9 +382,12 @@ export default {
 			}
 			console.log(this.buyOnePic);
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员', this.buyOnePic]);
-			if (this.buyOnePic == 360 && this.isSite) {
+			console.log('this.isSite===', this.isSite);
+			if (this.buyOnePic == 360) {
+				console.log('华为====');
 				this.cardPayBtn();
 			} else {
+				console.log('不是华为====');
 				try {
 					let data = {
 						url: this.buyLink,
@@ -478,11 +477,9 @@ export default {
 		cardPayBtn() {
 			try {
 				let data = {
-					url: 'http://wifi.alilo.com.cn/xiaohai/hht/app/index.html#/add-site?buyLink=' + this.buyLink + '&hwUrl=' + this.hwUrl
+					url: 'http://h5.alilo.com.cn/member/index.html#/add-site?buyLink=' + this.buyLink + '&hwUrl=' + this.hwUrl
 				};
-				if (this.system == 'android') {
-					this.$router.push({ name: 'add-site', query: { buyLink: this.buyLink, hwUrl: this.hwUrl } });
-				}
+				this.$router.push({ name: 'add-site', query: { buyLink: this.buyLink, hwUrl: this.hwUrl } });
 			} catch (e) {
 				console.log(e);
 				this.$toast('请更新新版火火兔APP');
@@ -642,7 +639,8 @@ export default {
 	},
 	components: {
 		'v-header': Header,
-		'v-header-icon': HeaderIcon
+		'v-header-icon': HeaderIcon,
+		debug
 	},
 	watch: {
 		a(val, oldVal) {

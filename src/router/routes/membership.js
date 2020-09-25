@@ -5,6 +5,7 @@ export default [
     component: () => import( /* webpackChunkName: "home" */ '@/views/Home/Index.vue'),
     meta: {
       keepAlive: false,
+	  title: '会员中心'
     },
   },
   { //排行榜
@@ -13,6 +14,7 @@ export default [
     component: () => import( /* webpackChunkName: "ranking" */ '@/views/Home/Ranking.vue'),
     meta: {
       keepAlive: true,
+	  title: '排行榜'
     },
   },
   { //报告
@@ -21,6 +23,7 @@ export default [
     component: () => import( /* webpackChunkName: "report" */ '@/views/Home/Report.vue'),
     meta: {
       keepAlive: true,
+	  title: '月报告'
     },
   },
   { //登陆
@@ -29,6 +32,7 @@ export default [
     component: () => import( /* webpackChunkName: "login" */ '@/views/Login/Login.vue'),
     meta: {
       keepAlive: true,
+	  title: '登陆'
     },
   },
   { //vip
@@ -37,6 +41,7 @@ export default [
     component: () => import( /* webpackChunkName: "member" */ '@/views/Home/Education.vue'),
     meta: {
       keepAlive: true,
+	  title: '智慧早教'
     },
   },
   { //会员激活
@@ -45,6 +50,7 @@ export default [
     component: () => import( /* webpackChunkName: "membership" */ '@/views/Home/Membership.vue'),
     meta: {
       keepAlive: true,
+	  title: '激活会员'
     },
   },
   { //会员激活
@@ -53,6 +59,7 @@ export default [
     component: () => import( /* webpackChunkName: "purchase-help" */ '@/views/Home/PurchaseHelp.vue'),
     meta: {
       keepAlive: true,
+	  title:'会员帮助'
     },
   },
   { //会员激活
@@ -61,6 +68,7 @@ export default [
     component: () => import( /* webpackChunkName: "member-activity" */ '@/views/Home/MemberActivity.vue'),
     meta: {
       keepAlive: true,
+	  title: '活动'
     },
   },
   { //会员帮助
@@ -69,6 +77,7 @@ export default [
     component: () => import( /* webpackChunkName: "member-help" */ '@/views/Home/MemberHelp.vue'),
     meta: {
       keepAlive: true,
+	  title: '会员帮助'
     },
   },
   { //会员权益
@@ -77,6 +86,7 @@ export default [
     component: () => import( /* webpackChunkName: "member-equity" */ '@/views/Home/MemberEquity.vue'),
     meta: {
       keepAlive: true,
+	   title: '会员权益'
     }
   },
   { //会员权益
@@ -85,6 +95,7 @@ export default [
     component: () => import( /* webpackChunkName: "member-equity" */ '@/views/Home/Apply.vue'),
     meta: {
       keepAlive: false,
+	  title: '报名'
     }
   },
   { //专享内容
@@ -93,14 +104,25 @@ export default [
     component: () => import( /* webpackChunkName: "more" */ '@/views/Home/more.vue'),
     meta: {
       keepAlive: true,
+	  title: '专享内容'
     }
   },
-  { //专享内容
+  { //添加地址
     path: '/add-site',
     name: 'add-site',
     component: () => import( /* webpackChunkName: "more" */ '@/views/Home/AddSite.vue'),
     meta: {
       keepAlive: true,
+	  title: '添加地址'
+    }
+  },
+  { //学习中详情
+    path: '/not-bound',
+    name: 'not-bound',
+    component: () => import( /* webpackChunkName: "apply" */ '@/views/Home/NotBound.vue'),
+    meta: {
+      keepAlive: true,
+	  title: '以旧换新'
     }
   },
   { //学习中详情
