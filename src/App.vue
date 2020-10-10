@@ -27,7 +27,7 @@ export default {
 	},
 	mounted() {
 		const script = document.createElement('script');
-		script.src = 'https://s95.cnzz.com/z_stat.php?id=1278964945&web_id=1278964945';
+		script.src = 'https://s95.cnzz.com/z_stat.php?id=1279310301&web_id=1279310301';
 		script.language = 'JavaScript';
 		document.body.appendChild(script);
 	},

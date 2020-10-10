@@ -42,6 +42,7 @@ export default {
 						audioList: this.list.resList,
 						playIndex: index
 					};
+					window._czc.push(['_trackEvent', '火火兔学古诗', '点击', item.name]);
 					if (this.system == 'ios') {
 						console.log('ios');
 						window.webkit.messageHandlers.audioPlayerPlay.postMessage(data);

@@ -68,18 +68,19 @@ export default {
 	},
 	methods: {
 		pageMore() {
-			this.$store.dispatch('setPoetryMore',this.data);
+			this.$store.dispatch('setPoetryMore', this.data);
 			try {
 				let data = {
 					url: 'http://h5.alilo.com.cn/member/index.html#/apppage/poetry/more?type=' + this.type
 				};
+				window._czc.push(['_trackEvent', '火火兔学古诗', '点击', '查看更多']);
 				if (this.system == 'ios') {
 					window.webkit.messageHandlers.web_navigite.postMessage(data);
 				} else {
 					window.android.playCourse('web_navigite', JSON.stringify(data));
 				}
 			} catch (e) {
-				this.$router.push({ name: 'poetry-more', query: { type: this.type} });
+				this.$router.push({ name: 'poetry-more', query: { type: this.type } });
 				//TODO handle the exception
 			}
 		},
@@ -93,6 +94,7 @@ export default {
 					};
 					console.log('data', data);
 					console.log('this.system', this.system);
+					window._czc.push(['_trackEvent', '火火兔学古诗', '点击', item.name]);
 					if (this.system == 'ios') {
 						console.log('ios');
 						window.webkit.messageHandlers.audioPlayerPlay.postMessage(data);
@@ -112,6 +114,7 @@ export default {
 						name: item.name
 					};
 					console.log('data====222', data);
+					window._czc.push(['_trackEvent', '火火兔学古诗', '点击', item.name]);
 					if (this.system == 'ios') {
 						console.log('ios');
 						window.webkit.messageHandlers.share.postMessage(data);
@@ -146,7 +149,7 @@ export default {
 		&:nth-of-type(1) {
 			font-family: SourceHanSansCN-Medium;
 			font-size: 20px;
-			color:#fff;
+			color: #fff;
 		}
 		&:nth-of-type(2) {
 			font-family: SourceHanSansCN-Regular;
@@ -220,13 +223,13 @@ export default {
 		&:nth-of-type(1) {
 			font-family: SourceHanSansCN-Medium;
 			font-size: 14px;
-			color:#fff;
+			color: #fff;
 			padding: 10px 0 8px;
 		}
 		&:nth-of-type(2) {
 			font-family: SourceHanSansCN-Normal;
 			font-size: 13px;
-			color:#fff;
+			color: #fff;
 		}
 	}
 }

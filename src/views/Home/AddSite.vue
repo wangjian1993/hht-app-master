@@ -10,6 +10,7 @@
 
 <script>
 import areaList from '../../assets/js/area';
+import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
 export default {
 	data() {
 		return {
@@ -18,14 +19,21 @@ export default {
 		};
 	},
 	created() {
+		console.log(window.location)
 		try {
 			window.android.controlRefresh(false);
 		} catch (e) {
 			//TODO handle the exception
 		}
 	},
-	computed: {},
+	computed: {
+		...mapState(['system'])
+	},
 	methods: {
+		getUrlKey(name) {
+			return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[
+				1].replace(/\+/g, '%20')) || null
+		},
 		onSave(content) {
 			console.log(content);
 			this.$toast.loading({
@@ -44,16 +52,28 @@ export default {
 					if (res.data.code == 1) {
 						this.$toast.success('添加成功');
 						try {
-							let data = {
-								url: this.$route.query.buyLink,
-								hwUrl: 'vip_' + this.$route.query.hwUrl,
-								productType: 0,
-								addressId: res.data.data,
-								isHW: true
-							};
-							console.log(data);
-							window.android.playCourse('redirectToYZ', JSON.stringify(data));
+							if (this.system == 'ios') {
+								var item = {
+									url:this.$route.query.buyLink,
+									hwUrl: 'vip_' + this.$route.query.hwUrl,
+									productType: 0,
+									addressId: res.data.data,
+									isHW: true
+								};
+								window.webkit.messageHandlers.redirectToYZ.postMessage(item);
+							} else {
+								var data = {
+									url: this.$route.query.buyLink,
+									hwUrl: 'vip_' + this.$route.query.hwUrl,
+									productType: 0,
+									addressId: res.data.data,
+									isHW: true
+								};
+								console.log("data",data)
+								window.android.playCourse('redirectToYZ', JSON.stringify(data));
+							}
 						} catch (e) {
+							console.log(e)
 							this.$toast('请更新新版火火兔APP');
 							//TODO handle the exception
 						}

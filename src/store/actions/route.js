@@ -4,7 +4,7 @@ import $axios from '@/api/index.js'
 import ROUTER from '@/router/index'
 import STORE from '@/store/index'
 
-const prefix = 'http://h5.alilo.com.cn/member/index.html#'
+const prefix = 'http://h5.alilo.com.cn/membert/index.html#'
 
 function convertObj(data) {
   var _result = []
