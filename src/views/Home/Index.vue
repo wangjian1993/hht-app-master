@@ -62,7 +62,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="xmlyimg" @click="getXMLY"><img src="../../assets/image/lALPBGKoZ10Ob2t6zQKS_658_122.png" alt="" /></div>
+			<div class="xmlyimg" @click="getXMLY"><img src="https://resource.alilo.com.cn/static/img/lALPBGKoZ10Ob2t6zQKS_658_122.d268ce0f.png" alt="" /></div>
 			<div class="member-exclusive">
 				<div class="member-header member-header-pd6">
 					<p>火火兔x喜马拉雅儿童专区</p>
@@ -120,7 +120,7 @@
 			<div class="member-introduce" id="anchor-3" v-if="activeActivityList.length != 0">
 				<div class="member-header member-header-pd2"><p>会员专享活动</p></div>
 				<div class="english-activity" @click="activityRouter('https://m.ximalaya.com/ort/router/presale/extraConsume/110?sharerId=147770569', '牛津树英语启蒙课程')">
-					<img src="../../assets/image/111110000.jpg" alt="" />
+					<img src="https://resource.alilo.com.cn/static/img/111110000.cf781476.jpg" alt="" />
 					<p>牛津树英语启蒙课程</p>
 				</div>
 				<div class="member-activity-list">
@@ -539,7 +539,7 @@ export default {
 						if (res.data.info == '用户已领取') {
 							msg = '你已经领取过喜马拉雅会员!';
 						} else {
-							msg = '你已成功领取7天喜马拉雅会员！';
+							msg = '你已成功领取30天喜马拉雅会员！';
 						}
 						this.$dialog
 							.confirm({
