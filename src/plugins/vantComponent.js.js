@@ -27,7 +27,8 @@ import {
 	Row,
 	Col,
 	AddressEdit,
-	Area
+	Area,
+	Divider
 } from 'vant'
 
 const components = {
@@ -59,7 +60,8 @@ const components = {
 	Row,
 	Col,
 	AddressEdit,
-	Area
+	Area,
+	Divider
 }
 
 function install(Vue) {

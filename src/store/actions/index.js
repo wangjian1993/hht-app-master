@@ -64,7 +64,6 @@ export default {
 				// if (res.uid == "") return router.push({
 				// 	name: 'course-login'
 				// });
-
 				localStorage.setItem("user", res.uid)
 				commit(types.SET_USERINFO, res);
 				alert(2);

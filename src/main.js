@@ -16,6 +16,8 @@ Vue.use(VueWechatTitle)
 Vue.use(VueClipboard);
 Vue.use(createDialog);
 // 开发环境下面使用vConsole进行调试
+localStorage.setItem('vConsole_switch_x', 50)
+localStorage.setItem('vConsole_switch_x', 50)
 if (process.env.NODE_ENV === 'development') {
 	const VConsole = require('vconsole')
 	new VConsole()
@@ -31,20 +33,20 @@ Vue.use(elementComponent)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 router.afterEach(route => {
-    // 从路由的元信息中获取 title 属性
-    if (route.meta.title) {
-        document.title = route.meta.title;
-        // 如果是 iOS 设备，则使用如下 hack 的写法实现页面标题的更新
-        if (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-            const hackIframe = document.createElement('iframe');
-            hackIframe.style.display = 'none';
-            hackIframe.src = './common/html/fixIosTitle.html?r=' + Math.random();
-            document.body.appendChild(hackIframe);
-            setTimeout(_ => {
-                document.body.removeChild(hackIframe)
-            }, 300)
-        }
-    }
+	// 从路由的元信息中获取 title 属性
+	if (route.meta.title) {
+		document.title = route.meta.title;
+		// 如果是 iOS 设备，则使用如下 hack 的写法实现页面标题的更新
+		if (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+			const hackIframe = document.createElement('iframe');
+			hackIframe.style.display = 'none';
+			hackIframe.src = './common/html/fixIosTitle.html?r=' + Math.random();
+			document.body.appendChild(hackIframe);
+			setTimeout(_ => {
+				document.body.removeChild(hackIframe)
+			}, 300)
+		}
+	}
 });
 new Vue({
 	router,

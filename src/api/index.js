@@ -390,9 +390,23 @@ export default {
 			params: site
 		});
 	},
-	getAppPage(data){
+	getAppPage(data) {
 		return fetch({
 			url: aliloUrl + "page-manage/get-page",
+			method: "POST",
+			params: data
+		});
+	},
+	getYzGoods() {
+		return fetch({
+			url: "http://api.dcloud.alilo.com.cn/api/v1/youzan/search",
+			method: "GET",
+			params: ""
+		});
+	},
+	uploadingLog(data) {
+		return fetch({
+			url: "http://big.data.alilo.com.cn/track/app",
 			method: "POST",
 			params: data
 		});

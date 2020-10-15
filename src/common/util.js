@@ -59,24 +59,32 @@ export function timeCycle(val) {
  * 2020-02-02
  * */
 export function getDayTime() {
-	var dd = new Date();
-	var y = dd.getFullYear();
-	var m = dd.getMonth() + 1; //获取当前月份的日期
-	var d = dd.getDate();
-	return y + '-' + m + '-' + d;
+	let yy = new Date().getFullYear();
+	let mm = new Date().getMonth() + 1;
+	let dd = new Date().getDate();
+	let hh = new Date().getHours();
+	let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
+	let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
+	return yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
+	// console.log(this.gettime)
+	// var dd = new Date();
+	// var y = dd.getFullYear();
+	// var m = dd.getMonth() + 1; //获取当前月份的日期
+	// var d = dd.getDate();
+	// return y + '-' + m + '-' + d;
 }
 
 // 防抖
-export function debounce (func, delay) {
-  return function (args) {
-    let _args = args,
-      that = this;
-    clearTimeout(func.id);
+export function debounce(func, delay) {
+	return function(args) {
+		let _args = args,
+			that = this;
+		clearTimeout(func.id);
 
-    func.id = setTimeout(() => {
-      func.call(that, _args);
-    }, delay);
-  };
+		func.id = setTimeout(() => {
+			func.call(that, _args);
+		}, delay);
+	};
 }
 
 export function getQueryStringValue(key) {
@@ -106,4 +114,71 @@ export function computedTime(time) {
 		console.log('days', days)
 		return days + 1
 	}
+}
+
+//宝宝年龄计算
+export function getGrowAge(birthday) {
+	var time;
+	try {
+		time = birthday
+			.replace('年', '-')
+			.replace('月', '-')
+			.replace('日', '');
+	} catch (e) {
+		//TODO handle the exception
+		time = 0;
+	}
+	var now = new Date();
+	var year = now.getFullYear();
+	var month = now.getMonth() + 1;
+	var day = now.getDate();
+	var hour = now.getHours();
+	var minute = now.getMinutes();
+	var second = now.getSeconds();
+
+	var myDate = new Date(time);
+	var myYear = myDate.getFullYear();
+	var myMonth = myDate.getMonth() + 1;
+	var myDay = myDate.getDate();
+	var myHour = myDate.getHours();
+	var myMinute = myDate.getMinutes();
+	var mySecond = myDate.getSeconds();
+
+	var gapSecond = second - mySecond;
+	if (gapSecond < 0) {
+		minute -= 1;
+		gapSecond = 60 - mySecond + second;
+	}
+	var gapMinute = minute - myMinute;
+	if (gapMinute < 0) {
+		hour -= 1;
+		gapMinute = 60 - myMinute + minute;
+	}
+	var gapHour = hour - myHour;
+	if (gapHour < 0) {
+		day -= 1;
+		gapHour = 24 - myHour + hour;
+	}
+	var gapDay = day - myDay;
+	if (gapDay < 0) {
+		month -= 1;
+		gapDay = this.getDaysOfMonth(time) - myDay + day;
+	}
+	var gapMonth = month - myMonth;
+	if (gapMonth < 0) {
+		year -= 1;
+		gapMonth = 12 - myMonth + month;
+	}
+	var gapYear = year - myYear;
+	if (gapYear < 0) {
+		gapYear = 0;
+	}
+
+	var dateStr = gapYear + '岁' + (gapMonth < 10 ? '0' + gapMonth : gapMonth) + '月' + (gapDay < 10 ? '0' + gapDay : gapDay) +
+		'天';
+	// this.babyYear = gapYear;
+	// this.babyMonth = gapMonth;
+	console.log("gapYear", gapYear);
+	console.log("gapMonth", gapMonth);
+	return [gapYear, gapMonth];
 }

@@ -618,7 +618,6 @@ export default {
 			// 	this.$toast('请先开通会员');
 			// 	return;
 			// }
-			console.log(url);
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '专属内容' + name]);
 			try {
 				let data = {
