@@ -176,6 +176,7 @@ export function getGrowAge(birthday) {
 
 	var dateStr = gapYear + '岁' + (gapMonth < 10 ? '0' + gapMonth : gapMonth) + '月' + (gapDay < 10 ? '0' + gapDay : gapDay) +
 		'天';
+	console.log("dateStr",dateStr)
 	// this.babyYear = gapYear;
 	// this.babyMonth = gapMonth;
 	console.log("gapYear", gapYear);

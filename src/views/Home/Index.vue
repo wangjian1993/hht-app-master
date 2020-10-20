@@ -406,10 +406,10 @@ export default {
 		},
 		//客服
 		serviceBox() {
-			if (this.memberInfoVip == 0) {
-				this.$toast('请先开通会员');
-				return;
-			}
+			// if (this.memberInfoVip == 0) {
+			// 	this.$toast('请先开通会员');
+			// 	return;
+			// }
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '客服']);
 			this.$dialog
 				.alert({

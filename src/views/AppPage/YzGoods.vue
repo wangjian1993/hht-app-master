@@ -1,5 +1,5 @@
 <template>
-	<div class="goods-content">
+	<div :class="system == 'ios' ? 'goods-content' : 'content'">
 		<div class="goods-banner" @click="goodsDatile()"><img src="https://resource.alilo.com.cn/static/img/lADPBFRyb72lIqHNAeDNBAs_1035_480.jpg" alt="" /></div>
 		<div class="goods-divder"><van-divider>推荐适合宝宝的产品</van-divider></div>
 		<div v-if="isList" v-for="item in list"><goods-list :yzItem="item"></goods-list></div>
@@ -10,7 +10,7 @@
 import GoodsList from '../../components/GoodsList.vue';
 import Debug from '../../components/debug.vue';
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
-import { getGrowAge } from '../../common/util.js';
+import { getGrowAge, getDayTime } from '../../common/util.js';
 export default {
 	data() {
 		return {
@@ -37,7 +37,8 @@ export default {
 			},
 			isList: false,
 			msg: null,
-			age: 0
+			age: 0,
+			text: null
 		};
 	},
 	computed: {
@@ -45,8 +46,10 @@ export default {
 	},
 	created() {
 		this.getYzGoods();
-		this.msg = getGrowAge(this.userBaby.birthday);
+		let baby = JSON.parse(localStorage.getItem('babyText'));
+		this.msg = getGrowAge(baby.birthday);
 		this.age = this.countAge(this.msg[0], this.msg[1]);
+		this.text = baby;
 	},
 	methods: {
 		countAge(year, month) {
@@ -64,7 +67,20 @@ export default {
 				return 0;
 			}
 		},
+		onRedirect() {
+			window._czc.push(['_trackEvent', '火火兔APP', '路由', '跳转登陆']);
+			if (this.system == 'ios') {
+				window.webkit.messageHandlers.web_login.postMessage(null);
+			} else {
+				window.android.playCourse('web_login', '');
+			}
+		},
 		goodsDatile(url, name) {
+			if (localStorage.getItem('user') == '') {
+				this.$toast('请先登陆');
+				this.onRedirect();
+				return;
+			}
 			let log = {
 				event: 'shop_click',
 				user_id: localStorage.getItem('user'),
@@ -72,7 +88,7 @@ export default {
 				id: 13,
 				url: 'https://shop40802088.m.youzan.com/wscgoods/detail/2ocwkcvxa9g8g',
 				channel_id: 65,
-				os: self.system,
+				os: this.system,
 				create_time: getDayTime()
 			};
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '早教玩具banner']);
@@ -164,6 +180,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.content{
+	padding-bottom: 20px;
+}
+.goods-divder{
+	width: 345px;
+	margin: 0 auto;
+}
+.goods-content {
+	padding-bottom: 144px;
+}
 .goods-banner {
 	width: 345px;
 	height: 160px;

@@ -291,6 +291,7 @@ export default {
 			url: aliloUrl + "member-card/search",
 			method: "POST",
 			params: {
+				userId: localStorage.getItem("user"),
 				channelId: CLId,
 				pageNo: 1,
 				pageSize: 10
@@ -399,9 +400,11 @@ export default {
 	},
 	getYzGoods() {
 		return fetch({
-			url: "http://api.dcloud.alilo.com.cn/api/v1/youzan/search",
+			url: "http://api.cloud.alilo.com.cn/api/v1/youzan/search",
 			method: "GET",
-			params: ""
+			params: {
+				up:20
+			}
 		});
 	},
 	uploadingLog(data) {

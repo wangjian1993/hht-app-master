@@ -29,6 +29,11 @@ require('fundebug-revideo');
 Object.keys(ALLFILTERS).forEach(key => Vue.filter(key, ALLFILTERS[key]))
 //vant组件
 import elementComponent from './plugins/vantComponent.js.js'
+import VideoPlayer from 'vue-video-player'
+import './assets/css/common.css'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer)
 Vue.use(elementComponent)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

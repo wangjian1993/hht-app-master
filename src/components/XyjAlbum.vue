@@ -51,8 +51,21 @@ export default {
 	},
 	created() {},
 	methods: {
+		onRedirect() {
+			window._czc.push(['_trackEvent', '火火兔APP', '路由', '跳转登陆']);
+			if (this.system == 'ios') {
+				window.webkit.messageHandlers.web_login.postMessage(null);
+			} else {
+				window.android.playCourse('web_login', '');
+			}
+		},
 		goodsDatile(url, name, id) {
 			let self = this;
+			if (localStorage.getItem('user') == '') {
+				self.$toast('请先登陆');
+				self.onRedirect();
+				return;
+			}
 			window._czc.push(['_trackEvent', '火火兔APP', '西游记点击', name]);
 			try {
 				let data = {

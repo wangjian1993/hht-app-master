@@ -59,6 +59,8 @@ export default {
 			window['getCurrentBaby'] = res => {
 				localStorage.setItem("courseBaby", res.babyId)
 				localStorage.setItem("babyId", res.babyId)
+				console.log("宝宝信息",res)
+				localStorage.setItem("babyText", JSON.stringify(res));
 			}
 			window['getUserInfo'] = res => {
 				// if (res.uid == "") return router.push({
@@ -93,6 +95,7 @@ export default {
 			let babyid = window.android.getCurrentBaby();
 			let babyData = JSON.parse(babyid);
 			if (Object.keys(babyData).length === 0 && babyData.constructor === Object) throw new Error('lack of babyId');
+			localStorage.setItem("babyText", JSON.stringify(babyData));
 			localStorage.setItem("courseBaby", babyData.id);
 			localStorage.setItem("babyId", babyData.id);
 			$axios

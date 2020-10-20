@@ -17,6 +17,7 @@
     "fundebug-revideo": "^0.6.2",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.10",
+    "vue-video-player": "^5.0.2",
     "vue-wechat-title": "^2.0.7"
   },
   "devDependencies": {

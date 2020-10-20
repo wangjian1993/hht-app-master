@@ -60,9 +60,22 @@ export default {
 		console.log('时间===', getDayTime());
 	},
 	methods: {
+		onRedirect() {
+			window._czc.push(['_trackEvent', '火火兔APP', '路由', '跳转登陆']);
+			if (this.system == 'ios') {
+				window.webkit.messageHandlers.web_login.postMessage(null);
+			} else {
+				window.android.playCourse('web_login', '');
+			}
+		},
 		goodsDatile(url, name, id) {
 			let self = this;
-			// window._czc.push(['_trackEvent', '火火兔APP', '点击', '早教玩具:' + name]);
+			if (localStorage.getItem('user') == '') {
+				self.$toast('请先登陆');
+				self.onRedirect();
+				return;
+			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '早教玩具:' + name]);
 			try {
 				let data = {
 					url: 'https://shop40802088.m.youzan.com/wscgoods/detail/' + url,
@@ -182,7 +195,6 @@ export default {
 	justify-content: space-between;
 	flex-wrap: wrap;
 	margin-top: 22px;
-	padding-bottom: 144px;
 	li {
 		width: 165px;
 		.list-img {
