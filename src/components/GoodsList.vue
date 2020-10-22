@@ -75,7 +75,7 @@ export default {
 				self.onRedirect();
 				return;
 			}
-			window._czc.push(['_trackEvent', '火火兔APP', '点击', '早教玩具:' + name]);
+			window._czc.push(['_trackEvent', '火火兔早教玩具', '点击', '早教玩具:' + name]);
 			try {
 				let data = {
 					url: 'https://shop40802088.m.youzan.com/wscgoods/detail/' + url,

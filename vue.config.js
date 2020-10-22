@@ -34,7 +34,7 @@ module.exports = {
 
 	// 基本路径
 	// baseUrl: './',
-	publicPath: process.env.NODE_ENV === 'production' ?
+	publicPath: process.env.NODE_ENV === 'development' ?
 		'https://resource.alilo.com.cn/static/hht-app/' : './',
 	// 输出文件目录
 	outputDir: 'dist',
@@ -119,7 +119,15 @@ module.exports = {
 		modules: false,
 	},
 	parallel: require('os').cpus().length > 1,
-	pwa: {},
+	pwa: {
+		iconPaths: {
+			favicon32: 'favicon.ico',
+			favicon16: 'favicon.ico',
+			appleTouchIcon: 'favicon.ico',
+			maskIcon: 'favicon.ico',
+			msTileImage: 'favicon.ico'
+		}
+	},
 	devServer: {
 		//     open: true,
 		//     host: 'localhost',

@@ -91,7 +91,7 @@ export default {
 				os: this.system,
 				create_time: getDayTime()
 			};
-			window._czc.push(['_trackEvent', '火火兔APP', '点击', '早教玩具banner']);
+			window._czc.push(['_trackEvent', '火火兔早教玩具', '点击', '早教玩具banner']);
 			try {
 				let data = {
 					url: 'https://shop40802088.m.youzan.com/wscgoods/detail/2ocwkcvxa9g8g',
