@@ -12,7 +12,7 @@ export default {
 		commit
 	}, data) {
 		$axios
-			.getUserVip()
+			.getUserVip(localStorage.getItem("user"))
 			.then(res => {
 				console.log("会员信息", res);
 				commit(types.SET_MEMBERINFO, res.data.data);
@@ -59,7 +59,7 @@ export default {
 			window['getCurrentBaby'] = res => {
 				localStorage.setItem("courseBaby", res.babyId)
 				localStorage.setItem("babyId", res.babyId)
-				console.log("宝宝信息",res)
+				console.log("宝宝信息", res)
 				localStorage.setItem("babyText", JSON.stringify(res));
 			}
 			window['getUserInfo'] = res => {
@@ -105,6 +105,7 @@ export default {
 				})
 				.catch(err => console.error(err));
 		} catch (e) {
+			console.log("e",e)
 			// if (this.system == 'ios') return window.webkit.messageHandlers.addBabys.postMessage(null)
 			//    else return window.android.playCourse('addBabys',"");
 			//TODO handle the exception

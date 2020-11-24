@@ -1,5 +1,7 @@
 <template>
-	<div class="content"><component :is="setComponent()" :data="componentData"></component></div>
+	<div class="content">
+		<component :is="setComponent()" :data="componentData"></component>
+	</div>
 </template>
 
 <script>

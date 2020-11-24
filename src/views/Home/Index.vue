@@ -174,6 +174,8 @@ import Global from '@/common/global.js';
 import HeaderIcon from '@/components/HeaderIcon.vue';
 import debug from '@/components/debug.vue';
 import * as CONSTANTS from '@/constants/index';
+import {getDayTime } from '../../common/util.js';
+import Axios from "axios";
 export default {
 	data() {
 		return {
@@ -229,6 +231,7 @@ export default {
 		try {
 			if (this.system == 'android') {
 				this.isSite = window.android.isHWChannel();
+				window.android.controlRefresh(true);
 				console.log('this.isSite ', this.isSite);
 			}
 		} catch (e) {
@@ -379,12 +382,28 @@ export default {
 				this.onRedirect();
 				return;
 			}
+			let log = {
+				event: 'register_vip',
+				user_id: localStorage.getItem('user'),
+				uuid: localStorage.getItem('user'),
+				content_name:"立即开通",
+				vip_type:this.buyOnePic,
+				channel_id: 65,
+				os: this.system,
+				create_time: getDayTime()
+			};
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '开通会员' + this.buyOnePic]);
+			Axios.post('http://big.data.alilo.com.cn/track/app', log)
+				.then(function(response) {
+					console.log(response);
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
 			if (this.buyOnePic == 360) {
 				console.log('华为====');
 				this.cardPayBtn();
 			} else {
-				console.log('不是华为====');
 				try {
 					let data = {
 						url: this.buyLink,
@@ -473,23 +492,25 @@ export default {
 		},
 		cardPayBtn() {
 			try {
+				localStorage.setItem("yzLink", this.buyLink)
 				let data = {
-					url: 'http://h5.alilo.com.cn/member/index.html#/add-site?buyLink=' + this.buyLink + '&hwUrl=' + this.hwUrl
+					url: 'http://h5.alilo.com.cn/member/index.html#/add-site?hwUrl=' + this.hwUrl
 				};
-				// if (this.system == 'ios') {
-				// 	// console.log('跳转地址', url);
-				// 	this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
-				// 		path: '/add-site',
-				// 		query: {
-				// 			buyLink: this.buyLink,
-				// 			hwUrl: this.hwUrl
-				// 		}
-				// 	});
-				// 	// window.webkit.messageHandlers.web_navigite.postMessage(data);
-				// } else {
-				// 	window.android.playCourse('web_navigite', JSON.stringify(data));
-				// }
-				this.$router.push({ name: 'add-site', query: { buyLink: this.buyLink, hwUrl: this.hwUrl } });
+				if (this.system == 'ios') {
+					// console.log('跳转地址', url);
+					// this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+					// 	path: '/add-site',
+					// 	query: {
+					// 		buyLink: this.buyLink,
+					// 		hwUrl: this.hwUrl
+					// 	}
+					// });
+					window.webkit.messageHandlers.web_navigite.postMessage(data);
+				} else {
+					console.log('跳转地址1111');
+					window.android.playCourse('web_navigite', JSON.stringify(data));
+				}
+				// this.$router.push({ name: 'add-site', query: { buyLink: this.buyLink, hwUrl: this.hwUrl } });
 			} catch (e) {
 				console.log(e);
 				this.$toast('请更新新版火火兔APP');
@@ -532,14 +553,14 @@ export default {
 			}
 			window._czc.push(['_trackEvent', '火火兔APP', '点击', '领取喜马拉雅会员']);
 			this.$axios
-				.getXMLYVip(this.userID, 30)
+				.getXMLYVip(this.userID, 180)
 				.then(res => {
 					if (res.data.code == 1) {
 						let msg;
 						if (res.data.info == '用户已领取') {
 							msg = '你已经领取过喜马拉雅会员!';
 						} else {
-							msg = '你已成功领取30天喜马拉雅会员！';
+							msg = '你已成功领取180天喜马拉雅会员！';
 						}
 						this.$dialog
 							.confirm({
@@ -561,7 +582,7 @@ export default {
 		},
 		async getVipAll() {
 			console.log('调用接口', localStorage.getItem('user'));
-			// await this.$store.dispatch('setUserInfoAction');
+			await this.$store.dispatch('setUserInfoAction');
 			await this.$axios
 				.getVipContent(1)
 				.then(res => {

@@ -197,6 +197,7 @@ export default {
 	margin-top: 22px;
 	li {
 		width: 165px;
+		padding-bottom: 20px;
 		.list-img {
 			width: 165px;
 			width: 165px;

@@ -11,6 +11,7 @@ import GoodsList from '../../components/GoodsList.vue';
 import Debug from '../../components/debug.vue';
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
 import { getGrowAge, getDayTime } from '../../common/util.js';
+import Axios from 'axios';
 export default {
 	data() {
 		return {

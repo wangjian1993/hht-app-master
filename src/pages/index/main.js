@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
-import axios from './api/index'
-import router from './router/index'
+import axios from '@/api/index'
+import router from '@/router/index'
 import createDialog from "@/plugins/createDialog";
 import '@babel/polyfill'
 import Es6Promise from 'es6-promise'
 Es6Promise.polyfill()
-import './assets/css/app.css' //公共css
+import '@/assets/css/app.css' //公共css
 import 'lib-flexible/flexible'
-import store from './store/index'
+import store from '@/store/index'
 import ALLFILTERS from "@/filters/index";
 import VueClipboard from 'vue-clipboard2'
 import VueWechatTitle from 'vue-wechat-title'
@@ -28,9 +28,9 @@ fundebug.apikey = "6d1a5d9d00dc7c115627e4e2d262123af47ceed86c85c8fa81fb08d9b5648
 require('fundebug-revideo');
 Object.keys(ALLFILTERS).forEach(key => Vue.filter(key, ALLFILTERS[key]))
 //vant组件
-import elementComponent from './plugins/vantComponent.js.js'
+import elementComponent from '@/plugins/vantComponent.js.js'
 import VideoPlayer from 'vue-video-player'
-import './assets/css/common.css'
+import '@/assets/css/common.css'
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
 Vue.use(VideoPlayer)

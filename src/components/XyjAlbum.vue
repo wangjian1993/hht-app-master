@@ -1,35 +1,59 @@
 <template>
 	<div class="content">
-		<div class="album-title">
-			<p>火火兔姐姐讲西游记</p>
-			<p
-				@click="
-					goodsDatile(
-						'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2oqgpdc2g2t7k&qr=paidcolumn_2oqgpdc2g2t7k',
-						'查看更多'
-					)
-				"
-			>
-				查看更多
-				<span><van-icon name="arrow" /></span>
-			</p>
-		</div>
+		<div class="album-title"><p>火火兔姐姐讲西游记(一)</p></div>
 		<div class="album-list">
 			<ul>
-				<li v-for="(item, index) in xyjList" :key="item.id" class="listStyle2" @click="goodsDatile(item.url, item.name, item.id)">
+				<li v-for="(item, index) in xyjList" :key="item.id" class="listStyle2" @click="goodsDatile(item.url, item.name, item.id, index)" v-if="index < 4">
 					<div class="list-img">
 						<img :src="item.img" alt="" />
+						<div class="list-tag" v-if="index < 2">试听</div>
 						<div class="list-time">
 							<van-icon name="clock-o" color="#ffffff" size="8" />
 							<span>{{ item.time }}</span>
 						</div>
 					</div>
 					<div class="list-text">
-						<p class="van-multi-ellipsis--l2">{{ index + 1 + '.' + item.name }}</p>
+						<p class="van-multi-ellipsis--l2">{{ item.name }}</p>
 					</div>
 				</li>
 			</ul>
 		</div>
+		<p
+			class="album-more"
+			@click="
+				goodsDatile('https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2oqgpdc2g2t7k&qr=paidcolumn_2oqgpdc2g2t7k', '查看更多')
+			"
+		>
+			查看更多
+			<span><van-icon name="arrow" /></span>
+		</p>
+		<div class="album-title"><p>火火兔姐姐讲西游记(二)</p></div>
+		<div class="album-list">
+			<ul>
+				<li v-for="(item, index) in xyjList" :key="item.id" class="listStyle2" @click="goodsDatile(item.url, item.name, item.id, index)" v-if="index > 3">
+					<div class="list-img">
+						<img :src="item.img" alt="" />
+						<div class="list-tag" v-if="index == 4">试听</div>
+						<div class="list-time">
+							<van-icon name="clock-o" color="#ffffff" size="8" />
+							<span>{{ item.time }}</span>
+						</div>
+					</div>
+					<div class="list-text">
+						<p class="van-multi-ellipsis--l2">{{ item.name }}</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p
+			class="album-more"
+			@click="
+				goodsDatile('https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=1ydyf54ig5vvk&qr=paidcolumn_1ydyf54ig5vvk', '查看更多')
+			"
+		>
+			查看更多
+			<span><van-icon name="arrow" /></span>
+		</p>
 	</div>
 </template>
 
@@ -39,7 +63,15 @@ var row = 0;
 export default {
 	props: {
 		xyjList: {
-			type: Object,
+			type: Array,
+			default: () => {}
+		},
+		xyjMusic: {
+			type: Array,
+			default: () => {}
+		},
+		xyjMusic2: {
+			type: Array,
 			default: () => {}
 		}
 	},
@@ -59,29 +91,58 @@ export default {
 				window.android.playCourse('web_login', '');
 			}
 		},
-		goodsDatile(url, name, id) {
+		goodsDatile(url, name, id, index) {
 			let self = this;
 			if (localStorage.getItem('user') == '') {
 				self.$toast('请先登陆');
 				self.onRedirect();
 				return;
 			}
-			window._czc.push(['_trackEvent', '火火兔APP', '西游记点击', name]);
-			try {
-				let data = {
-					url: url,
-					isHW: false
-				};
-				if (this.system == 'ios') {
-					window.webkit.messageHandlers.audioPause.postMessage(null);
-					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
-				} else {
-					window.android.playCourse('redirectToYZ', JSON.stringify(data));
+			if (index == 0 || index == 1 || index == 4) {
+				try {
+					let data;
+					if (index == 4) {
+						data = {
+							audioList: self.xyjMusic2,
+							playIndex: 0
+						};
+					} else {
+						data = {
+							audioList: self.xyjMusic,
+							playIndex: index
+						};
+					}
+					window._czc.push(['_trackEvent', '火火兔APP', '西游记点击', name]);
+					if (this.system == 'ios') {
+						window.webkit.messageHandlers.audioPlayerPlay.postMessage(data);
+					} else {
+						window.android.playCourse('audioPlayerPlay', JSON.stringify(data));
+					}
+				} catch (e) {
+					window._czc.push(['_trackEvent', '火火兔亲子学堂', '西游记点击', name]);
+					window.location.href = url;
+					//TODO handle the exception
 				}
-			} catch (e) {
-				this.$toast('请更新新版火火兔APP');
-				console.log(e);
-				//TODO handle the exception
+			} else {
+				try {
+					let data = {
+						url: url,
+						isHW: false
+					};
+					window._czc.push(['_trackEvent', '火火兔APP', '西游记点击', name]);
+					if (this.system == 'ios') {
+						window.webkit.messageHandlers.audioPause.postMessage(null);
+						window.webkit.messageHandlers.redirectToYZ.postMessage(data);
+					} else {
+						window.android.playCourse('redirectToYZ', JSON.stringify(data));
+					}
+				} catch (e) {
+					window._czc.push(['_trackEvent', '火火兔亲子学堂', '西游记点击', name]);
+					// this.$toast('请更新新版火火兔APP');
+					window.location.href = url;
+					console.log(e);
+					//TODO handle the exception
+				}
 			}
 		}
 	},
@@ -102,15 +163,15 @@ export default {
 			font-size: 20px;
 			color: #433b30;
 		}
-		&:nth-of-type(2) {
-			font-family: SourceHanSansCN-Regular;
-			font-size: 13px;
-			color: #433b30;
-			margin-left: auto;
-			display: flex;
-			align-items: center;
-		}
 	}
+}
+.album-more {
+	font-family: SourceHanSansCN-Regular;
+	font-size: 13px;
+	color: #433b30;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .album-list {
 	width: 345px;
@@ -169,5 +230,19 @@ export default {
 			color: #433b30;
 		}
 	}
+}
+.list-tag {
+	width: 44px;
+	height: 21px;
+	text-align: center;
+	line-height: 21px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: url(../assets/image/tag.png) no-repeat;
+	background-size: 100%;
+	font-family: SourceHanSansCN-Normal;
+	font-size: 14px;
+	color: #ffffff;
 }
 </style>

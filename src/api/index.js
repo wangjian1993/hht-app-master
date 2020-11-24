@@ -81,7 +81,7 @@ export function fetch(options) {
 	});
 }
 const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
-const aliloUrl = "http://api.cloud.alilo.com.cn/api/v4/";
+const aliloUrl = "https://api.cloud.alilo.com.cn/api/v4/";
 // const aliloUrl = "http://hhtv3.api.zhishangsoft.com/api/v4/"
 //banner轮播图
 export default {
@@ -363,12 +363,12 @@ export default {
 			}
 		});
 	},
-	getUserVip() {
+	getUserVip(user) {
 		return fetch({
 			url: aliloUrl + "user/get-vip",
 			method: "GET",
 			params: {
-				userId: localStorage.getItem("user")
+				userId: user
 			}
 		});
 	},
@@ -403,7 +403,7 @@ export default {
 			url: "http://api.cloud.alilo.com.cn/api/v1/youzan/search",
 			method: "GET",
 			params: {
-				up:20
+				up: 20
 			}
 		});
 	},
