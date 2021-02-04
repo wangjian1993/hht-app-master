@@ -8,7 +8,7 @@
 			<img src="../../assets/image/play.png" alt="" />
 			<p>学习全套视频</p>
 		</div>
-		<div class="goods-divder"><van-divider>火火兔学古诗-音频版</van-divider></div>
+		<div class="goods-divder" @click="gooriginal"><van-divider>火火兔学古诗-音频版</van-divider></div>
 		<component v-for="item in pageList" :is="setComponent(item)" :componentData="item"></component>
 	</div>
 </template>
@@ -35,6 +35,9 @@ export default {
 		this.getAppPage();
 	},
 	methods: {
+		gooriginal() {
+			 this.$router.push({ name: 'patriarch' });
+		},
 		lockVideo() {
 			window._czc.push(['_trackEvent', '火火兔学古诗', '点击', '全套视频']);
 			try {

@@ -123,6 +123,62 @@ const xyjContent = [{
 		time: "13:34",
 		img: "https://resource.alilo.com.cn/static/img/xyj/xyj12.jpg",
 		id: 8
+	},
+	{
+		name: '42.乌鸡国：梦遇乌鸡国王',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=2fp9n6l1ds4s0&qr=paidcontent_2fp9n6l1ds4s0',
+		time: "13:23",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj13.jpg",
+		id: 9
+	},
+	{
+		name: '43.乌鸡国：井中寻宝',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=2oqh1p0nh9q00&qr=paidcontent_2oqh1p0nh9q00',
+		time: "13:20",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj14.jpg",
+		id: 10
+	},
+	{
+		name: '44.乌鸡国：大战狮子精',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=1ybif4o51m880&qr=paidcontent_1ybif4o51m880',
+		time: "13:06",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj15.jpg",
+		id: 11
+	},
+	{
+		name: '45.乌鸡国：悟空大战红孩儿(上)',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=3nvh0yjpqiek0&qr=paidcontent_3nvh0yjpqiek0',
+		time: "10:23",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj16.jpg",
+		id: 12
+	},
+	{
+		name: '62.小雷音：误入妖精洞',
+		url: 'httpsshop40802088.youzan.comwscvisknowledgeindexkdt_id=40609920&page=contentshow&alias=3nwp70ob4cc34&qr=paidcontent_3nwp70ob4cc34',
+		time: "12:04",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj17.jpg",
+		id: 13
+	},
+	{
+		name: '63.小雷音：天兵天将来相助',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=3nrrtf8ftehgw&qr=paidcontent_3nrrtf8ftehgw',
+		time: "11:27",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj18.jpg",
+		id: 14
+	},
+	{
+		name: '64.小雷音：降服黄眉妖王',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=3ngqmnigpcaao&qr=paidcontent_3ngqmnigpcaao',
+		time: "13:35",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj19.jpg",
+		id: 15
+	},
+	{
+		name: '65.朱紫国：悟空巧行医',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=2x47trmb16wq8&qr=paidcontent_2x47trmb16wq8',
+		time: "13:31",
+		img: "https://resource.alilo.com.cn/static/img/xyj/xyj20.jpg",
+		id: 16
 	}
 ];
 export default {

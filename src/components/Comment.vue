@@ -2,14 +2,14 @@
 	<div class="content">
 		<div class="comment-list">
 			<div class="list" v-for="(item, index) in list" :key="index">
-				<div class="list-img"><img :src="setAvatar(item.avatar)" /></div>
 				<div class="list-text">
-					<p class="list-text-name">
-						<span>{{ item.name }}</span>
-						<span>{{ item.time }}</span>
-					</p>
-					<div class="list-text-content">{{ item.comment }}</div>
+					<div class="list-img">
+						<img :src="setAvatar(item.avatar)" />
+						<p class="list-text-name">{{ item.name }}</p>
+					</div>
+					<p class="list-text-time">{{ item.time }}</p>
 				</div>
+				<div class="list-text-content">{{ item.comment }}</div>
 			</div>
 		</div>
 	</div>
@@ -42,35 +42,39 @@ export default {
 	margin-top: 23px;
 	.list {
 		width: 100%;
-		display: flex;
 		padding-bottom: 40px;
-		.list-img {
-			width: 15%;
-			height: 100%;
-			img {
-				width: 32px;
-				height: 32px;
-				border-radius: 50%;
-			}
-		}
 		.list-text {
-			width: 85%;
-			.list-text-name {
-				font-family: SourceHanSansCN-Normal;
-				font-size: 16px;
-				color: #000000;
-				opacity: 0.8;
-				span {
-					padding-right: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			.list-img {
+				display: flex;
+				align-items: center;
+				img {
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+				}
+				.list-text-name {
+					font-family: PingFangSC-Medium;
+					font-size: 16px;
+					color: #fff;
+					opacity: 0.8;
+					padding-left: 8px;
 				}
 			}
-			.list-text-content {
-				padding-top: 16px;
-				font-family: SourceHanSansCN-Normal;
-				font-size: 16px;
-				color: #000000;
-				line-height: 1.2;
+			.list-text-time {
+				font-family: PingFangSC-Regular;
+				font-size: 12px;
+				color: rgba(255, 255, 255, 0.5); 
 			}
+		}
+		.list-text-content {
+			padding-top: 16px;
+			font-family: PingFangSC-Regular;
+			font-size: 14px;
+			color: #fff;
+			line-height: 1.4;
 		}
 	}
 }

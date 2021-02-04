@@ -2,7 +2,7 @@
 	<div class="content">
 		<div class="not-bound-img"><img src="../../assets/image/nobind.png" alt="" /></div>
 		<p class="not-bound-text">啊哦，这款故事机还不支持连接APP~</p>
-		<div class="not-bound-btn" @click="addWeChat">添加客服微信，了解以旧换新活动</div>
+		<div class="not-bound-btn" @click="addWeChat">了解以旧换新活动</div>
 	</div>
 </template>
 
@@ -17,15 +17,17 @@ export default {
 	},
 	methods: {
 		addWeChat() {
-			let data = {
-				mini_program_id: 'gh_1f54dd7d30fe',
-				path: '/pages/share/share'
-			};
-			if (this.system == 'ios') {
-				window.webkit.messageHandlers.redirectMiniProgram.postMessage(data);
-			} else {
-				window.android.playCourse('redirectMiniProgram', JSON.stringify(data));
-			}
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '了解以旧换新']);
+			location.href="https://www.maka.im/danyeviewer/13045418/KFTCES6NW13045418?t=1607303897361"
+			// let data = {
+			// 	mini_program_id: 'gh_1f54dd7d30fe',
+			// 	path: '/pages/share/share'
+			// };
+			// if (this.system == 'ios') {
+			// 	window.webkit.messageHandlers.redirectMiniProgram.postMessage(data);
+			// } else {
+			// 	window.android.playCourse('redirectMiniProgram', JSON.stringify(data));
+			// }
 		}
 	},
 	components: {}

@@ -33,18 +33,6 @@ export function fetch(options) {
 		});
 		instance.defaults.headers.common["token"] = AUTH_TOKEN;
 		instance.interceptors.request.use(function(config) {
-			// console.log("AUTH_TOKEN")
-			if (AUTH_TOKEN == null) {
-				let promisefresh = new Promise(function(resolve, reject) {
-					//刷新token
-					axios.get("http://api.cloud.alilo.com.cn/api/v4/login/get-token?appKey=hht&appSecret=hht").then(response => {
-						config.headers.token = response.data.data;
-						localStorage.setItem('token', response.data.data);
-						resolve(config);
-					})
-				});
-				return promisefresh;
-			}
 			let url = config.url;
 			if (url.indexOf("login") > -1) {
 				localStorage.setItem('token', "");
@@ -58,14 +46,18 @@ export function fetch(options) {
 			return Promise.reject(err);
 		});
 		instance.interceptors.response.use(function(res) {
-			// console.log(res)
-			if (res.data.code == 2) {
-				// console.log("token过期了", Router);
-				Router.push({
-					name: 'login'
+			if (res.data.code != 2) {
+				console.log("res===", res)
+				return res;
+			} else {
+				console.log("token过期了");
+				axios.get("http://api.cloud.alilo.com.cn/api/v4/login/get-token?appKey=hht&appSecret=hht").then(response => {
+					console.log("获取token====")
+					localStorage.setItem('token', response.data.data);
+					location.reload();
+					return;
 				})
 			}
-			return res;
 		}, function(err) {
 			return err;
 		});
@@ -81,7 +73,7 @@ export function fetch(options) {
 	});
 }
 const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
-const aliloUrl = "https://api.cloud.alilo.com.cn/api/v4/";
+const aliloUrl = "https://api-h5.cloud.alilo.com.cn/api/v4/";
 // const aliloUrl = "http://hhtv3.api.zhishangsoft.com/api/v4/"
 //banner轮播图
 export default {
@@ -405,6 +397,13 @@ export default {
 			params: {
 				up: 20
 			}
+		});
+	},
+	getDetail(data) {
+		return fetch({
+			url: aliloUrl + "audio-group/get",
+			method: "POST",
+			params: data
 		});
 	},
 	uploadingLog(data) {

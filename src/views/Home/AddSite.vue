@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div class="site-img"><img src="https://resource.alilo.com.cn/static/img/lADPBFRyb739PazNAeDNBAs_1035_480.jpg" alt="" /></div>
+			<page-video :videoURL="videoURL" :videoPic="videoPic" :aspectRatio="aspectRatio"></page-video>
 			<div class="site" id="site">
 				<van-address-edit
 					:area-list="areaList"
@@ -21,15 +21,20 @@
 import areaList from '../../assets/js/area';
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex';
 import { getDayTime } from '../../common/util.js';
+import PageVideo from '../../components/PageVideo.vue';
 import Axios from "axios";
 export default {
 	data() {
 		return {
 			isLoading: true,
-			areaList
+			areaList,
+			videoURL: 'https://resource.alilo.com.cn/static/video/g9s.mp4',
+			videoPic: 'https://resource.alilo.com.cn/static/img/vip_gift.jpg',
+			aspectRatio: '16:9'
 		};
 	},
 	created() {
+		this.$store.dispatch('setUserInfoAction');
 		// if (this.type == 'ios') {
 		// 	this.$store.dispatch('setBabyInfoAction');
 		// } else {
@@ -89,12 +94,13 @@ export default {
 						try {
 							if (this.system == 'ios') {
 								var item = {
-									url: localStorage.getItem('yzLink'),
-									hwUrl: 'vip_' + this.$route.query.hwUrl,
-									productType: 0,
-									addressId: res.data.data,
-									isHW: true
+									url: localStorage.getItem('yzLink') || this.$route.query.buyLink
+									// hwUrl: 'vip_' + this.$route.query.hwUrl,
+									// productType: 0,
+									// addressId: res.data.data,
+									// isHW: true
 								};
+								console.log("item",item)
 								window.webkit.messageHandlers.redirectToYZ.postMessage(item);
 							} else {
 								var data = {
@@ -120,7 +126,9 @@ export default {
 				});
 		}
 	},
-	components: {}
+	components: {
+		PageVideo
+	}
 };
 </script>
 

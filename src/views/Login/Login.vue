@@ -12,7 +12,7 @@ export default {
 			.userLogin()
 			.then(res => {
 				localStorage.setItem("token",res.data.data)
-				this.$router.push({ path: '/', query: { type: 1 } });
+				// this.$router.push({ path: '/', query: { type: 1 } });
 			})
 			.catch(err => {
 				console.log(err);

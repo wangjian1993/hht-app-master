@@ -1,16 +1,20 @@
 <template>
 	<div :class="system == 'ios' ? 'xyj-content' : 'content'">
-		<!-- <div class="xyj-banner"><img src="https://resource.alilo.com.cn/static/img/xyj/xyj-banner.png" alt="" /></div> -->
-		<page-video :videoURL="videoURL" :videoPic="videoPic" :aspectRatio="aspectRatio"></page-video>
-		<div class="xyj-text"><p>为孩子量身打造，聆听耳朵里的“大片盛宴”<br />
-100+紧扣剧情对话顺口溜，让故事“活”起来<br />巧妙融入大量诗词和成语，丰富孩子知识储备</p></div>
+		<!-- <page-video :videoURL="videoURL" :videoPic="videoPic" :aspectRatio="aspectRatio"></page-video> -->
+		<div class="xyj-head-img"><img src="https://resource.alilo.com.cn/static/img/xyj/xyj-top-bg.jpg" alt="" /></div>
 		<div class="xyj-more" @click="goAnchor('demo')">
-			<p>
+			<div class="xyj-tag">
+				<span>经典名著</span>
+				<span>情商培养</span>
+				<span>原创精品</span>
+			</div>
+			<p class="xyj-more-p">
 				精选留言
 				<span><van-icon name="arrow" /></span>
 			</p>
 		</div>
-		<xyj-album :xyjList="xyjList" :xyjMusic="xyjMusic" :xyjMusic2="xyjMusic2"></xyj-album>
+		<xyj-album-scroll :recommendList="recommendList"></xyj-album-scroll>
+		<xyj-album :xyjList="xyjList" :xyjMusic="xyjMusic" :xyjMusic2="xyjMusic2" :xyjMusic3="xyjMusic3" :xyjMusic4="xyjMusic4"></xyj-album>
 		<div class="title" ref="comment"><p>留言</p></div>
 		<comment :list="commentList"></comment>
 	</div>
@@ -18,6 +22,7 @@
 
 <script>
 import XyjAlbum from '../../components/XyjAlbum.vue';
+import XyjAlbumScroll from '../../components/XyjAlbumScroll.vue';
 import PageVideo from '../../components/PageVideo.vue';
 import Comment from '../../components/Comment.vue';
 import Global from '@/common/global.js';
@@ -30,9 +35,36 @@ export default {
 			commentList: content.list,
 			xyjMusic: [],
 			xyjMusic2: [],
+			xyjMusic3: [],
 			videoURL: 'https://resource.alilo.com.cn/static/video/hht-xyj.mp4',
 			videoPic: 'https://resource.alilo.com.cn/static/img/xyj/lADPBGY16kkmHrfNBDjNCAA_2048_1080-2.jpg',
-			aspectRatio: '4096:2160'
+			aspectRatio: '4096:2160',
+			recommendList: [
+				{
+					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter1.jpg',
+					name: '第一部',
+					count: 20,
+					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2oqgpdc2g2t7k&qr=paidcolumn_2oqgpdc2g2t7k"
+				},
+				{
+					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter2.jpg',
+					name: '第二部',
+					count: 21,
+					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=1ydyf54ig5vvk&qr=paidcolumn_1ydyf54ig5vvk"
+				},
+				{
+					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter3.jpg',
+					name: '第三部',
+					count: 20,
+					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2fmt4nomiayow&qr=paidcolumn_2fmt4nomiayow"
+				},
+				{
+					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter4.jpg',
+					name: '第四部',
+					count: 20,
+					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3nrsorv83f7s0&qr=paidcolumn_3nrsorv83f7s0"
+				}
+			]
 		};
 	},
 	computed: {
@@ -41,7 +73,6 @@ export default {
 	created() {
 		this.getAppPage();
 	},
-	mounted: {},
 	methods: {
 		goAnchor(selector) {
 			console.log(selector);
@@ -78,6 +109,8 @@ export default {
 					if (res.data.code == 1) {
 						this.xyjMusic = res.data.data.activityVoList[0].resList;
 						this.xyjMusic2 = res.data.data.activityVoList[1].resList;
+						this.xyjMusic3 = res.data.data.activityVoList[2].resList;
+						this.xyjMusic4 = res.data.data.activityVoList[3].resList;
 						console.log(this.xyjMusic);
 					} else {
 						this.$toast.fail(res.data.info);
@@ -92,26 +125,35 @@ export default {
 	components: {
 		XyjAlbum,
 		PageVideo,
-		Comment
+		Comment,
+		XyjAlbumScroll
 	}
 };
 </script>
 
 <style lang="less" scoped>
+.xyj-head-img {
+	width: 375px;
+	margin: 0 auto;
+	img {
+		width: 375px;
+		height: 100%;
+	}
+}
 .title {
 	width: 345px;
-	margin: 20px auto 50px;
+	margin: 20px auto 20px;
 	p {
 		font-family: SourceHanSansCN-Medium;
 		font-size: 16px;
-		color: #28241e;
+		color: #fff;
 	}
 }
 .content {
-	background: #e4caa9;
+	background: #568DAB;
 }
 .xyj-content {
-	background: #e4caa9;
+	background: #568DAB;
 	padding-bottom: 144px;
 }
 .xyj-banner {
@@ -146,19 +188,33 @@ export default {
 	margin: 0 auto;
 	font-family: SourceHanSansCN-Normal;
 	font-size: 14px;
-	color: #453b2c;
+	color: rgba(0, 0, 0, 0.7);
 	margin-top: 19px;
 	line-height: 1.5;
 	text-align: center;
 }
 .xyj-more {
 	width: 343px;
-	margin: 22px auto;
-	text-align: right;
-	p {
-		font-family: SourceHanSansCN-Normal;
+	margin: 2px auto 0;
+	// text-align: right;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	.xyj-tag{
+		span{
+			background-color: rgba(255, 255, 255, 0.3);
+			border-radius: 11px;
+			padding: 3px 6px;
+			font-size: 10px;
+			color: rgba(255, 255, 255, 0.8);
+			font-family: PingFangSC-Regular;
+			margin-right: 10px;
+		}
+	}
+	.xyj-more-p {
+		font-family: PingFangSC-Regular;
 		font-size: 14px;
-		color: #433a30;
+		color:#ffffff;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;

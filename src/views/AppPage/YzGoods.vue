@@ -1,6 +1,6 @@
 <template>
 	<div :class="system == 'ios' ? 'goods-content' : 'content'">
-		<div class="goods-banner" @click="goodsDatile()"><img src="https://resource.alilo.com.cn/static/img/lADPBFRyb72lIqHNAeDNBAs_1035_480.jpg" alt="" /></div>
+		<div class="goods-banner" @click="goodsDatile()"><img src="https://resource.alilo.com.cn/static/img/788CA1FB-7E4F-4A8A-9D73-FBDB23E9D978-5980-00000492B163E441-2.png" alt="" /></div>
 		<div class="goods-divder"><van-divider>推荐适合宝宝的产品</van-divider></div>
 		<div v-if="isList" v-for="item in list"><goods-list :yzItem="item"></goods-list></div>
 	</div>
@@ -87,7 +87,7 @@ export default {
 				user_id: localStorage.getItem('user'),
 				uuid: localStorage.getItem('user'),
 				id: 13,
-				url: 'https://shop40802088.m.youzan.com/wscgoods/detail/2ocwkcvxa9g8g',
+				url: 'https://shop40802088.m.youzan.com/wscgoods/detail/2ogllifx66840?step=2',
 				channel_id: 65,
 				os: this.system,
 				create_time: getDayTime()
@@ -95,7 +95,7 @@ export default {
 			window._czc.push(['_trackEvent', '火火兔早教玩具', '点击', '早教玩具banner']);
 			try {
 				let data = {
-					url: 'https://shop40802088.m.youzan.com/wscgoods/detail/2ocwkcvxa9g8g',
+					url: 'https://shop40802088.m.youzan.com/wscgoods/detail/2ogllifx66840?step=2',
 					isHW: false
 				};
 				if (this.system == 'ios') {

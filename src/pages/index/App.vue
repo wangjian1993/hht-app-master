@@ -1,9 +1,9 @@
 <template>
 	<div id="app" class="hhtApp">
 		<transition :name="transitionName">
-			<keep-alive><router-view v-if="$route.meta.keepAlive" v-wechat-title='$route.meta.title'></router-view></keep-alive>
+			<keep-alive><router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view></keep-alive>
 		</transition>
-		<transition :name="transitionName"><router-view v-if="!$route.meta.keepAlive" v-wechat-title='$route.meta.title'></router-view></transition>
+		<transition :name="transitionName"><router-view v-if="!$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view></transition>
 	</div>
 </template>
 <script>
@@ -72,6 +72,34 @@ export default {
 	font-size: 62.5%;
 	background: #fff;
 	// background-color: #00ffff;
+}
+.van-tab{
+	// margin-top: -20px;
+	margin-right: 8px;
+}
+.van-tab:nth-of-type(1){
+	margin-left: 12px;
+}
+.van-tabs__nav {
+	width: 343px;
+	margin: 0 auto;
+	background: transparent;
+	z-index: 1000;
+}
+.van-tabs__wrap{
+	// overflow: auto;
+}
+.van-tabs--line .van-tabs__wrap{
+	// height: 40px;
+}
+.van-button--large{
+	width: 50%;
+}
+.van-button{
+	font-weight: 600;
+}
+.van-button:nth-of-type(1){
+	border-right: solid 1px rgba(216,216,216,.5);
 }
 // .slide-right-enter-active,
 // .slide-right-leave-active,

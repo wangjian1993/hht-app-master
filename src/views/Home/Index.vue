@@ -123,12 +123,12 @@
 					<img src="https://resource.alilo.com.cn/static/img/111110000.cf781476.jpg" alt="" />
 					<p>牛津树英语启蒙课程</p>
 				</div>
-				<div class="member-activity-list">
+				<!-- <div class="member-activity-list">
 					<div class="member-activity-list-item" v-for="(item, index) in activeActivityList" @click="activityRouter(item.links)">
 						<img :src="item.coverImage" alt="" />
 						<p>{{ item.name }}</p>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class="member-introduce member-service" id="anchor-4">
 				<div class="member-header member-header-pd4"><p>会员专享客服</p></div>
@@ -174,8 +174,8 @@ import Global from '@/common/global.js';
 import HeaderIcon from '@/components/HeaderIcon.vue';
 import debug from '@/components/debug.vue';
 import * as CONSTANTS from '@/constants/index';
-import {getDayTime } from '../../common/util.js';
-import Axios from "axios";
+import { getDayTime } from '../../common/util.js';
+import Axios from 'axios';
 export default {
 	data() {
 		return {
@@ -386,8 +386,8 @@ export default {
 				event: 'register_vip',
 				user_id: localStorage.getItem('user'),
 				uuid: localStorage.getItem('user'),
-				content_name:"立即开通",
-				vip_type:this.buyOnePic,
+				content_name: '立即开通',
+				vip_type: this.buyOnePic,
 				channel_id: 65,
 				os: this.system,
 				create_time: getDayTime()
@@ -492,7 +492,7 @@ export default {
 		},
 		cardPayBtn() {
 			try {
-				localStorage.setItem("yzLink", this.buyLink)
+				localStorage.setItem('yzLink', this.buyLink);
 				let data = {
 					url: 'http://h5.alilo.com.cn/member/index.html#/add-site?hwUrl=' + this.hwUrl
 				};
@@ -573,6 +573,8 @@ export default {
 							.catch(() => {
 								// on cancel
 							});
+					} else {
+						this.$toast(res.data.info);
 					}
 				})
 				.catch(err => {
