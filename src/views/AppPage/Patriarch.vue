@@ -49,8 +49,18 @@ export default {
 	},
 	methods: {
 		showDialog(index) {
-			this.show = !this.show;
-			this.dialogList = this.list[index];
+			// this.show = !this.show;
+			// this.dialogList = this.list[index];
+			window._czc.push(['_trackEvent', '火火兔APP家长锦囊', '点击', '微信咨询']);
+			let data = {
+				mini_program_id: 'gh_1f54dd7d30fe',
+				path: '/pages/wechat/wechat'
+			};
+			if (this.system == 'ios') {
+				window.webkit.messageHandlers.redirectMiniProgram.postMessage(data);
+			} else {
+				window.android.playCourse('redirectMiniProgram', JSON.stringify(data));
+			}
 		},
 		confirm(){
 			console.log("咨询");

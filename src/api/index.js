@@ -73,7 +73,7 @@ export function fetch(options) {
 	});
 }
 const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
-const aliloUrl = "https://api-h5.cloud.alilo.com.cn/api/v4/";
+const aliloUrl = "http://api.cloud.alilo.com.cn/api/v4/";
 // const aliloUrl = "http://hhtv3.api.zhishangsoft.com/api/v4/"
 //banner轮播图
 export default {
@@ -409,6 +409,13 @@ export default {
 	uploadingLog(data) {
 		return fetch({
 			url: "http://big.data.alilo.com.cn/track/app",
+			method: "POST",
+			params: data
+		});
+	},
+	getUserXyj(data) {
+		return fetch({
+			url:"http://api.cloud.alilo.com.cn/api/v1/youzan/query-user-goods",
 			method: "POST",
 			params: data
 		});

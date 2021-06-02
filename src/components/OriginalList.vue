@@ -85,7 +85,7 @@ export default {
 			try {
 				let cl = self.originalBg.split('#');
 				let data = {
-					url: 'http://h5.alilo.com.cn/membert/index.html#/apppage/original-more?bg=' + cl[1] + '&index=' + self.tabIndex + '&id=' + self.musicList.id
+					url: 'http://h5.alilo.com.cn/member/index.html#/apppage/original-more?bg=' + cl[1] + '&index=' + self.tabIndex + '&id=' + self.musicList.id
 				};
 				window._czc.push(['_trackEvent', '火火兔原创精品', '点击', '查看更多']);
 				if (self.system == 'ios') {

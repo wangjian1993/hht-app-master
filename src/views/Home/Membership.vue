@@ -73,9 +73,7 @@ export default {
             this.$toast(res.data.info)
           } else {
             this.$toast.success('激活成功');
-			this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
-				path: "/index"
-			});
+			// this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME);
           }
         })
         .catch((err) => {

@@ -6,10 +6,9 @@
 		</div>
 		<div>
 			<ul class="cont">
-				<li class="cont-item" v-for="item of recommendList" :key="item.id" @click="detalls(item.link)">
+				<li class="cont-item" v-for="item of recommendList" :key="item.id" @click="detalls(item)">
 					<div class="cont-img">
 						<img class="img" :src="item.img" :alt="item.text" />
-						<div class="play-img"><img src="https://resource.alilo.com.cn/static/img/xyj/icon_bf@3x.png" alt="" /></div>
 						<div class="cout-model" v-if="item.count == 0">
 							<img src="../assets/image/icon_suo@3x.png" alt="" />
 							<p>敬请期待</p>
@@ -40,37 +39,69 @@ export default {
 	data() {
 		return {};
 	},
-	created() {
-		
-	},
+	created() {},
 	computed: {
 		...mapState(['system'])
 	},
 	methods: {
-		detalls(link) {
-			if (link == '') {
-				return;
-			}
-			try {
+		detalls(item) {
+			if (item.isBuy) {
+				console.log('已经购买');
 				let data = {
-					url: link,
-					isHW: false
+					audioGroupId: item.id,
+					channelId: 95,
+					pageNo: 1,
+					pageSize: 100
 				};
-				window._czc.push(['_trackEvent', '火火兔APP', '西游记点击', '全部']);
-				if (this.system == 'ios') {
-					window.webkit.messageHandlers.audioPause.postMessage(null);
-					window.webkit.messageHandlers.redirectToYZ.postMessage(data);
-				} else {
-					window.android.playCourse('redirectToYZ', JSON.stringify(data));
+				this.$axios
+					.getDetail(data)
+					.then(res => {
+						if (res.data.code == 1) {
+							try {
+								let data = {
+									audioList: res.data.data.audioVoList,
+									playIndex: 0
+								};
+								window._czc.push(['_trackEvent', '火火兔APP', '西游记点击', item.name]);
+								if (this.system == 'ios') {
+									window.webkit.messageHandlers.audioPlayerPlay.postMessage(data);
+								} else {
+									window.android.playCourse('audioPlayerPlay', JSON.stringify(data));
+								}
+							} catch (e) {
+								//TODO handle the exception
+								window.location.href = `http://wifi.alilo.com.cn/xiaohai/public/temp-dynamic-channelId/index.html#/content/albumDetail?id=${item.id}&channelId=95`;
+							}
+						}
+					})
+					.catch(err => {
+						console.error(err);
+						this.$toast.fail(err);
+					});
+			} else {
+				if (item.link == '') {
+					return;
 				}
-			} catch (e) {
-				window._czc.push(['_trackEvent', '火火兔亲子学堂', '西游记点击', name]);
-				// this.$toast('请更新新版火火兔APP');
-				window.location.href = url;
-				console.log(e);
-				//TODO handle the exception
+				try {
+					let data = {
+						url: item.link,
+						isHW: false
+					};
+					window._czc.push(['_trackEvent', '火火兔APP', '西游记点击', '全部']);
+					if (this.system == 'ios') {
+						window.webkit.messageHandlers.audioPause.postMessage(null);
+						window.webkit.messageHandlers.redirectToYZ.postMessage(data);
+					} else {
+						window.android.playCourse('redirectToYZ', JSON.stringify(data));
+					}
+				} catch (e) {
+					window._czc.push(['_trackEvent', '火火兔亲子学堂', '西游记点击', name]);
+					// this.$toast('请更新新版火火兔APP');
+					window.location.href = item.link;
+					console.log(e);
+				}
 			}
-		},
+		}
 	}
 };
 </script>
@@ -97,27 +128,21 @@ export default {
 	}
 }
 .recommand-wrap {
-	// width: 345px;
+	width: 345px;
 	margin: 0 auto;
-	padding-left: 16px;
 	.cont {
-		list-style: none;
-		white-space: nowrap;
 		display: flex;
-		margin-top: 17px;
-		overflow-x: auto;
-		overflow-y: hidden;
+		justify-content: space-between;
+		flex-wrap: wrap;
 		.cont-item {
-			width: 108px;
+			width: 165px;
 			position: relative;
-			margin-right: 8px;
 			.cont-img {
-				width: 108px;
-				height: 108px;
+				width: 165px;
 				position: relative;
+				margin-top: 17px;
 				.cout-model {
-					width: 109px;
-					height: 109px;
+					width: 165px;
 					position: absolute;
 					top: 0;
 					left: 0;
@@ -139,8 +164,8 @@ export default {
 					}
 				}
 				.img {
-					width: 109px;
-					height: 109px;
+					width: 165px;
+					// height: 109px;
 					border-radius: 10px;
 				}
 				.play-img {
@@ -159,13 +184,13 @@ export default {
 				font-family: PingFangSC-Medium;
 				font-size: 16px;
 				color: #ffffff;
-				margin-top: 6px;
+				margin-top: 10px;
 			}
 			.cont-count {
 				font-family: PingFangSC-Regular;
 				font-size: 13px;
 				color: rgba(255, 255, 255, 0.5);
-				margin-top: 4px;
+				margin-top: 8px;
 			}
 		}
 	}

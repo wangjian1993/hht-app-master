@@ -126,7 +126,7 @@ const xyjContent = [{
 	},
 	{
 		name: '42.乌鸡国：梦遇乌鸡国王',
-		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=2fp9n6l1ds4s0&qr=paidcontent_2fp9n6l1ds4s0',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=35vkngwpgatpc&qr=paidcontent_35vkngwpgatpc',
 		time: "13:23",
 		img: "https://resource.alilo.com.cn/static/img/xyj/xyj13.jpg",
 		id: 9
@@ -154,7 +154,7 @@ const xyjContent = [{
 	},
 	{
 		name: '62.小雷音：误入妖精洞',
-		url: 'httpsshop40802088.youzan.comwscvisknowledgeindexkdt_id=40609920&page=contentshow&alias=3nwp70ob4cc34&qr=paidcontent_3nwp70ob4cc34',
+		url: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=contentshow&alias=3nwp70ob4cc34&qr=paidcontent_3nwp70ob4cc34',
 		time: "12:04",
 		img: "https://resource.alilo.com.cn/static/img/xyj/xyj17.jpg",
 		id: 13

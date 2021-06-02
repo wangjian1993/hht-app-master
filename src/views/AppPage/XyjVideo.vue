@@ -14,7 +14,7 @@
 			</p>
 		</div>
 		<xyj-album-scroll :recommendList="recommendList"></xyj-album-scroll>
-		<xyj-album :xyjList="xyjList" :xyjMusic="xyjMusic" :xyjMusic2="xyjMusic2" :xyjMusic3="xyjMusic3" :xyjMusic4="xyjMusic4"></xyj-album>
+		<xyj-album :xyjList="xyjList" :xyjMusic="xyjMusic" :recommendList="recommendList" :xyjMusic2="xyjMusic2" :xyjMusic3="xyjMusic3" :xyjMusic4="xyjMusic4"></xyj-album>
 		<div class="title" ref="comment"><p>留言</p></div>
 		<comment :list="commentList"></comment>
 	</div>
@@ -41,28 +41,40 @@ export default {
 			aspectRatio: '4096:2160',
 			recommendList: [
 				{
-					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter1.jpg',
+					img: 'https://resource.alilo.com.cn/static/img/xyj/cover1.jpg',
 					name: '第一部',
 					count: 20,
-					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2oqgpdc2g2t7k&qr=paidcolumn_2oqgpdc2g2t7k"
+					link: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2oqgpdc2g2t7k&qr=paidcolumn_2oqgpdc2g2t7k',
+					yzCode: '2oqgpdc2g2t7k',
+					isBuy: false,
+					id: 81395
 				},
 				{
-					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter2.jpg',
+					img: 'https://resource.alilo.com.cn/static/img/xyj/cover2.jpg',
 					name: '第二部',
 					count: 21,
-					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=1ydyf54ig5vvk&qr=paidcolumn_1ydyf54ig5vvk"
+					link: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=1ydyf54ig5vvk&qr=paidcolumn_1ydyf54ig5vvk',
+					yzCode: '1ydyf54ig5vvk',
+					isBuy: false,
+					id: 107045
 				},
 				{
-					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter3.jpg',
+					img: 'https://resource.alilo.com.cn/static/img/xyj/cover3.jpg',
 					name: '第三部',
 					count: 20,
-					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2fmt4nomiayow&qr=paidcolumn_2fmt4nomiayow"
+					link: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=2fmt4nomiayow&qr=paidcolumn_2fmt4nomiayow',
+					yzCode: '2fmt4nomiayow',
+					isBuy: false,
+					id: 107158
 				},
 				{
-					img: 'https://resource.alilo.com.cn/static/img/xyj/chapter4.jpg',
+					img: 'https://resource.alilo.com.cn/static/img/xyj/cover4.jpg',
 					name: '第四部',
 					count: 20,
-					link:"https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3nrsorv83f7s0&qr=paidcolumn_3nrsorv83f7s0"
+					link: 'https://shop40802088.youzan.com/wscvis/knowledge/index?kdt_id=40609920&page=columnshow&alias=3nrsorv83f7s0&qr=paidcolumn_3nrsorv83f7s0',
+					yzCode: '3nrsorv83f7s0',
+					isBuy: false,
+					id: 107327
 				}
 			]
 		};
@@ -72,31 +84,63 @@ export default {
 	},
 	created() {
 		this.getAppPage();
+		this.getUserXyj();
 	},
 	methods: {
-		goAnchor(selector) {
-			console.log(selector);
-			let anchor = this.$refs['comment'];
-			console.log(anchor);
-			//document.documentElement.scrollTop = anchor.offsetTop;
-			let total = anchor.offsetTop;
-			// 平滑滚动，时长500ms，每10ms一跳，共50跳
-			// 获取当前滚动条与窗体顶部的距离
-			let distance = document.documentElement.scrollTop || document.body.scrollTop;
-			// 计算每一小段的距离
-			let step = total / 50;
-			(function smoothDown() {
-				if (distance < total) {
-					distance += step; // 移动一小段
-					document.body.scrollTop = distance;
-					document.documentElement.scrollTop = distance; // 设定每一次跳动的时间间隔为10ms
-					setTimeout(smoothDown, 10);
-				} else {
-					// 限制滚动停止时的距离
-					document.body.scrollTop = total;
-					document.documentElement.scrollTop = total;
+		getUserXyj() {
+			var parma;
+			console.log("浏览器====",this.isWeiXin())
+			if (this.isWeiXin()) {
+				parma = {
+					userId: this.$route.query.openId
+				};
+			} else {
+				if (localStorage.getItem('user') == '') {
+					self.$toast('请先登陆');
+					self.onRedirect();
+					return;
 				}
-			})();
+				console.log("不是微信浏览器=====")
+				parma = {
+					userId: localStorage.getItem('user')
+				};
+				console.log('用户id====', localStorage.getItem('user'));
+				console.log('parma', parma);
+			}
+			console.log('data=======', parma);
+			this.$axios
+				.getUserXyj(parma)
+				.then(res => {
+					let list = res.data.data;
+					this.recommendList.forEach((item, index) => {
+						list.forEach((i, index) => {
+							if (item.yzCode == i) {
+								item.isBuy = true;
+							}
+						});
+					});
+				})
+				.catch(err => {
+					console.error(err);
+					this.$toast.fail(err);
+				});
+		},
+		getCookie(name) {
+			var arr,
+				reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
+			if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
+			else return null;
+		},
+		//判断是否是微信浏览器的函数
+		isWeiXin() {
+			//window.navigator.userAgent属性包含了浏览器类型、版本、操作系统类型、浏览器引擎类型等信息，这个属性可以用来判断浏览器类型
+			var ua = window.navigator.userAgent.toLowerCase();
+			//通过正则表达式匹配ua中是否含有MicroMessenger字符串
+			if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+				return true;
+			} else {
+				return false;
+			}
 		},
 		getAppPage() {
 			let data = {
@@ -150,10 +194,10 @@ export default {
 	}
 }
 .content {
-	background: #568DAB;
+	background: #568dab;
 }
 .xyj-content {
-	background: #568DAB;
+	background: #568dab;
 	padding-bottom: 144px;
 }
 .xyj-banner {
@@ -200,8 +244,8 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	.xyj-tag{
-		span{
+	.xyj-tag {
+		span {
 			background-color: rgba(255, 255, 255, 0.3);
 			border-radius: 11px;
 			padding: 3px 6px;
@@ -214,7 +258,7 @@ export default {
 	.xyj-more-p {
 		font-family: PingFangSC-Regular;
 		font-size: 14px;
-		color:#ffffff;
+		color: #ffffff;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;

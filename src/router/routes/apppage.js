@@ -34,6 +34,15 @@ export default [{ //首页
 			title: '西游记'
 		},
 	},
+	{ //西游记详情
+		path: '/apppage/xyjlist',
+		name: 'xyjlist',
+		component: () => import( /* webpackChunkName: "xyjvideo" */ '@/views/AppPage/XyjList.vue'),
+		meta: {
+			keepAlive: false,
+			title: '西游记'
+		},
+	},
 	{ //首页
 		path: '/apppage/xmvip',
 		name: 'xmvip',
@@ -68,6 +77,24 @@ export default [{ //首页
 		meta: {
 			keepAlive: true,
 			title: '家长锦囊'
+		},
+	},
+	{ //精品推荐
+		path: '/apppage/story-list',
+		name: 'story-list',
+		component: () => import( /* webpackChunkName: "original" */ '@/views/AppPage/StoryList.vue'),
+		meta: {
+			keepAlive: true,
+			title: '付费专区'
+		},
+	},
+	{ //精品推荐
+		path: '/apppage/story-more',
+		name: 'story-more',
+		component: () => import( /* webpackChunkName: "original" */ '@/views/AppPage/StoryMore.vue'),
+		meta: {
+			keepAlive: false,
+			title: '付费专区'
 		},
 	},
 ]

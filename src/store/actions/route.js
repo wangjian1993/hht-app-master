@@ -51,7 +51,7 @@ export default {
   },
 
   [CONSTANTS.DISPATCH_REDIRECT_HOME]: async ({ commit }, payload) => {
-    alert('go home');
+    // alert('go home');
     const { path, query } = payload
     const isDev = window.location.href.indexOf('localhost:') > -1
     if (isDev) return ROUTER.push({ path, query })

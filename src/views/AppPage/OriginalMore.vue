@@ -138,12 +138,11 @@ export default {
 	}
 }
 .original-more {
-	width: 9.147rem;
-	height: 540px;
-	background-color: #ffffff;
+	width: 90%;
+	background: #FFFFFF;
 	border-radius: 16px;
 	margin: 0 auto;
-	overflow: auto;
+	// overflow: auto;
 }
 .more-sum {
 	padding: 12px 16px;

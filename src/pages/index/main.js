@@ -18,10 +18,10 @@ Vue.use(createDialog);
 // 开发环境下面使用vConsole进行调试
 localStorage.setItem('vConsole_switch_x', 50)
 localStorage.setItem('vConsole_switch_x', 50)
-if (process.env.NODE_ENV === 'development') {
-	const VConsole = require('vconsole')
-	new VConsole()
-}
+// if (process.env.NODE_ENV === 'development') {
+// 	const VConsole = require('vconsole')
+// 	new VConsole()
+// }
 //fundebug检测
 var fundebug = require("fundebug-javascript");
 fundebug.apikey = "6d1a5d9d00dc7c115627e4e2d262123af47ceed86c85c8fa81fb08d9b5648859";

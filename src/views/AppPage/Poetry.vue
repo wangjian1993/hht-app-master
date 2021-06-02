@@ -36,7 +36,8 @@ export default {
 	},
 	methods: {
 		gooriginal() {
-			 this.$router.push({ name: 'patriarch' });
+			 // this.$router.push({ name: 'xyjvideo' });
+				window.location.href = "http://h5.alilo.com.cn/membert/index.html#/apppage/xyjvideo";
 		},
 		lockVideo() {
 			window._czc.push(['_trackEvent', '火火兔学古诗', '点击', '全套视频']);
