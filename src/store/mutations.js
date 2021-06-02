@@ -16,7 +16,7 @@ const mutations = {
 				if (localStorage.getItem("babyInfo") == null) {
 					localStorage.setItem("babyInfo", JSON.stringify(item));
 				}
-				console.log("宝宝信息mutations====", state.userBaby)
+				// console.log("宝宝信息mutations====", state.userBaby)
 			}
 		});
 	},
@@ -33,6 +33,20 @@ const mutations = {
 	[types.SET_USERCID](state, data) {
 		localStorage.setItem("cid", data)
 		state.cid = data;
+	},
+	[types.SET_COURSEDETAILS](state, data) {
+		state.courseDetails = data;
+	},
+	[types.SET_USERCOURSE](state, data) {
+		state.userCourseList = data;
+		// console.log("state.userCourseList", state.userCourseList)
+	},
+	[types.SET_ISEDU](state, data) {
+		state.isEdu = data;
+	},
+	[types.SET_POETRYMORE](state, data) {
+		state.poetryMore = data;
+		localStorage.setItem("albumMore",JSON.stringify(data))
 	}
 }
 export default mutations

@@ -1,1 +1,1 @@
-// export const getLocalList = state => state.localSongList;
+export const system = state => state.system;

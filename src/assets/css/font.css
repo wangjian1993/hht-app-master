@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'SourceHanSansCN-Medium';
+  src: url('https://resource.alilo.com.cn/font/medium/SourceHanSansCN-Medium.eot'),
+    url('https://resource.alilo.com.cn/font/medium/SourceHanSansCN-Medium.ttf')
+      format('truetype'),
+    url('https://resource.alilo.com.cn/font/medium/SourceHanSansCN-Medium.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'SourceHanSansCN-Normal';
+  src: url('https://resource.alilo.com.cn/font/normal/SourceHanSansCN-Normal.eot'),
+    url('https://resource.alilo.com.cn/font/normal/SourceHanSansCN-Normal.ttf')
+      format('truetype'),
+    url('https://resource.alilo.com.cn/font/normal/SourceHanSansCN-Normal.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'SourceHanSansCN-Bold';
+  src: url('https://resource.alilo.com.cn/font/bold/SourceHanSansCN-Bold.eot'),
+    url('https://resource.alilo.com.cn/font/bold/SourceHanSansCN-Bold.ttf')
+      format('truetype'),
+    url('https://resource.alilo.com.cn/font/bold/SourceHanSansCN-Bold.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'SourceHanSansCN-Regular';
+  src: url('https://resource.alilo.com.cn/font/regular/SourceHanSansCN-Regular.ttf')
+      format('truetype'),
+    url('https://resource.alilo.com.cn/font/regular/SourceHanSansCN-Regular.woff')
+      format('woff');
+}

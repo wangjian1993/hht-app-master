@@ -17,7 +17,7 @@ let babyId = (function() {
 })();
 //课程id
 let CID = (function() {
-	console.log("Cid1111", localStorage.getItem("cid"))
+	// console.log("Cid1111", localStorage.getItem("cid"))
 	return localStorage.getItem("cid");
 })();
 export function fetch(options) {
@@ -33,18 +33,6 @@ export function fetch(options) {
 		});
 		instance.defaults.headers.common["token"] = AUTH_TOKEN;
 		instance.interceptors.request.use(function(config) {
-			// console.log("AUTH_TOKEN")
-			if (AUTH_TOKEN == null) {
-				let promisefresh = new Promise(function(resolve, reject) {
-					//刷新token
-					axios.get("http://api.cloud.alilo.com.cn/api/v4/login/get-token?appKey=hht&appSecret=hht").then(response => {
-						config.headers.token = response.data.data;
-						localStorage.setItem('token', response.data.data);
-						resolve(config);
-					})
-				});
-				return promisefresh;
-			}
 			let url = config.url;
 			if (url.indexOf("login") > -1) {
 				localStorage.setItem('token', "");
@@ -58,14 +46,18 @@ export function fetch(options) {
 			return Promise.reject(err);
 		});
 		instance.interceptors.response.use(function(res) {
-			// console.log(res)
-			if (res.data.code == 2) {
-				// console.log("token过期了", Router);
-				Router.push({
-					name: 'login'
+			if (res.data.code != 2) {
+				console.log("res===", res)
+				return res;
+			} else {
+				console.log("token过期了");
+				axios.get("http://api.cloud.alilo.com.cn/api/v4/login/get-token?appKey=hht&appSecret=hht").then(response => {
+					console.log("获取token====")
+					localStorage.setItem('token', response.data.data);
+					location.reload();
+					return;
 				})
 			}
-			return res;
 		}, function(err) {
 			return err;
 		});
@@ -88,12 +80,12 @@ export default {
 	/**
 	 * 获取学习报告
 	 */
-	getUserReport(month) {
+	getUserReport(month, babyId) {
 		return fetch({
 			url: aliloUrl + "course/study-report",
 			method: "post",
 			params: {
-				babyId:  localStorage.getItem("babyId"),
+				babyId: babyId,
 				courseId: CID,
 				month: month
 			}
@@ -115,12 +107,12 @@ export default {
 	/*
 	 *累计学习时长
 	 */
-	sumTime(month) {
+	sumTime(month, babyId) {
 		return fetch({
 			url: aliloUrl + "course/study-total-time",
 			method: "POST",
 			params: {
-				babyId: localStorage.getItem("babyId"),
+				babyId: babyId,
 				courseId: localStorage.getItem("cid"),
 				month: month
 			}
@@ -138,7 +130,7 @@ export default {
 				courseId: CID || localStorage.getItem("cid"),
 				// currentDate: mouth,
 				pageNo: 1,
-				pageSize: 30
+				pageSize: 200
 			}
 		});
 	},
@@ -173,13 +165,13 @@ export default {
 	/**
 	 * 会员卡激活
 	 * */
-	setVipClubCard(code) {
+	setVipClubCard(code, userId) {
 		return fetch({
 			url: aliloUrl + "activation-code/activate",
 			method: "POST",
 			params: {
 				activationCode: code,
-				userId: localStorage.getItem("user"),
+				userId: userId,
 				channelId: CLId,
 				devid: 111
 			}
@@ -188,12 +180,12 @@ export default {
 	/**
 	 * 会员用户信息
 	 * */
-	getUserInfo() {
+	getUserInfo(userId) {
 		return fetch({
 			url: aliloUrl + "member-card/get",
 			method: "POST",
 			params: {
-				userId: localStorage.getItem("user"),
+				userId: userId,
 				channelId: CLId
 			}
 		});
@@ -215,13 +207,13 @@ export default {
 	/**
 	 * 权益介绍
 	 */
-	getVipEquity(id) {
+	getVipEquity(id, userId) {
 		return fetch({
 			url: aliloUrl + "member-rights/search",
 			method: "POST",
 			params: {
 				channelId: CLId,
-				userId: localStorage.getItem("user"),
+				userId: userId,
 				cardId: id,
 				pageNo: 1,
 				pageSize: 10
@@ -252,7 +244,7 @@ export default {
 			params: {
 				babyId: localStorage.getItem("babyId"),
 				// userId: USER || localStorage.getItem("user"),
-				courseId:localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				currentDate: time
 			}
 		});
@@ -266,7 +258,7 @@ export default {
 			method: "POST",
 			params: {
 				babyId: localStorage.getItem("babyId"),
-				courseId:  localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				currentDate: time
 			}
 		});
@@ -279,7 +271,7 @@ export default {
 			url: aliloUrl + "course/get-critical-period",
 			method: "POST",
 			params: {
-				babyId:localStorage.getItem("babyId"),
+				babyId: localStorage.getItem("babyId"),
 			}
 		});
 	},
@@ -291,6 +283,7 @@ export default {
 			url: aliloUrl + "member-card/search",
 			method: "POST",
 			params: {
+				userId: localStorage.getItem("user"),
 				channelId: CLId,
 				pageNo: 1,
 				pageSize: 10
@@ -301,12 +294,12 @@ export default {
 	 * 报名
 	 */
 	userApply(id) {
-		console.log("报名id=========", id)
+		// console.log("报名id=========", id)
 		return fetch({
 			url: aliloUrl + "course/apply",
 			method: "POST",
 			params: {
-				courseId:  localStorage.getItem("cid"),
+				courseId: localStorage.getItem("cid"),
 				userId: localStorage.getItem("user"),
 				babyId: id
 			}
@@ -316,7 +309,6 @@ export default {
 	 * 获取报名时间
 	 */
 	userApplyTime(cid) {
-		console.log("cid====", cid)
 		return fetch({
 			url: aliloUrl + "course/apply-time",
 			method: "POST",
@@ -355,7 +347,6 @@ export default {
 	 * 获取宝宝列表
 	 * */
 	getBabyList(id) {
-		console.log("用户id======", localStorage.getItem("user"))
 		return fetch({
 			url: aliloUrl + "user/baby/query",
 			method: "GET",
@@ -364,13 +355,69 @@ export default {
 			}
 		});
 	},
-	getUserVip() {
+	getUserVip(user) {
 		return fetch({
 			url: aliloUrl + "user/get-vip",
 			method: "GET",
 			params: {
-				userId: localStorage.getItem("user")
+				userId: user
 			}
+		});
+	},
+
+	/*课包----------------------------------------------*/
+	getXMLYVip(uid, day) {
+		return fetch({
+			url: aliloUrl + "xmly-vip/grant-code",
+			method: "POST",
+			params: {
+				userId: uid,
+				termDay: day
+			}
+		});
+	},
+	addSite(site) {
+		return fetch({
+			url: aliloUrl + "huawei/address/add",
+			method: "PUT",
+			params: site
+		});
+	},
+	getAppPage(data) {
+		return fetch({
+			url: aliloUrl + "page-manage/get-page",
+			method: "POST",
+			params: data
+		});
+	},
+	getYzGoods() {
+		return fetch({
+			url: "http://api.cloud.alilo.com.cn/api/v1/youzan/search",
+			method: "GET",
+			params: {
+				up: 20
+			}
+		});
+	},
+	getDetail(data) {
+		return fetch({
+			url: aliloUrl + "audio-group/get",
+			method: "POST",
+			params: data
+		});
+	},
+	uploadingLog(data) {
+		return fetch({
+			url: "http://big.data.alilo.com.cn/track/app",
+			method: "POST",
+			params: data
+		});
+	},
+	getUserXyj(data) {
+		return fetch({
+			url:"http://api.cloud.alilo.com.cn/api/v1/youzan/query-user-goods",
+			method: "POST",
+			params: data
 		});
 	}
 };

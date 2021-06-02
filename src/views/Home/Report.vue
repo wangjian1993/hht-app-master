@@ -3,8 +3,8 @@
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
 			<div class="report-name">
-				<p>Hi, {{babyInfo.nickName}}</p>
-				<p>{{month}}月份的成长记录已生成，快来看看吧！</p>
+				<p>Hi, {{ babyInfo.nickName }}</p>
+				<p>{{ month }}月份的成长记录已生成，快来看看吧！</p>
 			</div>
 			<div class="report-content">
 				<div class="report-img-head"><img src="../../assets/image/vip_learningreporter_clip@3x.png" alt="" /></div>
@@ -59,14 +59,16 @@ export default {
 			time: [],
 			sumDay: 0,
 			today: new Date(),
-			month:null,
+			month: null,
+			babyId: null
 		};
 	},
 	computed: {
 		...mapState(['system', 'babyInfo', 'memberInfo'])
 	},
 	created() {
-		this.month = this.today.getMonth() + 1;
+		this.babyId = this.$route.query.babyId;
+		this.month = this.$route.query.month || this.today.getMonth() + 1;
 		this.getUserReport();
 		this.getSumTime();
 	},
@@ -75,22 +77,26 @@ export default {
 			let radar = [];
 			let radarVal = [{ value: [] }];
 			this.$axios
-				.getUserReport(this.month)
+				.getUserReport(this.month, this.babyId)
 				.then(res => {
-					this.peportList = res.data.data.list;
-					let list = res.data.data.list;
-					let radarObj = {};
-					let radarArray = [];
-					list.forEach(function(item, index) {
-						radarObj.name = item.ability;
-						radarObj.max = 100;
-						radar.push(radarObj);
-						radarArray.push(item.score);
-					});
-					radarVal[0].value = radarArray;
-					this.radarList1 = radar;
-					this.radarList2 = radarVal;
-					this.isLoading = true;
+					if (res.data.code == 1) {
+						this.peportList = res.data.data.list;
+						let list = res.data.data.list;
+						let radarObj = {};
+						let radarArray = [];
+						list.forEach(function(item, index) {
+							radarObj.name = item.ability;
+							radarObj.max = 100;
+							radar.push(radarObj);
+							radarArray.push(item.score);
+						});
+						radarVal[0].value = radarArray;
+						this.radarList1 = radar;
+						this.radarList2 = radarVal;
+						this.isLoading = true;
+					} else {
+						this.$toast(res.data.info);
+					}
 				})
 				.catch(err => {
 					console.log(err);
@@ -98,7 +104,7 @@ export default {
 		},
 		getSumTime() {
 			this.$axios
-				.sumTime(this.month)
+				.sumTime(this.month, this.babyId)
 				.then(res => {
 					let list = [];
 					this.sumDay = res.data.data.clockDays;
@@ -110,7 +116,10 @@ export default {
 					list.push(m[0]);
 					this.time = list;
 				})
-				.catch(err => {});
+				.catch(err => {
+					console.error(err);
+					this.$toast.fail(err);
+				});
 		}
 	},
 	components: {
@@ -137,6 +146,7 @@ export default {
 			font-size: 24px;
 		}
 		&:nth-of-type(2) {
+			margin-top: 10px;
 			font-size: 13px;
 		}
 	}
@@ -180,6 +190,9 @@ export default {
 			span {
 				font-size: 24px;
 				color: #ff8a66;
+			}
+			&:nth-of-type(2) {
+				padding-top: 10px;
 			}
 		}
 	}

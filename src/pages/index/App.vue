@@ -1,14 +1,19 @@
 <template>
 	<div id="app" class="hhtApp">
-		<keep-alive><router-view v-if="$route.meta.keepAlive"></router-view></keep-alive>
-		<router-view v-if="!$route.meta.keepAlive"></router-view>
+		<transition :name="transitionName">
+			<keep-alive><router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view></keep-alive>
+		</transition>
+		<transition :name="transitionName"><router-view v-if="!$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view></transition>
 	</div>
 </template>
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
+import * as CONSTANTS from '@/constants/index';
 export default {
 	data() {
-		return {};
+		return {
+			transitionName: 'slide-right' //初始过渡动画方向
+		};
 	},
 	created() {
 		this.type = this.getSystem();
@@ -18,7 +23,13 @@ export default {
 			this.$store.dispatch('setBabyInfoADAction');
 		}
 		this.$store.dispatch('setUserInfoAction');
-		this.$store.dispatch("getUserActivityInfo");
+		this.$store.dispatch('getUserActivityInfo');
+	},
+	mounted() {
+		const script = document.createElement('script');
+		script.src = 'https://s95.cnzz.com/z_stat.php?id=1279310301&web_id=1279310301';
+		script.language = 'JavaScript';
+		document.body.appendChild(script);
 	},
 	methods: {
 		getSystem() {
@@ -37,16 +48,100 @@ export default {
 			}
 		}
 	},
-	watch: {},
+	watch: {
+		$route() {
+			if (window._czc) {
+				console.log(window._czc);
+				let location = window.location;
+				let contentUrl = location.pathname + location.hash;
+				let refererUrl = '/';
+				window._czc.push(['_trackPageview', contentUrl, refererUrl]);
+			}
+		}
+	},
 	components: {}
 };
 </script>
 <style lang="less">
 #app {
-	font-family: 'SourceHanSansCN-Regular', Helvetica, STHeiTi, Arial, sans-serif;
+	width: 100%;
+	// height: 100%;
+	font-family: 'SourceHanSansCN-Normal', Helvetica, STHeiTi, Arial, sans-serif;
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 	font-size: 62.5%;
 	background: #fff;
+	// background-color: #00ffff;
+}
+.van-tab{
+	// margin-top: -20px;
+	margin-right: 8px;
+}
+.van-tab:nth-of-type(1){
+	margin-left: 12px;
+}
+.van-tabs__nav {
+	width: 343px;
+	margin: 0 auto;
+	background: transparent;
+	z-index: 1000;
+}
+.van-tabs__wrap{
+	// overflow: auto;
+}
+.van-tabs--line .van-tabs__wrap{
+	// height: 40px;
+}
+.van-button--large{
+	width: 50%;
+}
+.van-button{
+	font-weight: 600;
+}
+.van-button:nth-of-type(1){
+	border-right: solid 1px rgba(216,216,216,.5);
+}
+// .slide-right-enter-active,
+// .slide-right-leave-active,
+// .slide-left-enter-active,
+// .slide-left-leave-active {
+//   will-change: transform;
+//   transition: all 500ms;
+//   position: absolute;
+// }
+// .slide-right-enter {
+//   opacity: 0;
+//   transform: translate3d(-100%, 0, 0);
+// }
+// .slide-right-leave-active {
+//   opacity: 0;
+//   transform: translate3d(100%, 0, 0);
+// }
+// .slide-left-enter {
+//   opacity: 0;
+//   transform: translate3d(100%, 0, 0);
+// }
+// .slide-left-leave-active {
+//   opacity: 0;
+//   transform: translate3d(-100%, 0, 0);
+// }
+.van-cell {
+	font-family: 'SourceHanSansCN-Normal';
+	padding: 12px 0;
+	color: rgba(0, 0, 0, 0.8);
+	border: none;
+}
+.van-collapse-item__content {
+	padding: 0px 0;
+	border: none;
+}
+.van-cell::after {
+	border: none;
+}
+.van-collapse-item--border::after {
+	border: none;
+}
+[class*='van-hairline']::after {
+	border: none;
 }
 </style>

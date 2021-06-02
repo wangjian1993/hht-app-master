@@ -8,25 +8,13 @@ export default {
 		commit
 	}, data) {
 		$axios
-			.getUserVip()
+			.getUserInfo()
 			.then(res => {
-				console.log("会员信息", res);
-				commit(types.SET_MEMBERINFO, res.data.data);
-			})
-			.catch(err => {});
-	},
-	/*
-	 *获取课程id
-	 * */
-	getUserActivityInfo({
-		commit
-	}, data) {
-		$axios
-			.userActivityInfo()
-			.then(res => {
-				console.log("获取到cid====",res.data.data.id)
-				localStorage.setItem("cid", res.data.data.id);
-				commit(types.SET_USERCID, res.data.data.id);
+				if (res.data.code != 1) {
+					commit(types.SET_USERINFO, res.data.data);
+				} else {
+
+				}
 			})
 			.catch(err => {});
 	},
@@ -37,7 +25,7 @@ export default {
 		commit
 	}, data) {
 		$axios
-			.getVipEquity(data)
+			.getVipEquity()
 			.then(res => {
 				commit(types.SET_EQUITYLIST, res.data.data.list);
 			})
@@ -49,48 +37,28 @@ export default {
 	setBabyInfoAction({
 		commit
 	}, data) {
-		try {
-			window.webkit.messageHandlers.getUserInfo.postMessage(null);
-			window['getUserInfo'] = res => {
-				console.log("获取用户信息", res)
-				localStorage.setItem("user", res.uid)
-				commit(types.SET_USERINFO, res);
-				$axios
-					.getBabyList(res.uid)
-					.then(res => {
-						console.log("获取宝宝类表=========")
-						commit(types.SET_BABYINFO, res.data.data);
-					})
-					.catch(err => {});
-			};
-		} catch (e) {
-
+		window.webkit.messageHandlers.getUserInfo.postMessage(null);
+		window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
+		window['getUserInfo'] = res => {
+			console.log(res.uid)
+			commit(types.SET_USERINFO, res.uid);
+		};
+		window['getCurrentBaby'] = res => {
+			console.log("获取宝宝信息=====", res)
+			commit(types.SET_BABYINFO, res);
 		}
-
 	},
 	setBabyInfoADAction({
 		commit
 	}, data) {
 		let user = window.android.getUserInfo();
-		console.log("用户信息==11111111111", user);
-		let userData = JSON.parse(user);
-		localStorage.setItem("user", userData.id)
-		commit(types.SET_USERINFO, JSON.parse(user));
-		$axios
-			.getBabyList(userData.id)
-			.then(res => {
-				console.log("获取宝宝=========")
-				commit(types.SET_BABYINFO, res.data.data);
-			})
-			.catch(err => {});
-	},
-	/*
-	*设置宝宝信息
-	*/
-	defaultBaby({
-		commit
-	}, data) {
-		commit(types.SET_USERBABY, data)
+		commit(types.SET_USERINFO, user);
+		try {
+			let baby = window.android.getCurrentBaby();
+			commit(types.SET_BABYINFO, baby);
+		} catch (e) {
+			//TODO handle the exception
+		}
 	},
 	/**
 	 * 获取系统版本
@@ -100,4 +68,18 @@ export default {
 	}, data) {
 		commit(types.SET_SYSTEM, data)
 	},
+	/**
+	 * 发送给原生方法
+	 * */
+	setNativeInfo({
+		commit
+	}, data) {
+		console.log("0000")
+		try {
+			window.webkit.messageHandlers.course_play.postMessage(data);
+		} catch (e) {
+			//TODO handle the exception
+			console.log("请在app中打开11111")
+		}
+	}
 };

@@ -14,7 +14,15 @@ function timestampToTime(value) {
 	return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
 }
 
+function audioTime(val) {
+	var h = Math.floor(val / 3600);
+	var m = Math.floor((val / 60 % 60)) >= 10 ? Math.floor((val / 60 % 60)) : ("0" + Math.floor((val / 60 % 60)));
+	var s = Math.floor((val % 60)) >= 10 ? Math.floor((val % 60)) : ("0" + Math.floor((val % 60)));
+	var format = Math.floor(val / 3600) != 0 ? (h + ":" + m + ":" + s) : (m + ":" + s);
+	return format;
+}
 //导出 {常量名、函数名}
 export {
-	timestampToTime
+	timestampToTime,
+	audioTime
 }

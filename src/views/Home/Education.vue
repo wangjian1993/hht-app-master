@@ -2,7 +2,7 @@
 	<div class="app">
 		<div class="loadingding center" v-show="!isLoading"><van-loading size="30px" color="#ff6666" vertical>加载中</van-loading></div>
 		<div class="content" v-show="isLoading">
-			<div><p @click="loca()">刷新</p></div>
+			<!-- <div><p @click="loca()">刷新</p></div> -->
 			<div class="apply-content" v-if="isApply">
 				<div class="header">
 					<div class="header-title">
@@ -123,6 +123,7 @@ export default {
 		}
 		this.getSumTime();
 		this.current();
+		window._czc.push(['_trackEvent', '火火兔APP', '打开页面', '智慧早教']);
 	},
 	methods: {
 		goReport() {
@@ -132,6 +133,7 @@ export default {
 			location.reload();
 		},
 		setRouter(val) {
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教排行榜']);
 			this.$router.push({ name: val });
 		},
 		cloneBox() {
@@ -166,6 +168,7 @@ export default {
 				message: '报名中...',
 				forbidClick: true
 			});
+			window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教报名']);
 			// console.log('报名id=========', data.id);
 			this.$axios
 				.userApply(data.id)
@@ -200,6 +203,25 @@ export default {
 				return '4-5岁';
 			} else if (sum >= 60 && sum < 72) {
 				return '5-6岁';
+			}
+		},
+		targetTime(year, month) {
+			var sum = year * 12 + month;
+			// console.log('nianling,', sum);
+			if (sum < 13) {
+				return '30';
+			} else if (sum >= 13 && sum < 24) {
+				return '45';
+			} else if (sum >= 24 && sum < 36) {
+				return '60';
+			} else if (sum >= 36 && sum < 48) {
+				return '90';
+			} else if (sum >= 48 && sum < 60) {
+				return '90';
+			} else if (sum >= 60 && sum < 72) {
+				return '120';
+			} else if (sum >= 72) {
+				return '120';
 			}
 		},
 		//计算宝宝多少天
@@ -289,14 +311,9 @@ export default {
 				gapYear = 0;
 			}
 
-			var dateStr =
-				gapYear +
-				'岁' +
-				(gapMonth < 10 ? '0' + gapMonth : gapMonth) +
-				'月' +
-				(gapDay < 10 ? '0' + gapDay : gapDay) +
-				'天'
-			console.log('dateStr....', dateStr);
+			var dateStr = gapYear + '岁' + (gapMonth < 10 ? '0' + gapMonth : gapMonth) + '月' + (gapDay < 10 ? '0' + gapDay : gapDay) + '天';
+			this.babyYear = gapYear;
+			this.babyMonth = gapMonth;
 			return dateStr;
 		},
 		getDaysOfMonth(dateStr) {
@@ -346,7 +363,7 @@ export default {
 			this.$axios
 				.sumTime(this.currentMouth)
 				.then(res => {
-					this.sumDay = res.data.data.clockDays;
+					this.sumDay = res.data.data.allClockDays || res.data.data.clockDays;
 				})
 				.catch(err => {});
 		},
@@ -383,6 +400,8 @@ export default {
 						}
 					} else {
 						console.log('还没有报名====');
+						localStorage.removeItem('babyInfo');
+						localStorage.removeItem('babyId');
 						this.isLoading = true;
 						this.isApply = false;
 					}
@@ -397,14 +416,21 @@ export default {
 			}
 			this.babyBox = true;
 		},
-		computedTime(old) {
+		computedTime(time) {
 			//传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
-			var returnText = '';
-			var nowDate = new Date().getTime(); //当前时间
-			var setDate = new Date(old.replace(/-/g, '/')).getTime();
-			var times = Math.floor((nowDate - setDate) / 1000);
-			returnText = Math.ceil(times / (60 * 60 * 24));
-			return returnText;
+			let t = time.split(' ');
+			console.log('t===', t);
+			let oldTimeFormat = new Date(t[0]);
+			let nowDate = new Date();
+			console.log('oldTimeFormat', oldTimeFormat);
+			console.log('nowDate', nowDate);
+			if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
+				console.log('111111111');
+				let times = nowDate.getTime() - oldTimeFormat.getTime();
+				let days = parseInt(times / (60 * 60 * 24 * 1000));
+				console.log('days', days);
+				return days + 1;
+			}
 		},
 		current() {
 			var dd = new Date();
@@ -423,9 +449,14 @@ export default {
 				.getDayCourse(this.currentTime)
 				.then(res => {
 					console.log('点击====');
-					let array = { title: '智慧早教第' + this.applyTime + '天',coursePackId:0, courseId: localStorage.getItem('cid'), babyId: localStorage.getItem('babyId'), course: [] };
-					// let array = [];
-					if (res.data.code == 1) {
+					let array = {
+						title: '智慧早教第' + this.applyTime + '天',
+						coursePackId: 0,
+						courseId: localStorage.getItem('cid'),
+						babyId: localStorage.getItem('babyId'),
+						course: []
+					};
+					if (res.data.code == 1 && res.data.data.length != 0) {
 						let item = res.data.data;
 						item.forEach(function(data, index) {
 							let obj = {
@@ -434,9 +465,9 @@ export default {
 								name: data.name
 							};
 							array.course.push(obj);
-							// array.push(obj);
 						});
 						console.log('array', array);
+						window._czc.push(['_trackEvent', '火火兔APP', '点击', '智慧早教课程']);
 						try {
 							this.$toast('获取早教课程成功');
 							if (this.system == 'ios') {
@@ -449,7 +480,7 @@ export default {
 							//TODO handle the exception
 						}
 					} else {
-						this.$toast('暂无今日早教课程');
+						this.$toast('今天放假一天(*^▽^*)');
 					}
 				})
 				.catch(err => {});
